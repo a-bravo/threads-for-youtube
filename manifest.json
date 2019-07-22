@@ -14,14 +14,14 @@
         "*://*.youtube.com/*"
       ],
       "js": [
-        "content_script.js"
+        "dist/content_script.bundle.js"
       ]
     }
   ],
 
   "background": {
     "scripts": [
-      "background.js"
+      "dist/background.bundle.js"
     ]
   },
 
@@ -30,6 +30,6 @@
   ],
 
   "options_ui": {
-    "page": "options/index.html"
+    "page": "src/options/index.html"
   }
 }
