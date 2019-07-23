@@ -1,0 +1,4 @@
+#!/bin/sh
+# run all project lints
+
+npm run lint

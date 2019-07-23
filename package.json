@@ -7,6 +7,7 @@
     "clean": "rimraf dist",
     "build": "npm run clean && webpack --mode production --progress",
     "dev": "webpack --progress --watch",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -31,11 +32,13 @@
     "eslint-config-airbnb-base": "^13.2.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-vue": "^5.2.3",
-    "vue": "^2.6.10",
     "vue-loader": "^15.7.1",
     "vue-style-loader": "^4.1.2",
     "vue-template-compiler": "^2.6.10",
     "webpack": "^4.36.1",
     "webpack-cli": "^3.3.6"
+  },
+  "dependencies": {
+    "vue": "^2.6.10"
   }
 }

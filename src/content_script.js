@@ -9,20 +9,20 @@ function init() {
   // occurs when: youtube pushes 2 history states (last page(video) & new page)
   const url = new URL(window.location.href);
   if (url.pathname !== '/watch' || !url.searchParams.get('v')) {
-      // not a video
-      return;
+    // not a video
+    return;
   }
 
   // create vue app if needed
   if (!document.getElementById('at-app')) {
     // Insert app div before comments div
     const vue = document.createElement('div');
-    vue.id = 'at-app'
+    vue.id = 'at-app';
     const comments = document.getElementById('comments');
     comments.before(vue);
 
     // Create vue instance
-    new Vue({
+    new Vue({ // eslint-disable-line no-new
       el: '#at-app',
       render: h => h(App),
     });
@@ -30,7 +30,7 @@ function init() {
 }
 
 // listen for page change message from background script
-browser.runtime.onMessage.addListener(message => {
+browser.runtime.onMessage.addListener((message) => {
   if (message.videoChanged) {
     init();
   }
