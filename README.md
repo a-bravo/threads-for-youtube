@@ -12,6 +12,9 @@ AlienTube requires:
 # install dependencies
 npm install
 
+# run tests
+npm run test
+
 # build for production with minification
 npm run build
 
