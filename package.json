@@ -6,7 +6,8 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "npm run clean && webpack --mode production --progress",
-    "dev": "webpack --progress --watch",
+    "dev": "webpack --mode development --progress",
+    "watch": "webpack --progress --watch",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "test": "jest"
   },
