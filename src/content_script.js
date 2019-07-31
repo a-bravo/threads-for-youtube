@@ -2,6 +2,7 @@
 
 import Vue from 'vue';
 import App from './App.vue';
+import search from './services/api';
 
 
 function init() {
@@ -27,6 +28,9 @@ function init() {
       render: h => h(App),
     });
   }
+
+  // trigger vue page change
+  search(url.searchParams.get('v')).then(console.log);
 }
 
 // listen for page change message from background script
@@ -35,7 +39,6 @@ browser.runtime.onMessage.addListener((message) => {
     init();
   }
 });
-
 
 // init when page is first loaded
 init();
