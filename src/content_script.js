@@ -1,11 +1,23 @@
-// Put all the javascript code here, that you want to execute after page load.
+/**
+ * @file content_script entrypoint, starts/mounts app
+ */
 
 import Vue from 'vue';
 import App from './App.vue';
-import search from './services/api';
 
 
-function init() {
+// Constants
+const COMMENTS_ID = 'comments';
+const APP_ID = 'at-app';
+
+
+// Functions
+
+/**
+ * Mount vue app to DOM
+ * @private
+ */
+function mount(app) {
   // guard against non-video pages
   // occurs when: youtube pushes 2 history states (last page(video) & new page)
   const url = new URL(window.location.href);
@@ -14,31 +26,71 @@ function init() {
     return;
   }
 
-  // create vue app if needed
-  if (!document.getElementById('at-app')) {
-    // Insert app div before comments div
+  // mount app if needed
+  if (!document.getElementById(APP_ID)) {
+    // Insert app mounting point before comments div
     const vue = document.createElement('div');
-    vue.id = 'at-app';
-    const comments = document.getElementById('comments');
+    vue.id = APP_ID;
+    const comments = document.getElementById(COMMENTS_ID);
     comments.before(vue);
 
-    // Create vue instance
-    new Vue({ // eslint-disable-line no-new
-      el: '#at-app',
-      render: h => h(App),
-    });
+    // Mount vue instance
+    app.$mount(`#${APP_ID}`);
   }
-
-  // trigger vue page change
-  search(url.searchParams.get('v')).then(console.log);
 }
+
+
+// On content_script load...
+
+// create vue instance
+const app = new Vue({ // eslint-disable-line no-new
+  render: h => h(App),
+});
+
+// watch for mounting elements to appear on page
+let commentsAdded = false;
+const observer = new MutationObserver((mutations) => {
+  mutations.forEach((mutation) => {
+    if (!mutation.addedNodes) {
+      return;
+    }
+
+    mutation.addedNodes.forEach((node) => {
+      if (!(node instanceof HTMLElement)) {
+        return;
+      }
+
+      // mount app if elements have been added
+      if (!commentsAdded) {
+        if (node.querySelector(`#${COMMENTS_ID}`)) {
+          commentsAdded = true;
+          mount(app);
+          observer.disconnect();
+        }
+      }
+    });
+  });
+});
+
+// notify for changes to descendents of target
+const observerConfig = {
+  childList: true,
+  subtree: true,
+};
+
+// start observing changes
+const targetNode = document.body;
+observer.observe(targetNode, observerConfig);
 
 // listen for page change message from background script
 browser.runtime.onMessage.addListener((message) => {
   if (message.videoChanged) {
-    init();
+    mount(app);
   }
 });
 
-// init when page is first loaded
-init();
+// if mounting elements already present, mount and stop observing
+if (document.getElementById(COMMENTS_ID) && !commentsAdded) {
+  observer.disconnect();
+  mount(app);
+}
