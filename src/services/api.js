@@ -48,20 +48,25 @@ function fetchAnonymousToken() {
  * Conducts a search of reddit submissions
  *
  * @param {string} query The search query
+ * @param {string} sort Determines how the results should be sorted (relevance,
+ *    hot, top, new, comments)
  * @returns {Promise} A Snoowrap.Listing containing search results
  */
-export default function search(query) {
+export default function search(query, sort) {
   const urlQuery = `url:${query}`;
 
   if (Date.now() >= token.expirationDate) {
     return fetchAnonymousToken().then((tokenInfo) => {
       token.expirationDate = Date.now() + (tokenInfo.expires_in * 1000);
       token.api = new Snoowrap({ accessToken: tokenInfo.access_token });
-      token.api.config({ proxies: false });
+      token.api.config({
+        proxies: false,
+        requestDelay: 1000,
+      });
 
-      return token.api.search({ query: urlQuery });
+      return token.api.search({ query: urlQuery, sort });
     });
   }
 
-  return token.api.search({ query: urlQuery });
+  return token.api.search({ query: urlQuery, sort });
 }

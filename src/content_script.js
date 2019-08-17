@@ -43,6 +43,7 @@ function mount(app) {
 // On content_script load...
 
 // create vue instance
+Vue.prototype.$browser = browser;
 const app = new Vue({ // eslint-disable-line no-new
   render: h => h(App),
 });

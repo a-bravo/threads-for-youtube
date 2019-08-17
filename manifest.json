@@ -15,7 +15,8 @@
       ],
       "js": [
         "dist/content_script.bundle.js"
-      ]
+      ],
+      "run_at": "document_idle"
     }
   ],
 
