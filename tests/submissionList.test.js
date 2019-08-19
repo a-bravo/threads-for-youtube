@@ -16,6 +16,8 @@ describe('SubmissionList', () => {
   const wrapper = shallowMount(SubmissionList, {
     propsData: {
       submissions: [],
+      loading: true,
+      apiError: false,
     },
   });
 
@@ -32,7 +34,48 @@ describe('SubmissionList', () => {
     });
 
     test('renders correct markup', () => {
-      expect(wrapper.contains('ul')).toBe(true);
+      wrapper.setProps({
+        apiError: false,
+        loading: true,
+        submissions: [],
+      });
+      // present
+      expect(wrapper.html()).toContain('Loading reddit posts...');
+
+      // not present
+      expect(wrapper.contains('ul')).toBe(false);
+      expect(wrapper.html()).not.toContain(emptyCommentsMessage());
+      expect(wrapper.contains(moreThreadsButton)).toBe(false);
+      expect(wrapper.contains('submission-stub')).toBe(false);
+    });
+  });
+
+  describe('renders correctly on edge cases', () => {
+    test('on api error', () => {
+      wrapper.setProps({
+        apiError: true,
+        loading: false,
+        submissions: [],
+      });
+
+      expect(wrapper.html()).toContain('Could not reach reddit. Try again later.');
+
+      expect(wrapper.contains('ul')).toBe(false);
+      expect(wrapper.html()).not.toContain(emptyCommentsMessage());
+      expect(wrapper.contains(moreThreadsButton)).toBe(false);
+      expect(wrapper.contains('submission-stub')).toBe(false);
+    });
+
+    test('on load no results', () => {
+      wrapper.setProps({
+        loading: false,
+        apiError: false,
+        submissions: [],
+      });
+
+      expect(wrapper.html()).toContain('No posts.');
+
+      expect(wrapper.contains('ul')).toBe(false);
       expect(wrapper.html()).not.toContain(emptyCommentsMessage());
       expect(wrapper.contains(moreThreadsButton)).toBe(false);
       expect(wrapper.contains('submission-stub')).toBe(false);
@@ -40,6 +83,11 @@ describe('SubmissionList', () => {
   });
 
   describe('renders correctly when adding few submissions', () => {
+    wrapper.setProps({
+      loading: false,
+      apiError: false,
+    });
+
     test('with no comments', () => {
       wrapper.setProps({
         submissions: [
@@ -79,6 +127,11 @@ describe('SubmissionList', () => {
   });
 
   describe('renders correctly when adding more than maxIndex submissions', () => {
+    wrapper.setProps({
+      loading: false,
+      apiError: false,
+    });
+
     test('with no comments', () => {
       wrapper.setProps({
         submissions: [
@@ -120,6 +173,11 @@ describe('SubmissionList', () => {
   });
 
   describe('show more submission-stubs when user clicks More Threads button', () => {
+    wrapper.setProps({
+      loading: false,
+      apiError: false,
+    });
+
     test('with 1 more thread to show', () => {
       wrapper.setProps({
         submissions: [

@@ -4,21 +4,17 @@
       id="content-text"
       class="ytd-comment-renderer"
     >
-      <h3 v-if="initState">
-        ... reddit threads
-      </h3>
-      <h3 v-else>
-        <div v-if="apiError">
-          Could not reach reddit. Try again later.
-        </div>
-        <div v-else>
-          {{ submissions.length }} reddit threads
-        </div>
-      </h3>
-
-      <submission-list
-        v-if="!initState"
-        :submissions="submissions"
+      <button
+        v-for="tab in tabs"
+        :key="tab"
+        :class="['tab-button', { active: currentTabComponent === tab }]"
+        @click="currentTabComponent = tab"
+      >
+        {{ getTabTitle(tab) }}
+      </button>
+      <component
+        :is="currentTabComponent"
+        v-bind="currentProperties"
       />
     </div>
   </div>
@@ -35,10 +31,28 @@ export default {
   },
   data() {
     return {
-      initState: true,
+      loading: true,
       apiError: false,
       submissions: [],
+      currentTabComponent: 'submission-list',
+      tabs: ['submission-list', 'comments-view', 'youtube-comments-view'],
     };
+  },
+  computed: {
+    currentProperties() {
+      if (this.currentTabComponent !== 'youtube-comments-view') {
+        return {
+          submissions: this.submissions,
+          apiError: this.apiError,
+          loading: this.loading,
+        };
+      }
+
+      return {};
+    },
+    totalComments() {
+      return this.submissions.reduce((sum, sub) => sum + sub.num_comments, 0);
+    },
   },
   created() {
     // debounce api for user navigation/multiple navigation messages
@@ -56,7 +70,7 @@ export default {
   },
   methods: {
     pageChange() {
-      this.initState = true;
+      this.loading = true;
       this.submissions = [];
 
       // guard against non-video pages
@@ -81,7 +95,19 @@ export default {
           this.apiError = true;
           this.submissions = [];
         })
-        .finally(() => { this.initState = false; });
+        .finally(() => { this.loading = false; });
+    },
+    getTabTitle(tab) {
+      switch (tab) {
+        case 'submission-list':
+          return `${this.submissions.length} reddit posts`;
+        case 'comments-view':
+          return `${this.totalComments} reddit comments`;
+        case 'youtube-comments-view':
+          return 'Youtube Comments';
+        default:
+          return '';
+      }
     },
   },
 };
@@ -91,5 +117,8 @@ export default {
 #at-app {
   font-size: 15px;
   font-family: verdana, arial, helvetica, sans-serif;
+}
+.tab-button.active {
+  background: #e0e0e0;
 }
 </style>

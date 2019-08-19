@@ -13,12 +13,8 @@ const browser = {
 };
 const mocks = { $browser: browser };
 
-const apiErrorMessage = 'Could not reach reddit. Try again later.';
-const numThreadsMessage = (num) => {
-  const message = 'reddit threads';
-  return num !== undefined ? `${num} ${message}` : `... ${message}`;
-};
-
+const numPostsMessage = 'reddit posts';
+const numCommentsMessage = 'reddit comments';
 
 describe('App', () => {
   // mount component
@@ -30,37 +26,69 @@ describe('App', () => {
 
   test('has the correct default data', () => {
     expect(typeof App.data).toBe('function');
-    expect(wrapper.vm.initState).toBe(true);
+    expect(wrapper.vm.loading).toBe(true);
+    expect(wrapper.vm.apiError).toBe(false);
+    expect(wrapper.vm.currentTabComponent).toBe('submission-list');
     expect(wrapper.vm.submissions).toHaveLength(0);
   });
 
   test('renders the correct markup at init', () => {
-    expect(wrapper.contains('submission-list-stub')).toBe(false);
-    expect(wrapper.html()).toContain(numThreadsMessage());
-  });
+    expect(wrapper.html()).toContain(numPostsMessage);
+    expect(wrapper.html()).toContain(numCommentsMessage);
+    expect(wrapper.findAll('button')).toHaveLength(wrapper.vm.tabs.length);
 
-  test('renders the correct markup after init', () => {
-    wrapper.vm.initState = false;
-
-    expect(wrapper.html()).toContain(numThreadsMessage(0));
     expect(wrapper.contains('submission-list-stub')).toBe(true);
   });
 
-  test('renders the correct markup when submissions added', () => {
-    wrapper.vm.initState = false;
-    wrapper.vm.submissions = [{ id: 1 }, { id: 2 }];
+  describe('renders the correct markup when no submissions added', () => {
+    test('api returns with no submissions', () => {
+      wrapper.vm.loading = false;
+      wrapper.vm.submissions = [];
+      wrapper.vm.apiError = false;
 
-    expect(wrapper.html()).toContain(numThreadsMessage(2));
-    expect(wrapper.contains('submission-list-stub')).toBe(true);
+      expect(wrapper.html()).toContain(`0 ${numPostsMessage}`);
+      expect(wrapper.html()).toContain(`0 ${numCommentsMessage}`);
+    });
+
+    test('api returns with error', () => {
+      wrapper.vm.loading = false;
+      wrapper.vm.submissions = [];
+      wrapper.vm.apiError = true;
+
+      expect(wrapper.html()).toContain(`0 ${numPostsMessage}`);
+      expect(wrapper.html()).toContain(`0 ${numCommentsMessage}`);
+    });
   });
 
-  test('renders the correct markup when api returns an error', () => {
-    wrapper.vm.initState = false;
-    wrapper.vm.submissions = [];
-    wrapper.vm.apiError = true;
+  describe('renders the correct markup when submissions added', () => {
+    test('with no comments', () => {
+      wrapper.vm.loading = false;
+      wrapper.vm.submissions = [{ id: 1, num_comments: 0 }, { id: 2, num_comments: 0 }];
 
-    expect(wrapper.html()).not.toContain(numThreadsMessage());
-    expect(wrapper.html()).toContain(apiErrorMessage);
-    expect(wrapper.contains('submission-list-stub')).toBe(true);
+      expect(wrapper.html()).toContain(`2 ${numPostsMessage}`);
+      expect(wrapper.html()).toContain(`0 ${numCommentsMessage}`);
+    });
+
+    test('with comments', () => {
+      wrapper.vm.loading = false;
+      wrapper.vm.submissions = [{ id: 1, num_comments: 10 }, { id: 2, num_comments: 2 }];
+
+      expect(wrapper.html()).toContain(`2 ${numPostsMessage}`);
+      expect(wrapper.html()).toContain(`12 ${numCommentsMessage}`);
+    });
+  });
+
+  describe('renders the correct component when user changes tab', () => {
+    test('to reddit submissions-list component', () => {
+      wrapper.vm.currentTabComponent = 'submission-list';
+
+      expect(wrapper.contains('submission-list-stub')).toBe(true);
+    });
+
+    test('to another tab other than submissions-list', () => {
+      wrapper.vm.currentTabComponent = '';
+
+      expect(wrapper.contains('submission-list-stub')).toBe(false);
+    });
   });
 });

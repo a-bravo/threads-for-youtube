@@ -1,5 +1,17 @@
 <template>
-  <ul class="submission-list">
+  <h3 v-if="loading">
+    Loading reddit posts...
+  </h3>
+  <h3 v-else-if="apiError">
+    Could not reach reddit. Try again later.
+  </h3>
+  <h3 v-else-if="!submissions.length">
+    No posts.
+  </h3>
+  <ul
+    v-else
+    class="submission-list"
+  >
     <submission
       v-for="submission in visibleSubmissions.slice(0, maxIndex)"
       :key="submission.id"
@@ -11,13 +23,12 @@
       class="submission"
     >
       <button
-        v-if="!loading"
+        v-if="!buttonPressed"
         id="more-threads-button"
         @click="fetchMore"
       >
         More Threads
       </button>
-
       <div v-else>
         loading...
       </div>
@@ -46,11 +57,19 @@ export default {
       type: Array,
       required: true,
     },
+    loading: {
+      type: Boolean,
+      required: true,
+    },
+    apiError: {
+      type: Boolean,
+      required: true,
+    },
   },
   data() {
     return {
       maxIndex: 10,
-      loading: false,
+      buttonPressed: false,
     };
   },
   computed: {
@@ -71,9 +90,9 @@ export default {
   },
   methods: {
     fetchMore() {
-      this.loading = true;
+      this.buttonPressed = true;
       this.maxIndex += 10;
-      this.loading = false;
+      this.buttonPressed = false;
     },
   },
 };
