@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import debounce from 'lodash/debounce';
 import SubmissionList from './components/SubmissionList.vue';
 import search from './services/api';
 
@@ -40,6 +41,9 @@ export default {
     };
   },
   created() {
+    // debounce api for user navigation/multiple navigation messages
+    this.debouncedGetSubmissions = debounce(this.getSubmissions, 3000);
+
     // listen for page change message from background script
     this.$browser.runtime.onMessage.addListener((message) => {
       if (message.videoChanged) {
@@ -59,11 +63,12 @@ export default {
       // occurs when: youtube pushes 2 history states (last page(video) & new page)
       const url = new URL(window.location.href);
       if (url.pathname !== '/watch' || !url.searchParams.get('v')) {
-        // not a video
+        // not a video, cancel any pending calls
+        this.debouncedGetSubmissions.cancel();
         return;
       }
 
-      this.getSubmissions(url.searchParams.get('v'));
+      this.debouncedGetSubmissions(url.searchParams.get('v'));
     },
     getSubmissions(query) {
       search(query, 'comments')
