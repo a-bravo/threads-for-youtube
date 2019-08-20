@@ -81,12 +81,14 @@ describe('App', () => {
   describe('renders the correct component when user changes tab', () => {
     test('to reddit submissions-list component', () => {
       wrapper.vm.currentTabComponent = 'submission-list';
-
       expect(wrapper.contains('submission-list-stub')).toBe(true);
+
+      expect(wrapper.contains('youtube-comments-view-stub')).toBe(false);
     });
 
-    test('to another tab other than submissions-list', () => {
-      wrapper.vm.currentTabComponent = '';
+    test('to youtube-comments-view component', () => {
+      wrapper.vm.currentTabComponent = 'youtube-comments-view';
+      expect(wrapper.contains('youtube-comments-view-stub')).toBe(true);
 
       expect(wrapper.contains('submission-list-stub')).toBe(false);
     });

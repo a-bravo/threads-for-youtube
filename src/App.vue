@@ -12,10 +12,12 @@
       >
         {{ getTabTitle(tab) }}
       </button>
-      <component
-        :is="currentTabComponent"
-        v-bind="currentProperties"
-      />
+      <keep-alive>
+        <component
+          :is="currentTabComponent"
+          v-bind="currentProperties"
+        />
+      </keep-alive>
     </div>
   </div>
 </template>
@@ -23,11 +25,13 @@
 <script>
 import debounce from 'lodash/debounce';
 import SubmissionList from './components/SubmissionList.vue';
+import YoutubeCommentsView from './components/YoutubeCommentsView.vue';
 import search from './services/api';
 
 export default {
   components: {
     SubmissionList,
+    YoutubeCommentsView,
   },
   data() {
     return {
@@ -67,6 +71,12 @@ export default {
 
     // call when first created
     this.pageChange();
+  },
+  mounted() {
+    const comments = document.getElementById('comments');
+    if (comments) {
+      comments.classList.add('hidden');
+    }
   },
   methods: {
     pageChange() {
