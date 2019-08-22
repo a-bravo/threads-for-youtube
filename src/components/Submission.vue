@@ -52,7 +52,7 @@ export default {
   line-height: 20px;
 }
 .meta {
-  font-size: .75em;
+  font-size: .95rem;
   color: #888;
   .comments-link {
     font-weight: bold;

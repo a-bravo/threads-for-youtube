@@ -125,7 +125,6 @@ export default {
 
 <style>
 #at-app {
-  font-size: 15px;
   font-family: verdana, arial, helvetica, sans-serif;
 }
 .tab-button.active {
