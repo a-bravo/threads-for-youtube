@@ -84,6 +84,7 @@ describe('App', () => {
       expect(wrapper.contains('submission-list-stub')).toBe(true);
 
       expect(wrapper.contains('youtube-comments-view-stub')).toBe(false);
+      expect(wrapper.contains('comments-view-stub')).toBe(false);
     });
 
     test('to youtube-comments-view component', () => {
@@ -91,6 +92,15 @@ describe('App', () => {
       expect(wrapper.contains('youtube-comments-view-stub')).toBe(true);
 
       expect(wrapper.contains('submission-list-stub')).toBe(false);
+      expect(wrapper.contains('comments-view-stub')).toBe(false);
+    });
+
+    test('to reddit comments-view component', () => {
+      wrapper.vm.currentTabComponent = 'comments-view';
+      expect(wrapper.contains('comments-view-stub')).toBe(true);
+
+      expect(wrapper.contains('submission-list-stub')).toBe(false);
+      expect(wrapper.contains('youtube-comments-view-stub')).toBe(false);
     });
   });
 });

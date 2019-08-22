@@ -25,12 +25,14 @@
 <script>
 import debounce from 'lodash/debounce';
 import SubmissionList from './components/SubmissionList.vue';
+import CommentsView from './components/CommentsView.vue';
 import YoutubeCommentsView from './components/YoutubeCommentsView.vue';
 import search from './services/api';
 
 export default {
   components: {
     SubmissionList,
+    CommentsView,
     YoutubeCommentsView,
   },
   data() {
