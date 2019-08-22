@@ -42,6 +42,7 @@ export default {
       submissions: [],
       currentTabComponent: 'submission-list',
       tabs: ['submission-list', 'comments-view', 'youtube-comments-view'],
+      query: '',
     };
   },
   computed: {
@@ -82,19 +83,28 @@ export default {
   },
   methods: {
     pageChange() {
+      const url = new URL(window.location.href);
+      const newQuery = url.searchParams.get('v');
+
+      // if loading same page, exit
+      if (this.query === newQuery) {
+        return;
+      }
+      this.query = newQuery;
+
+      // reset state
       this.loading = true;
       this.submissions = [];
 
       // guard against non-video pages
       // occurs when: youtube pushes 2 history states (last page(video) & new page)
-      const url = new URL(window.location.href);
       if (url.pathname !== '/watch' || !url.searchParams.get('v')) {
         // not a video, cancel any pending calls
         this.debouncedGetSubmissions.cancel();
         return;
       }
 
-      this.debouncedGetSubmissions(url.searchParams.get('v'));
+      this.debouncedGetSubmissions(newQuery);
     },
     getSubmissions(query) {
       search(query, 'comments')
