@@ -1,22 +1,32 @@
 <template>
   <li class="comment">
-    <div class="entry">
-      <span>
-        <span class="author">
-          <a
-            :class="authorClass"
-            :href="`https://old.reddit.com/user/${item.author.name}`"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {{ item.author.name }}
-          </a>
-          <span v-if="item.is_submitter || item.distinguished">
-            {{ getAuthorStatus() }}
-          </span>
+    <span>
+      <span class="author">
+        <a
+          :class="isOpen ? 'yt-simple-endpoint' : 'details'"
+          @click="isOpen = !isOpen"
+        >
+          [{{ isOpen ? '-' : '+' }}]
+        </a>
+        <a
+          :class="isOpen ? authorClass : 'collapsed'"
+          :href="`https://old.reddit.com/user/${item.author.name}`"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {{ item.author.name }}
+        </a>
+        <span
+          v-if="item.is_submitter || item.distinguished"
+          :class="{ collapsed: !isOpen }"
+        >
+          {{ getAuthorStatus() }}
         </span>
+      </span>
+      <span :class="{ collapsed: !isOpen }">
         <span
           v-if="item.author_flair_text"
+          v-show="isOpen"
           class="details"
         >
           - {{ item.author_flair_text }}
@@ -30,10 +40,13 @@
           - stickied comment
         </span>
       </span>
-      <br>
-      <span class="body">{{ item.body }}</span>
-      <br>
-      <span class="links">
+    </span>
+
+    <div v-show="isOpen">
+      <div class="body">
+        {{ item.body }}
+      </div>
+      <div class="links">
         <a
           :href="`https://old.reddit.com${item.permalink}`"
           target="_blank"
@@ -41,16 +54,16 @@
         >
           permalink
         </a>
-      </span>
-    </div>
+      </div>
 
-    <ul class="replies">
-      <comment
-        v-for="reply in item.replies"
-        :key="reply.id"
-        :item="reply"
-      />
-    </ul>
+      <ul class="replies">
+        <comment
+          v-for="reply in item.replies"
+          :key="reply.id"
+          :item="reply"
+        />
+      </ul>
+    </div>
   </li>
 </template>
 
@@ -64,6 +77,11 @@ export default {
       type: Object,
       required: true,
     },
+  },
+  data() {
+    return {
+      isOpen: true,
+    };
   },
   computed: {
     authorClass() {
@@ -151,5 +169,9 @@ export default {
   background-color: blue;
   color: white;
   padding: 0px 0px 0px 2px;
+}
+.collapsed {
+  color: #888 !important;
+  font-style: italic !important;
 }
 </style>
