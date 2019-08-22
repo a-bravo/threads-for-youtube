@@ -1,6 +1,12 @@
 <template>
   <li class="submission">
-    <span class="title">{{ submission.title }}</span>
+    <span :class="{ stickied: submission.stickied }">{{ submission.title }}</span>
+    <span
+      v-if="submission.link_flair_text"
+      class="meta"
+    >
+      - {{ submission.link_flair_text }}
+    </span>
     <br>
     <span class="meta">
       <span class="comments-link">
@@ -63,5 +69,8 @@ export default {
       text-decoration: underline;
     }
   }
+}
+.stickied {
+  color: #228822;
 }
 </style>
