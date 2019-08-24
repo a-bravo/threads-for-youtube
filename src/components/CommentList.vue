@@ -2,6 +2,7 @@
   <div class="comment-list">
     <submission
       :key="submission.id"
+      class="at-title"
       :submission="submission"
     />
     <ul class="replies">
@@ -47,5 +48,8 @@ export default {
   list-style-type: none;
   padding: 0;
   margin: 0;
+}
+.at-title {
+  font-size: 1.6rem;
 }
 </style>
