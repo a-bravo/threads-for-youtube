@@ -4,20 +4,24 @@
       id="content-text"
       class="ytd-comment-renderer"
     >
-      <button
-        v-for="tab in tabs"
-        :key="tab"
-        :class="['tab-button', { active: currentTabComponent === tab }]"
-        @click="currentTabComponent = tab"
-      >
-        {{ getTabTitle(tab) }}
-      </button>
-      <keep-alive>
-        <component
-          :is="currentTabComponent"
-          v-bind="currentProperties"
-        />
-      </keep-alive>
+      <div class="tabs">
+        <button
+          v-for="tab in tabs"
+          :key="tab"
+          :class="['tab-button', { active: currentTabComponent === tab }]"
+          @click="currentTabComponent = tab"
+        >
+          {{ getTabTitle(tab) }}
+        </button>
+      </div>
+      <div>
+        <keep-alive>
+          <component
+            :is="currentTabComponent"
+            v-bind="currentProperties"
+          />
+        </keep-alive>
+      </div>
     </div>
   </div>
 </template>
@@ -142,7 +146,24 @@ export default {
 .at-component {
   margin-top: 20px;
 }
+.tabs {
+  height: 30px;
+}
+.tab-button {
+  /*float: left;*/
+  background-color: #606060;
+  color: white;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  /*font-size: 17px;*/
+  height: 24px;
+  width: 33%;
+}
+.tab-button:hover {
+  background-color: #777;
+}
 .tab-button.active {
-  background: #e0e0e0;
+  background-color: #FF0000;
 }
 </style>
