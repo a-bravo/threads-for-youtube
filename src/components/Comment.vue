@@ -174,4 +174,7 @@ export default {
   color: #888 !important;
   font-style: italic !important;
 }
+.body {
+  max-width: 60em;
+}
 </style>
