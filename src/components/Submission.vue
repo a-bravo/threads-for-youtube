@@ -3,7 +3,7 @@
     <span :class="{ stickied: submission.stickied }">{{ submission.title }}</span>
     <span
       v-if="submission.link_flair_text"
-      class="meta"
+      class="meta-title"
     >
       - {{ submission.link_flair_text }}
     </span>
@@ -56,6 +56,9 @@ export default {
   padding-bottom: 20px;
   position: relative;
   line-height: 20px;
+}
+.meta-title {
+  color: #888;
 }
 .meta {
   font-size: .95rem;
