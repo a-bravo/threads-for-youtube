@@ -1,35 +1,37 @@
 <template>
-  <h3 v-if="loading">
-    Loading reddit posts...
-  </h3>
-  <h3 v-else-if="apiError">
-    Could not reach reddit. Try again later.
-  </h3>
-  <h3 v-else-if="!visibleSubmissions.length">
-    No comments.
-  </h3>
-  <div
-    v-else
-    class="comments-view"
-  >
-    <ul class="submissions-sidebar">
-      <li
-        v-for="submission in visibleSubmissions"
-        :key="submission.id"
-        :class="{ selected: submission === currentSubmission }"
-        @click="currentSubmission = submission"
-      >
-        <div :title="submission.subreddit_name_prefixed">
-          {{ submission.num_comments }}
-        </div>
-      </li>
-    </ul>
+  <div class="at-component">
+    <h3 v-if="loading">
+      Loading reddit posts...
+    </h3>
+    <h3 v-else-if="apiError">
+      Could not reach reddit. Try again later.
+    </h3>
+    <h3 v-else-if="!visibleSubmissions.length">
+      No comments.
+    </h3>
+    <div
+      v-else
+      class="comments-view"
+    >
+      <ul class="submissions-sidebar">
+        <li
+          v-for="submission in visibleSubmissions"
+          :key="submission.id"
+          :class="{ selected: submission === currentSubmission }"
+          @click="currentSubmission = submission"
+        >
+          <div :title="submission.subreddit_name_prefixed">
+            {{ submission.num_comments }}
+          </div>
+        </li>
+      </ul>
 
-    <div class="comments-container">
-      <comment-list
-        :key="getCurrentSubmission().id"
-        :submission="getCurrentSubmission()"
-      />
+      <div class="comments-container">
+        <comment-list
+          :key="getCurrentSubmission().id"
+          :submission="getCurrentSubmission()"
+        />
+      </div>
     </div>
   </div>
 </template>

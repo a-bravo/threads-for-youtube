@@ -139,6 +139,9 @@ export default {
 #at-app {
   font-family: verdana, arial, helvetica, sans-serif;
 }
+.at-component {
+  margin-top: 20px;
+}
 .tab-button.active {
   background: #e0e0e0;
 }

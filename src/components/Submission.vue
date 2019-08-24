@@ -53,7 +53,7 @@ export default {
 
 <style lang="scss">
 .submission {
-  padding: 10px 30px 10px 30px;
+  padding-bottom: 20px;
   position: relative;
   line-height: 20px;
 }

@@ -1,48 +1,50 @@
 <template>
-  <h3 v-if="loading">
-    Loading reddit posts...
-  </h3>
-  <h3 v-else-if="apiError">
-    Could not reach reddit. Try again later.
-  </h3>
-  <h3 v-else-if="!submissions.length">
-    No posts.
-  </h3>
-  <ul
-    v-else
-    class="submission-list"
-  >
-    <submission
-      v-for="submission in visibleSubmissions.slice(0, maxIndex)"
-      :key="submission.id"
-      :submission="submission"
-    />
-
-    <li
-      v-if="!isFinished"
-      class="submission"
+  <div class="at-component">
+    <h3 v-if="loading">
+      Loading reddit posts...
+    </h3>
+    <h3 v-else-if="apiError">
+      Could not reach reddit. Try again later.
+    </h3>
+    <h3 v-else-if="!submissions.length">
+      No posts.
+    </h3>
+    <ul
+      v-else
+      class="submission-list"
     >
-      <button
-        v-if="!buttonPressed"
-        id="more-threads-button"
-        @click="fetchMore"
+      <submission
+        v-for="submission in visibleSubmissions.slice(0, maxIndex)"
+        :key="submission.id"
+        :submission="submission"
+      />
+
+      <li
+        v-if="!isFinished"
+        class="submission"
       >
-        More Threads
-      </button>
-      <div v-else>
-        loading...
-      </div>
-    </li>
+        <button
+          v-if="!buttonPressed"
+          id="more-threads-button"
+          @click="fetchMore"
+        >
+          More Threads
+        </button>
+        <div v-else>
+          loading...
+        </div>
+      </li>
 
-    <li
-      v-else-if="hiddenSubmissions.length"
-      class="submission"
-    >
-      <div class="meta">
-        {{ hiddenSubmissions.length }} empty comment thread(s) hidden.
-      </div>
-    </li>
-  </ul>
+      <li
+        v-else-if="hiddenSubmissions.length"
+        class="submission"
+      >
+        <div class="meta">
+          {{ hiddenSubmissions.length }} empty comment thread(s) hidden.
+        </div>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
