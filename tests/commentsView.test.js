@@ -91,8 +91,8 @@ describe('CommentsView', () => {
     test('on initial state', () => {
       wrapper.setProps({
         submissions: [
-          { id: 1, num_comments: 10, subreddit_name_prefixed: 'test' },
-          { id: 2, num_comments: 5, subreddit_name_prefixed: 'test2' },
+          { id: 1, num_comments: 10, subreddit: { display_name: 'test' } },
+          { id: 2, num_comments: 5, subreddit: { display_name: 'test2' } },
         ],
       });
 
@@ -109,8 +109,8 @@ describe('CommentsView', () => {
     test('on initial state with mixed comments and no comments', () => {
       wrapper.setProps({
         submissions: [
-          { id: 1, num_comments: 0, subreddit_name_prefixed: 'test' },
-          { id: 2, num_comments: 10, subreddit_name_prefixed: 'test2' },
+          { id: 1, num_comments: 0, subreddit: { display_name: 'test' } },
+          { id: 2, num_comments: 10, subreddit: { display_name: 'test2' } },
         ],
       });
 
@@ -126,8 +126,8 @@ describe('CommentsView', () => {
     test('when user clicks on another sidebar-item', () => {
       wrapper.setProps({
         submissions: [
-          { id: 1, num_comments: 10, subreddit_name_prefixed: 'test' },
-          { id: 2, num_comments: 5, subreddit_name_prefixed: 'test2' },
+          { id: 1, num_comments: 10, subreddit: { display_name: 'test' } },
+          { id: 2, num_comments: 5, subreddit: { display_name: 'test2' } },
         ],
       });
 

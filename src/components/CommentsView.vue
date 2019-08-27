@@ -17,11 +17,15 @@
         <li
           v-for="submission in visibleSubmissions"
           :key="submission.id"
-          :class="{ selected: submission === currentSubmission }"
+          :class="[
+            { stickied: submission.stickied },
+            { selected: submission === currentSubmission }
+          ]"
           @click="currentSubmission = submission"
         >
-          <div :title="submission.subreddit_name_prefixed">
-            {{ submission.num_comments }}
+          <div>
+            <span id="subreddit">{{ submission.subreddit.display_name }}</span>
+            <span class="num-comments">({{ submission.num_comments }})</span>
           </div>
         </li>
       </ul>
@@ -86,7 +90,9 @@ export default {
   display: flex;
 }
 .submissions-sidebar {
-  max-width: 6ch;
+  font-size: 1.1rem;
+  min-width: 12ch;
+  max-width: 12ch;
   margin: 0;
   padding: 0 10px 0 0;
   list-style-type: none;
@@ -99,12 +105,30 @@ export default {
   cursor: pointer;
 }
 .submissions-sidebar li:hover {
-  background: #eee;
+  overflow: visible;
+  position: relative;
+  z-index: 100;
+  background: #FF0000;
+}
+.submissions-sidebar li:hover div {
+  display: inline-block;
+  background: #FF0000;
+  color: white;
+}
+.submissions-sidebar li:hover .num-comments {
+  display: inline-block;
 }
 .submissions-sidebar li.selected {
-  background: lightblue;
+  background: #FF0000;
+  color: white;
+}
+.num-comments {
+  display: none;
 }
 .comments-container {
   padding-left: 10px;
+}
+.stickied {
+  color: #228822;
 }
 </style>
