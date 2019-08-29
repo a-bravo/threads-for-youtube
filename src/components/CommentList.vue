@@ -5,7 +5,11 @@
       class="at-title"
       :submission="submission"
     />
-    <ul class="replies">
+    <spinner v-if="loading" />
+    <ul
+      v-else
+      class="replies"
+    >
       <comment
         v-for="comment in comments"
         :key="comment.id"
@@ -18,11 +22,13 @@
 <script>
 import Submission from './Submission.vue';
 import Comment from './Comment.vue';
+import Spinner from './Spinner.vue';
 
 export default {
   components: {
     Submission,
     Comment,
+    Spinner,
   },
   props: {
     submission: {
@@ -33,12 +39,14 @@ export default {
   data() {
     return {
       comments: null,
+      loading: true,
     };
   },
   mounted() {
     this.submission.fetch().then((submission) => {
       this.comments = submission.comments;
-    });
+    })
+      .finally(() => { this.loading = false; });
   },
 };
 </script>

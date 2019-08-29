@@ -1,7 +1,7 @@
 <template>
   <div class="at-component">
     <h3 v-if="loading">
-      Loading reddit posts...
+      <spinner />
     </h3>
     <h3 v-else-if="apiError">
       Could not reach reddit. Try again later.
@@ -49,10 +49,12 @@
 
 <script>
 import Submission from './Submission.vue';
+import Spinner from './Spinner.vue';
 
 export default {
   components: {
     Submission,
+    Spinner,
   },
   props: {
     submissions: {

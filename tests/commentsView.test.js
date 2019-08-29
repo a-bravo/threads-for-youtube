@@ -30,7 +30,7 @@ describe('CommentsView', () => {
         submissions: [],
       });
       // present
-      expect(wrapper.html()).toContain('Loading reddit posts...');
+      expect(wrapper.contains('spinner-stub')).toBe(true);
 
       // not present
       expect(wrapper.contains('ul')).toBe(false);

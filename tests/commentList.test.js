@@ -22,6 +22,7 @@ describe('CommentList', () => {
     test('has the correct data', () => {
       expect(typeof CommentList.data).toBe('function');
       expect(wrapper.vm.comments).toHaveLength(1);
+      expect(wrapper.vm.loading).toBe(false);
     });
 
     test('renders correct markup', () => {
