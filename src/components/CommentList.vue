@@ -6,6 +6,12 @@
       :submission="submission"
     />
     <spinner v-if="loading" />
+    <div v-else-if="apiError">
+      Could not reach reddit. Try again later.
+    </div>
+    <div v-else-if="!comments.length">
+      there doesn't seem to be anything here
+    </div>
     <ul
       v-else
       class="replies"
@@ -40,12 +46,17 @@ export default {
     return {
       comments: null,
       loading: true,
+      apiError: false,
     };
   },
   mounted() {
     this.submission.fetch().then((submission) => {
       this.comments = submission.comments;
+      this.apiError = false;
     })
+      .catch(() => {
+        this.apiError = true;
+      })
       .finally(() => { this.loading = false; });
   },
 };

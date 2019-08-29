@@ -43,4 +43,31 @@ describe('CommentList', () => {
     expect(wrapper.contains('ul')).toBe(true);
     expect(wrapper.findAll('comment-stub')).toHaveLength(2);
   });
+
+  describe('renders correctly on edge cases', () => {
+    test('on api error', () => {
+      wrapper.vm.apiError = true;
+      wrapper.vm.loading = false;
+      wrapper.vm.comments = [];
+
+      expect(wrapper.html()).toContain('Could not reach reddit. Try again later.');
+
+      expect(wrapper.contains('submission-stub')).toBe(true);
+      expect(wrapper.contains('ul')).toBe(false);
+      expect(wrapper.findAll('comment-stub')).toHaveLength(0);
+    });
+
+    test('on load no results', () => {
+      wrapper.vm.apiError = false;
+      wrapper.vm.loading = false;
+      wrapper.vm.comments = [];
+
+
+      expect(wrapper.html()).toContain('there doesn\'t seem to be anything here');
+
+      expect(wrapper.contains('submission-stub')).toBe(true);
+      expect(wrapper.contains('ul')).toBe(false);
+      expect(wrapper.findAll('comment-stub')).toHaveLength(0);
+    });
+  });
 });
