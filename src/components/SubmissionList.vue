@@ -100,11 +100,11 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+@import "../styles/mixins.scss";
+
 .submission-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
+  @include reset-list;
   max-width: 750px;
 }
 </style>

@@ -85,50 +85,49 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+@import "../styles/variables.scss";
+@import "../styles/mixins.scss";
+
 .comments-view {
   display: flex;
 }
 .submissions-sidebar {
-  font-size: 1.1rem;
+  font-size: $at-small-font;
   min-width: 12ch;
   max-width: 12ch;
-  margin: 0;
-  padding: 0 10px 0 0;
-  list-style-type: none;
-  border-right: 1px solid #ccc;
-}
-.submissions-sidebar li {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  cursor: pointer;
-}
-.submissions-sidebar li:hover {
-  overflow: visible;
-  position: relative;
-  z-index: 100;
-  background: #FF0000;
-}
-.submissions-sidebar li:hover div {
-  display: inline-block;
-  background: #FF0000;
-  color: white;
-}
-.submissions-sidebar li:hover .num-comments {
-  display: inline-block;
-}
-.submissions-sidebar li.selected {
-  background: #FF0000;
-  color: white;
+  @include reset-list;
+  padding-right: 10px;
+  border-right: 1px solid $yt-light-grey;
+  li {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    cursor: pointer;
+    &:hover {
+      overflow: visible;
+      position: relative;
+      z-index: 100;
+      background: $yt-red;
+      div {
+        display: inline-block;
+        background: $yt-red;
+        color: white !important;
+      }
+      .num-comments {
+        display: inline-block;
+      }
+    }
+    &.selected {
+      background: $yt-red;
+      color: white !important;
+    }
+  }
 }
 .num-comments {
   display: none;
 }
 .comments-container {
   padding-left: 10px;
-}
-.stickied {
-  color: #228822;
 }
 </style>

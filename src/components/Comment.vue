@@ -122,56 +122,46 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+@import "../styles/variables.scss";
+
+/* Local mixins */
+@mixin highlight-author($color) {
+  background-color: $color;
+  color: white;
+  padding-left: 2px;
+}
+
 .links, .details {
-  font-size: .95rem;
-  color: #888;
+  font-size: $at-tiny-font;
+  color: $rt-grey;
   a {
-    color: #888;
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
+    color: $rt-grey;
   }
 }
 .author, .points {
-  font-size: .95rem;
+  font-size: $at-tiny-font;
   font-weight: bold;
-  a {
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
 }
 .replies {
   .replies {
-    border-left: 1px dotted #DDF;
+    border-left: 1px dotted $rt-border-color;
     .comment {
       margin-left: 1.8rem;
     }
   }
 }
-.stickied {
-  color: #228822;
-}
 .moderator {
-  background-color: #228822;
-  color: white;
-  padding: 0px 0px 0px 2px;
+  @include highlight-author($rt-mod-green);
 }
 .admin, .special {
-  background-color: red;
-  color: white;
-  padding: 0px 0px 0px 2px;
+  @include highlight-author($rt-mod-red);
 }
 .op {
-  background-color: blue;
-  color: white;
-  padding: 0px 0px 0px 2px;
+  @include highlight-author($rt-op-blue);
 }
 .collapsed {
-  color: #888 !important;
+  color: $rt-grey !important;
   font-style: italic !important;
 }
 .body {

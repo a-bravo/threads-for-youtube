@@ -8,7 +8,7 @@
         <button
           v-for="tab in tabs"
           :key="tab"
-          :class="['tab-button', { active: currentTabComponent === tab }]"
+          :class="['tab-button', { selected: currentTabComponent === tab }]"
           @click="currentTabComponent = tab"
         >
           {{ getTabTitle(tab) }}
@@ -139,31 +139,49 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+@import "./styles/variables.scss";
+
+/* Global app styles */
 #at-app {
   font-family: verdana, arial, helvetica, sans-serif;
+  a {
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  button {
+    cursor: pointer;
+  }
+  .stickied {
+    color: $rt-mod-green;
+  }
+  .at-component {
+    margin-top: $at-spacing;
+  }
 }
-.at-component {
-  margin-top: 20px;
-}
+</style>
+
+<style lang="scss" scoped>
+@import "./styles/variables.scss";
+
+/* component styles */
 .tabs {
   height: 30px;
 }
 .tab-button {
-  /*float: left;*/
-  background-color: #606060;
+  background-color: $yt-dark-grey;
   color: white;
   border: none;
   outline: none;
-  cursor: pointer;
-  /*font-size: 17px;*/
   height: 24px;
   width: 33%;
-}
-.tab-button:hover {
-  background-color: #777;
-}
-.tab-button.active {
-  background-color: #FF0000;
+  &:hover {
+    background-color: $yt-light-grey;
+  }
+  &.selected {
+    background-color: $yt-red;
+  }
 }
 </style>

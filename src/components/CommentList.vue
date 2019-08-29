@@ -44,12 +44,24 @@ export default {
 </script>
 
 <style lang="scss">
-.replies, .comment-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
+@import "../styles/mixins.scss";
+
+/* Global styles for component descendents  */
+.comment-list {
+  .replies {
+    @include reset-list;
+  }
 }
+</style>
+
+<style lang="scss" scoped>
+@import "../styles/variables.scss";
+@import "../styles/mixins.scss";
+
 .at-title {
-  font-size: 1.6rem;
+  font-size: $at-large-font;
+}
+.comment-list {
+  @include reset-list;
 }
 </style>

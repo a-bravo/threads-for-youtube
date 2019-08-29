@@ -51,29 +51,22 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+@import "../styles/variables.scss";
+
 .submission {
-  padding-bottom: 20px;
+  padding-bottom: $at-spacing;
   position: relative;
   line-height: 20px;
 }
 .meta-title {
-  color: #888;
+  color: $rt-grey;
 }
 .meta {
-  font-size: .95rem;
-  color: #888;
+  font-size: $at-tiny-font;
+  color: $rt-grey;
   .comments-link {
     font-weight: bold;
   }
-  a {
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-}
-.stickied {
-  color: #228822;
 }
 </style>
