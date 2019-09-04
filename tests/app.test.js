@@ -26,7 +26,7 @@ describe('App', () => {
 
   test('has the correct default data', () => {
     expect(typeof App.data).toBe('function');
-    expect(wrapper.vm.loading).toBe(true);
+    expect(wrapper.vm.loading).toBe(false);
     expect(wrapper.vm.apiError).toBe(false);
     expect(wrapper.vm.currentTabComponent).toBe('submission-list');
     expect(wrapper.vm.submissions).toHaveLength(0);

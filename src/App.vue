@@ -33,6 +33,8 @@ import CommentsView from './components/CommentsView.vue';
 import YoutubeCommentsView from './components/YoutubeCommentsView.vue';
 import search from './services/api';
 
+const VIDEO_ID_LENGTH = 11;
+
 export default {
   components: {
     SubmissionList,
@@ -102,9 +104,10 @@ export default {
 
       // guard against non-video pages
       // occurs when: youtube pushes 2 history states (last page(video) & new page)
-      if (url.pathname !== '/watch' || !url.searchParams.get('v')) {
+      if (url.pathname !== '/watch' || !newQuery || newQuery.length !== VIDEO_ID_LENGTH) {
         // not a video, cancel any pending calls
         this.debouncedGetSubmissions.cancel();
+        this.loading = false;
         return;
       }
 
