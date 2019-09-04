@@ -145,6 +145,7 @@ export default {
 /* Global app styles */
 #at-app {
   font-family: verdana, arial, helvetica, sans-serif;
+  margin-top: $at-spacing;
   a {
     text-decoration: none;
     &:hover {
