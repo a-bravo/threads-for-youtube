@@ -32,6 +32,7 @@ import SubmissionList from './components/SubmissionList.vue';
 import CommentsView from './components/CommentsView.vue';
 import YoutubeCommentsView from './components/YoutubeCommentsView.vue';
 import search from './services/api';
+import { pluralize } from './util/util';
 
 const VIDEO_ID_LENGTH = 11;
 
@@ -129,9 +130,9 @@ export default {
     getTabTitle(tab) {
       switch (tab) {
         case 'submission-list':
-          return `${this.submissions.length} reddit posts`;
+          return pluralize(this.submissions.length, 'reddit post');
         case 'comments-view':
-          return `${this.totalComments} reddit comments`;
+          return pluralize(this.totalComments, 'reddit comment');
         case 'youtube-comments-view':
           return 'Youtube Comments';
         default:

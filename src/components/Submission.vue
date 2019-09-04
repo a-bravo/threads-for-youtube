@@ -16,7 +16,7 @@
           target="_blank"
           rel="noopener noreferrer"
         >
-          {{ submission.num_comments }} comments
+          {{ pluralize(submission.num_comments, 'comment') }}
         </a>
       </span>
       <span class="time">submitted {{ timeAgo(submission.created_utc) }} ago</span>
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import timeAgo from '../util/time';
+import { timeAgo, pluralize } from '../util/util';
 
 export default {
   props: {
@@ -47,6 +47,7 @@ export default {
   },
   methods: {
     timeAgo,
+    pluralize,
   },
 };
 </script>

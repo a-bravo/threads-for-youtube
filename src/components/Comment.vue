@@ -31,7 +31,7 @@
         >
           - {{ item.author_flair_text }}
         </span>
-        <span class="points">{{ item.score }} points</span>
+        <span class="points">{{ pluralize(item.score, 'point') }}</span>
         <span class="details">{{ timeAgo(item.created_utc) }} ago</span>
         <span
           v-if="item.stickied"
@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import timeAgo from '../util/time';
+import { timeAgo, pluralize } from '../util/util';
 
 export default {
   name: 'Comment',
@@ -96,6 +96,7 @@ export default {
   },
   methods: {
     timeAgo,
+    pluralize,
     getAuthorStatus() {
       const status = [];
 

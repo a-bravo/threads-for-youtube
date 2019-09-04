@@ -12,19 +12,18 @@ const MONTH = 2629746;
 const YEAR = 31556952;
 
 /**
- * Pluralizes the unit of time
- * @private
+ * Pluralizes the unit based on amount
  *
- * @param {int} time The amount of time
- * @param {string} unit The unit of time
+ * @param {int} amount The amount of units
+ * @param {string} unit The unit of measurement
  * @returns {string} Pluralized string
  */
-function pluralize(time, unit) {
-  if (time === 1) {
-    return `${time} ${unit}`;
+export function pluralize(amount, unit) {
+  if (amount === 1) {
+    return `${amount} ${unit}`;
   }
 
-  return `${time} ${unit}s`;
+  return `${amount} ${unit}s`;
 }
 
 /**
@@ -33,7 +32,7 @@ function pluralize(time, unit) {
  * @param {int} time The utc value
  * @returns {string} The formatted relative time
  */
-export default function timeAgo(time) {
+export function timeAgo(time) {
   const timeElapsed = Date.now() / 1000 - Number(time);
   let readableTime;
 

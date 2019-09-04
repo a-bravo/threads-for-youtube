@@ -1,4 +1,4 @@
-import timeAgo from '../src/util/time';
+import { timeAgo, pluralize } from '../src/util/util';
 
 
 // Constants
@@ -23,5 +23,17 @@ describe('timeAgo', () => {
 
   test('a long long time ago', () => {
     expect(timeAgo(Date.now() / 1000 - (YEAR * 40))).toBe('40 years');
+  });
+});
+
+describe('pluralize', () => {
+  test('singular', () => {
+    expect(pluralize(1, 'second')).toBe('1 second');
+    expect(pluralize(1, 'comment')).toBe('1 comment');
+  });
+
+  test('plural', () => {
+    expect(pluralize(3, 'hour')).toBe('3 hours');
+    expect(pluralize(0, 'post')).toBe('0 posts');
   });
 });

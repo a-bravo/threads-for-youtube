@@ -1,13 +1,14 @@
 import { shallowMount } from '@vue/test-utils';
 import SubmissionList from '../src/components/SubmissionList.vue';
+import { pluralize } from '../src/util/util';
 
 
 // Constants
 
 const moreThreadsButton = '#more-threads-button';
 const emptyCommentsMessage = (num) => {
-  const message = 'empty comment thread(s) hidden.';
-  return num !== undefined ? `${num} ${message}` : message;
+  const message = 'empty post';
+  return num !== undefined ? `${pluralize(num, message)} hidden.` : message;
 };
 
 

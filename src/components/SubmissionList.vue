@@ -40,7 +40,7 @@
         class="submission"
       >
         <div class="meta">
-          {{ hiddenSubmissions.length }} empty comment thread(s) hidden.
+          {{ pluralize(hiddenSubmissions.length, 'empty post') }} hidden.
         </div>
       </li>
     </ul>
@@ -50,6 +50,7 @@
 <script>
 import Submission from './Submission.vue';
 import Spinner from './Spinner.vue';
+import { pluralize } from '../util/util';
 
 export default {
   components: {
@@ -98,6 +99,7 @@ export default {
       this.maxIndex += 10;
       this.buttonPressed = false;
     },
+    pluralize,
   },
 };
 </script>
