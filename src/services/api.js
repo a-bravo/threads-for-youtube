@@ -53,7 +53,7 @@ function fetchAnonymousToken() {
  * @returns {Promise} A Snoowrap.Listing containing search results
  */
 export default function search(query, sort) {
-  const urlQuery = `url:${query}`;
+  const urlQuery = `url:youtube.com/${query} OR url:youtu.be/${query}`;
 
   if (Date.now() >= token.expirationDate) {
     return fetchAnonymousToken().then((tokenInfo) => {
