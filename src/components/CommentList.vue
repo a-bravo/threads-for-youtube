@@ -1,5 +1,13 @@
 <template>
   <div class="comment-list">
+    <div class="details">
+      <span v-if="submission.archived">
+        Archived.
+      </span>
+      <span v-if="submission.locked">
+        Locked.
+      </span>
+    </div>
     <submission
       :key="submission.id"
       class="at-title"
@@ -82,5 +90,9 @@ export default {
 }
 .comment-list {
   @include reset-list;
+}
+.details {
+  color: $rt-grey;
+  font-size: $at-tiny-font;
 }
 </style>
