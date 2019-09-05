@@ -10,7 +10,9 @@ describe('Submission', () => {
     num_comments: 0,
     created_utc: Date.now(),
     subreddit_name_prefixed: 'test subreddit',
-
+    author: {
+      name: 'test',
+    },
   };
   const wrapper = shallowMount(Submission, {
     propsData: {

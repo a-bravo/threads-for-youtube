@@ -9,7 +9,7 @@
           [{{ isOpen ? '-' : '+' }}]
         </a>
         <a
-          :class="isOpen ? authorClass : 'collapsed'"
+          :class="isOpen ? authorClass(item.distinguished, item.is_submitter) : 'collapsed'"
           :href="`https://old.reddit.com/user/${item.author.name}`"
           target="_blank"
           rel="noopener noreferrer"
@@ -20,7 +20,7 @@
           v-if="item.is_submitter || item.distinguished"
           :class="{ collapsed: !isOpen }"
         >
-          {{ getAuthorStatus() }}
+          {{ getAuthorStatus(item.distinguished, item.is_submitter) }}
         </span>
       </span>
       <span :class="{ collapsed: !isOpen }">
@@ -68,10 +68,12 @@
 </template>
 
 <script>
+import authorStatusMixin from '../mixins/authorStatusMixin';
 import { timeAgo, pluralize } from '../util/util';
 
 export default {
   name: 'Comment',
+  mixins: [authorStatusMixin],
   props: {
     item: {
       type: Object,
@@ -83,55 +85,16 @@ export default {
       isOpen: true,
     };
   },
-  computed: {
-    authorClass() {
-      return {
-        'yt-simple-endpoint': !this.item.is_submitter && !this.item.distinguished,
-        moderator: this.item.distinguished === 'moderator',
-        admin: this.item.distinguished === 'admin',
-        special: this.item.distinguished === 'special',
-        op: !this.item.distinguished && this.item.is_submitter,
-      };
-    },
-  },
   methods: {
     timeAgo,
     pluralize,
-    getAuthorStatus() {
-      const status = [];
-
-      if (this.item.is_submitter) {
-        status.push('S');
-      }
-      switch (this.item.distinguished) {
-        case 'moderator':
-          status.push('M');
-          break;
-        case 'admin':
-          status.push('A');
-          break;
-        case 'special':
-          status.push('Δ');
-          break;
-        default:
-          return '';
-      }
-
-      return `[${status}]`;
-    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
-
-/* Local mixins */
-@mixin highlight-author($color) {
-  background-color: $color;
-  color: white;
-  padding-left: 2px;
-}
+@import "../styles/mixins.scss";
 
 .links, .details {
   font-size: $at-tiny-font;
@@ -152,15 +115,7 @@ export default {
     }
   }
 }
-.moderator {
-  @include highlight-author($rt-mod-green);
-}
-.admin, .special {
-  @include highlight-author($rt-mod-red);
-}
-.op {
-  @include highlight-author($rt-op-blue);
-}
+@include author-status;
 .collapsed {
   color: $rt-grey !important;
   font-style: italic !important;

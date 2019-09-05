@@ -20,6 +20,22 @@
         </a>
       </span>
       <span class="time">submitted {{ timeAgo(submission.created_utc) }} ago</span>
+      <span>
+        by
+        <a
+          :class="authorClass(submission.distinguished)"
+          :href="`https://old.reddit.com/user/${submission.author.name}`"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {{ submission.author.name }}
+        </a>
+        <span
+          v-if="submission.distinguished"
+        >
+          {{ getAuthorStatus(submission.distinguished) }}
+        </span>
+      </span>
       <span class="subreddit">
         to
         <a
@@ -36,9 +52,11 @@
 </template>
 
 <script>
+import authorStatusMixin from '../mixins/authorStatusMixin';
 import { timeAgo, pluralize } from '../util/util';
 
 export default {
+  mixins: [authorStatusMixin],
   props: {
     submission: {
       type: Object,
@@ -54,6 +72,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
+@import "../styles/mixins.scss";
 
 .submission {
   padding-bottom: $at-spacing;
@@ -70,4 +89,6 @@ export default {
     font-weight: bold;
   }
 }
+@include author-status;
+
 </style>
