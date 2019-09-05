@@ -28,7 +28,7 @@
           id="more-threads-button"
           @click="fetchMore"
         >
-          More Threads
+          view more
         </button>
         <div v-else>
           loading...
