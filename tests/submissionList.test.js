@@ -1,15 +1,10 @@
 import { shallowMount } from '@vue/test-utils';
 import SubmissionList from '../src/components/SubmissionList.vue';
-import { pluralize } from '../src/util/util';
 
 
 // Constants
 
 const moreThreadsButton = '#more-threads-button';
-const emptyCommentsMessage = (num) => {
-  const message = 'empty post';
-  return num !== undefined ? `${pluralize(num, message)} hidden.` : message;
-};
 
 
 describe('SubmissionList', () => {
@@ -28,10 +23,14 @@ describe('SubmissionList', () => {
     });
 
     test('has the correct data', () => {
+      wrapper.setProps({
+        loading: true,
+        apiError: false,
+        submissions: [],
+      });
+
       expect(typeof SubmissionList.data).toBe('function');
       expect(wrapper.vm.submissions).toHaveLength(0);
-      expect(wrapper.vm.hiddenSubmissions).toHaveLength(0);
-      expect(wrapper.vm.visibleSubmissions).toHaveLength(0);
     });
 
     test('renders correct markup', () => {
@@ -45,7 +44,6 @@ describe('SubmissionList', () => {
 
       // not present
       expect(wrapper.contains('ul')).toBe(false);
-      expect(wrapper.html()).not.toContain(emptyCommentsMessage());
       expect(wrapper.contains(moreThreadsButton)).toBe(false);
       expect(wrapper.contains('submission-stub')).toBe(false);
     });
@@ -62,7 +60,6 @@ describe('SubmissionList', () => {
       expect(wrapper.html()).toContain('Could not reach reddit. Try again later.');
 
       expect(wrapper.contains('ul')).toBe(false);
-      expect(wrapper.html()).not.toContain(emptyCommentsMessage());
       expect(wrapper.contains(moreThreadsButton)).toBe(false);
       expect(wrapper.contains('submission-stub')).toBe(false);
     });
@@ -77,7 +74,6 @@ describe('SubmissionList', () => {
       expect(wrapper.html()).toContain('No posts.');
 
       expect(wrapper.contains('ul')).toBe(false);
-      expect(wrapper.html()).not.toContain(emptyCommentsMessage());
       expect(wrapper.contains(moreThreadsButton)).toBe(false);
       expect(wrapper.contains('submission-stub')).toBe(false);
     });
@@ -87,90 +83,29 @@ describe('SubmissionList', () => {
     wrapper.setProps({
       loading: false,
       apiError: false,
+      submissions: [
+        { id: 1, num_comments: 10 },
+        { id: 2, num_comments: 5 },
+      ],
     });
 
-    test('with no comments', () => {
-      wrapper.setProps({
-        submissions: [
-          { id: 1, num_comments: 0 },
-          { id: 2, num_comments: 0 },
-        ],
-      });
-
-      expect(wrapper.contains('submission-stub')).toBe(false);
-      expect(wrapper.html()).toContain(emptyCommentsMessage(2));
-    });
-
-    test('with comments', () => {
-      wrapper.setProps({
-        submissions: [
-          { id: 1, num_comments: 10 },
-          { id: 2, num_comments: 5 },
-        ],
-      });
-
-      expect(wrapper.findAll('submission-stub')).toHaveLength(2);
-      expect(wrapper.html()).not.toContain(emptyCommentsMessage());
-      expect(wrapper.contains(moreThreadsButton)).toBe(false);
-    });
-
-    test('with mixed comments and no comments', () => {
-      wrapper.setProps({
-        submissions: [
-          { id: 1, num_comments: 10 },
-          { id: 2, num_comments: 0 },
-        ],
-      });
-
-      expect(wrapper.findAll('submission-stub')).toHaveLength(1);
-      expect(wrapper.html()).toContain(emptyCommentsMessage(1));
-    });
+    expect(wrapper.findAll('submission-stub')).toHaveLength(2);
+    expect(wrapper.contains(moreThreadsButton)).toBe(false);
   });
 
   describe('renders correctly when adding more than maxIndex submissions', () => {
     wrapper.setProps({
       loading: false,
       apiError: false,
+      submissions: [
+        { id: 1, num_comments: 10 },
+        { id: 2, num_comments: 5 },
+      ],
     });
+    wrapper.vm.maxIndex = 1;
 
-    test('with no comments', () => {
-      wrapper.setProps({
-        submissions: [
-          { id: 1, num_comments: 0 },
-          { id: 2, num_comments: 0 },
-        ],
-      });
-      wrapper.vm.maxIndex = 1;
-
-      expect(wrapper.contains('submission-stub')).toBe(false);
-      expect(wrapper.html()).toContain(emptyCommentsMessage(2));
-    });
-
-    test('with comments', () => {
-      wrapper.setProps({
-        submissions: [
-          { id: 1, num_comments: 10 },
-          { id: 2, num_comments: 5 },
-        ],
-      });
-      wrapper.vm.maxIndex = 1;
-
-      expect(wrapper.findAll('submission-stub')).toHaveLength(1);
-      expect(wrapper.contains(moreThreadsButton)).toBe(true);
-    });
-
-    test('with mixed comments and no comments', () => {
-      wrapper.setProps({
-        submissions: [
-          { id: 1, num_comments: 10 },
-          { id: 2, num_comments: 0 },
-        ],
-      });
-      wrapper.vm.maxIndex = 1;
-
-      expect(wrapper.findAll('submission-stub')).toHaveLength(1);
-      expect(wrapper.html()).toContain(emptyCommentsMessage(1));
-    });
+    expect(wrapper.findAll('submission-stub')).toHaveLength(1);
+    expect(wrapper.contains(moreThreadsButton)).toBe(true);
   });
 
   describe('show more submission-stubs when user clicks More Threads button', () => {

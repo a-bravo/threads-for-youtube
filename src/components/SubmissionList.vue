@@ -14,7 +14,7 @@
       class="submission-list"
     >
       <submission
-        v-for="submission in visibleSubmissions.slice(0, maxIndex)"
+        v-for="submission in submissions.slice(0, maxIndex)"
         :key="submission.id"
         :submission="submission"
       />
@@ -34,15 +34,6 @@
           loading...
         </div>
       </li>
-
-      <li
-        v-else-if="hiddenSubmissions.length"
-        class="submission"
-      >
-        <div class="meta">
-          {{ pluralize(hiddenSubmissions.length, 'empty post') }} hidden.
-        </div>
-      </li>
     </ul>
   </div>
 </template>
@@ -50,7 +41,6 @@
 <script>
 import Submission from './Submission.vue';
 import Spinner from './Spinner.vue';
-import { pluralize } from '../util/util';
 
 export default {
   components: {
@@ -78,14 +68,8 @@ export default {
     };
   },
   computed: {
-    hiddenSubmissions() {
-      return this.submissions.filter(submission => submission.num_comments < 1);
-    },
-    visibleSubmissions() {
-      return this.submissions.filter(submission => submission.num_comments >= 1);
-    },
     isFinished() {
-      return this.maxIndex >= this.visibleSubmissions.length;
+      return this.maxIndex >= this.submissions.length;
     },
   },
   watch: {
@@ -99,7 +83,6 @@ export default {
       this.maxIndex += 10;
       this.buttonPressed = false;
     },
-    pluralize,
   },
 };
 </script>
