@@ -5,12 +5,14 @@
   "main": "content_script.js",
   "scripts": {
     "clean": "rimraf dist",
+    "prebuild": "npm run test",
     "build": "npm run clean && webpack --mode production --progress",
     "dev": "webpack --mode development --progress",
     "watch": "webpack --progress --watch",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "lint:fix": "eslint --ext .js,.vue --fix --ignore-path .gitignore .",
-    "test": "jest"
+    "lint:fix": "npm run lint -- --fix",
+    "test": "jest",
+    "posttest": "npm run lint"
   },
   "repository": {
     "type": "git",
