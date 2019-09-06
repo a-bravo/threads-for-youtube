@@ -1,5 +1,0 @@
-#!/bin/sh
-# run all project tests
-
-# client-side
-npm run test
