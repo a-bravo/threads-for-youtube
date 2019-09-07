@@ -1,6 +1,5 @@
 # alientube
 Extension that injects reddit comments into Youtube
-___
 
 ## Build Setup
 
@@ -8,6 +7,12 @@ AlienTube requires:
 * `node`
 * `npm`
 * `web-ext` (optional)
+
+Set up your reddit API credentials in a `.env` file:
+
+```
+REDDIT_CLIENT_ID='your-client-id'
+```
 
 ```bash
 # install dependencies
@@ -19,8 +24,11 @@ npm run test
 # build for production with minification
 npm run build
 
-# build for development with file watch
+# build for development
 npm run dev
+
+# build with file watch
+npm run watch
 ```
 
 #### Loading alienTube into your browser
