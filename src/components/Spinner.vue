@@ -1,5 +1,7 @@
 <template>
-  <div class="vue-simple-spinner" />
+  <div class="spinner-container">
+    <div class="vue-simple-spinner" />
+  </div>
 </template>
 
 <style lang="scss" scoped>
@@ -14,6 +16,9 @@
   width: 24px;
   height: 24px;
   animation: vue-simple-spinner-spin 0.8s linear infinite;
+}
+.spinner-container {
+  overflow: hidden;
 }
 @keyframes vue-simple-spinner-spin {
   0% { transform: rotate(0deg); }
