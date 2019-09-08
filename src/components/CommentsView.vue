@@ -130,6 +130,7 @@ export default {
   display: none;
 }
 .comments-container {
+  min-width: 0;
   padding-left: 10px;
 }
 </style>
