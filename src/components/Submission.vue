@@ -87,6 +87,9 @@ export default {
   color: $rt-grey;
   .comments-link {
     font-weight: bold;
+    a:visited {
+      color: $rt-visited-purple;
+    }
   }
 }
 @include author-status;
