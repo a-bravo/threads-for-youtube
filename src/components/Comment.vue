@@ -1,5 +1,8 @@
 <template>
-  <li class="comment">
+  <li
+    :id="item.name"
+    class="comment"
+  >
     <span>
       <span class="author">
         <a
@@ -54,6 +57,12 @@
         >
           permalink
         </a>
+        <a
+          v-if="item.depth"
+          @click="scrollTo(item.parent_id)"
+        >
+          parent
+        </a>
       </div>
 
       <ul class="replies">
@@ -88,6 +97,13 @@ export default {
   methods: {
     timeAgo,
     pluralize,
+    scrollTo(id) {
+      // scroll to element with id, accounting for YT navbar
+      const target = document.getElementById(id);
+      const navHeight = document.getElementById('masthead').offsetHeight;
+
+      window.scroll(0, target.offsetTop - navHeight);
+    },
   },
 };
 </script>

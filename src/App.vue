@@ -151,6 +151,7 @@ export default {
   font-family: verdana, arial, helvetica, sans-serif;
   margin-top: $at-spacing;
   a {
+    cursor: pointer;
     text-decoration: none;
     &:hover {
       text-decoration: underline;
