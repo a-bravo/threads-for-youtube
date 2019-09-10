@@ -1,4 +1,4 @@
-import { timeAgo, pluralize } from '../src/util/util';
+import { timeAgo, pluralize } from '../src/util';
 
 
 // Constants

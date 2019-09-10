@@ -32,7 +32,7 @@ import SubmissionList from './components/SubmissionList.vue';
 import CommentsView from './components/CommentsView.vue';
 import YoutubeCommentsView from './components/YoutubeCommentsView.vue';
 import search from './services/api';
-import { pluralize } from './util/util';
+import { pluralize } from './util';
 import { APP_ID, YT_COMMENTS_ID, YT_CONTENT_RENDERER_CLASS } from './constants';
 
 const VIDEO_ID_LENGTH = 11;

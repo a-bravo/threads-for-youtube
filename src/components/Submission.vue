@@ -53,7 +53,7 @@
 
 <script>
 import authorStatusMixin from '../mixins/authorStatusMixin';
-import { timeAgo, pluralize } from '../util/util';
+import { timeAgo, pluralize } from '../util';
 import { YT_LINK_CLASS } from '../constants';
 
 export default {
