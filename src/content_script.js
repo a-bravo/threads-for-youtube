@@ -4,11 +4,7 @@
 
 import Vue from 'vue';
 import App from './App.vue';
-
-
-// Constants
-const COMMENTS_ID = 'comments';
-const APP_ID = 'at-app';
+import { APP_ID, YT_COMMENTS_ID } from './constants';
 
 
 // Functions
@@ -31,7 +27,7 @@ function mount(app) {
     // Insert app mounting point before comments div
     const vue = document.createElement('div');
     vue.id = APP_ID;
-    const comments = document.getElementById(COMMENTS_ID);
+    const comments = document.getElementById(YT_COMMENTS_ID);
     comments.before(vue);
 
     // Mount vue instance
@@ -63,7 +59,7 @@ const observer = new MutationObserver((mutations) => {
 
       // mount app if elements have been added
       if (!commentsAdded) {
-        if (node.querySelector(`#${COMMENTS_ID}`)) {
+        if (node.querySelector(`#${YT_COMMENTS_ID}`)) {
           commentsAdded = true;
           mount(app);
           observer.disconnect();
@@ -91,7 +87,7 @@ browser.runtime.onMessage.addListener((message) => {
 });
 
 // if mounting elements already present, mount and stop observing
-if (document.getElementById(COMMENTS_ID) && !commentsAdded) {
+if (document.getElementById(YT_COMMENTS_ID) && !commentsAdded) {
   observer.disconnect();
   mount(app);
 }

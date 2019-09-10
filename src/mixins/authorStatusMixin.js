@@ -1,8 +1,10 @@
+import { YT_LINK_CLASS } from '../constants';
+
 export default {
   methods: {
     authorClass(distinguished, isSubmitter) {
       return {
-        'yt-simple-endpoint': !isSubmitter && !distinguished,
+        [YT_LINK_CLASS]: !isSubmitter && !distinguished,
         moderator: distinguished === 'moderator',
         admin: distinguished === 'admin',
         special: distinguished === 'special',

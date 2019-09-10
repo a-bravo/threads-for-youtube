@@ -6,7 +6,7 @@
     <span>
       <span class="author">
         <a
-          :class="isOpen ? 'yt-simple-endpoint' : 'details'"
+          :class="isOpen ? YT_LINK_CLASS : 'details'"
           @click="isOpen = !isOpen"
         >
           [{{ isOpen ? '-' : '+' }}]
@@ -79,6 +79,7 @@
 <script>
 import authorStatusMixin from '../mixins/authorStatusMixin';
 import { timeAgo, pluralize } from '../util/util';
+import { YT_NAVBAR_ID, YT_LINK_CLASS } from '../constants';
 
 export default {
   name: 'Comment',
@@ -92,6 +93,7 @@ export default {
   data() {
     return {
       isOpen: true,
+      YT_LINK_CLASS,
     };
   },
   methods: {
@@ -100,7 +102,7 @@ export default {
     scrollTo(id) {
       // scroll to element with id, accounting for YT navbar
       const target = document.getElementById(id);
-      const navHeight = document.getElementById('masthead').offsetHeight;
+      const navHeight = document.getElementById(YT_NAVBAR_ID).offsetHeight;
 
       window.scroll(0, target.offsetTop - navHeight);
     },

@@ -11,7 +11,7 @@
     <span class="meta">
       <span class="comments-link">
         <a
-          class="yt-simple-endpoint"
+          :class="YT_LINK_CLASS"
           :href="`https://old.reddit.com${submission.permalink}`"
           target="_blank"
           rel="noopener noreferrer"
@@ -39,7 +39,7 @@
       <span class="subreddit">
         to
         <a
-          class="yt-simple-endpoint"
+          :class="YT_LINK_CLASS"
           :href="`https://old.reddit.com/${submission.subreddit_name_prefixed}`"
           target="_blank"
           rel="noopener noreferrer"
@@ -54,6 +54,7 @@
 <script>
 import authorStatusMixin from '../mixins/authorStatusMixin';
 import { timeAgo, pluralize } from '../util/util';
+import { YT_LINK_CLASS } from '../constants';
 
 export default {
   mixins: [authorStatusMixin],
@@ -62,6 +63,11 @@ export default {
       type: Object,
       required: true,
     },
+  },
+  data() {
+    return {
+      YT_LINK_CLASS,
+    };
   },
   methods: {
     timeAgo,

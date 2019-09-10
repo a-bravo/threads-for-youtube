@@ -1,5 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import Comment from '../src/components/Comment.vue';
+import { YT_LINK_CLASS } from '../src/constants';
 
 
 describe('Comment', () => {
@@ -82,7 +83,7 @@ describe('Comment', () => {
     });
 
     // collapse comment
-    wrapper.find('a.yt-simple-endpoint').trigger('click');
+    wrapper.find(`a.${YT_LINK_CLASS}`).trigger('click');
 
     // elements still present
     expect(wrapper.contains('li')).toBe(true);

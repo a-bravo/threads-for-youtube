@@ -1,8 +1,8 @@
 <template>
-  <div id="at-app">
+  <div :id="APP_ID">
     <div
       id="content-text"
-      class="ytd-comment-renderer"
+      :class="YT_CONTENT_RENDERER_CLASS"
     >
       <div class="tabs">
         <button
@@ -33,6 +33,7 @@ import CommentsView from './components/CommentsView.vue';
 import YoutubeCommentsView from './components/YoutubeCommentsView.vue';
 import search from './services/api';
 import { pluralize } from './util/util';
+import { APP_ID, YT_COMMENTS_ID, YT_CONTENT_RENDERER_CLASS } from './constants';
 
 const VIDEO_ID_LENGTH = 11;
 
@@ -50,6 +51,8 @@ export default {
       currentTabComponent: 'submission-list',
       tabs: ['submission-list', 'comments-view', 'youtube-comments-view'],
       query: '',
+      APP_ID,
+      YT_CONTENT_RENDERER_CLASS,
     };
   },
   computed: {
@@ -83,7 +86,7 @@ export default {
     this.pageChange();
   },
   mounted() {
-    const comments = document.getElementById('comments');
+    const comments = document.getElementById(YT_COMMENTS_ID);
     if (comments) {
       comments.classList.add('hidden');
     }
