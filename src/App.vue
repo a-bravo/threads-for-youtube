@@ -153,6 +153,7 @@ export default {
 #at-app {
   font-family: verdana, arial, helvetica, sans-serif;
   margin-top: $at-spacing;
+  word-wrap: break-word;
   a {
     cursor: pointer;
     text-decoration: none;
