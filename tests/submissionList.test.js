@@ -1,5 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import SubmissionList from '../src/components/SubmissionList.vue';
+import { OPTIONS } from '../src/constants';
 
 
 // Constants
@@ -14,6 +15,7 @@ describe('SubmissionList', () => {
       submissions: [],
       loading: true,
       apiError: false,
+      options: OPTIONS,
     },
   });
 

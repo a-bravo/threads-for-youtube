@@ -2,7 +2,7 @@
   <li class="submission">
     <span :class="{ stickied: submission.stickied }">{{ submission.title }}</span>
     <span
-      v-if="submission.link_flair_text"
+      v-if="showFlair && submission.link_flair_text"
       class="meta-title"
     >
       - {{ submission.link_flair_text }}
@@ -61,6 +61,10 @@ export default {
   props: {
     submission: {
       type: Object,
+      required: true,
+    },
+    showFlair: {
+      type: Boolean,
       required: true,
     },
   },

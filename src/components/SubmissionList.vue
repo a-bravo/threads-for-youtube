@@ -16,6 +16,7 @@
       <submission
         v-for="submission in submissions.slice(0, maxIndex)"
         :key="submission.id"
+        :show-flair="options.SHOW_POST_FLAIR"
         :submission="submission"
       />
 
@@ -60,10 +61,14 @@ export default {
       type: Boolean,
       required: true,
     },
+    options: {
+      type: Object,
+      required: true,
+    },
   },
   data() {
     return {
-      maxIndex: 10,
+      maxIndex: this.options.NUM_POSTS,
       buttonPressed: false,
     };
   },
@@ -74,13 +79,13 @@ export default {
   },
   watch: {
     submissions() {
-      this.maxIndex = 10;
+      this.maxIndex = this.options.NUM_POSTS;
     },
   },
   methods: {
     fetchMore() {
       this.buttonPressed = true;
-      this.maxIndex += 10;
+      this.maxIndex += this.options.NUM_POSTS;
       this.buttonPressed = false;
     },
   },

@@ -34,6 +34,7 @@
         <comment-list
           :key="getCurrentSubmission().id"
           :submission="getCurrentSubmission()"
+          :options="options"
         />
       </div>
     </div>
@@ -62,6 +63,10 @@ export default {
       type: Boolean,
       required: true,
     },
+    options: {
+      type: Object,
+      required: true,
+    },
   },
   data() {
     return {
@@ -70,7 +75,12 @@ export default {
   },
   computed: {
     visibleSubmissions() {
-      return this.submissions.filter(submission => submission.num_comments >= 1);
+      if (this.options.POST_COMMENT_THRESHOLD === '') {
+        return this.submissions;
+      }
+      return this.submissions.filter(
+        submission => submission.num_comments > this.options.POST_COMMENT_THRESHOLD,
+      );
     },
   },
   watch: {

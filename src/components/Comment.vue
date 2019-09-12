@@ -28,19 +28,27 @@
       </span>
       <span :class="{ collapsed: !isOpen }">
         <span
-          v-if="item.author_flair_text"
-          v-show="isOpen"
+          v-if="!isOpen && isLowScore()"
           class="details"
         >
-          - {{ item.author_flair_text }}
+          comment score below threshold
         </span>
-        <span class="points">{{ pluralize(item.score, 'point') }}</span>
-        <span class="details">{{ timeAgo(item.created_utc) }} ago</span>
-        <span
-          v-if="item.stickied"
-          class="details stickied"
-        >
-          - stickied comment
+        <span v-else>
+          <span
+            v-if="options.SHOW_USER_FLAIR && item.author_flair_text"
+            v-show="isOpen"
+            class="details"
+          >
+            - {{ item.author_flair_text }}
+          </span>
+          <span class="points">{{ pluralize(item.score, 'point') }}</span>
+          <span class="details">{{ timeAgo(item.created_utc) }} ago</span>
+          <span
+            v-if="item.stickied"
+            class="details stickied"
+          >
+            - stickied comment
+          </span>
         </span>
       </span>
     </span>
@@ -70,6 +78,7 @@
           v-for="reply in item.replies"
           :key="reply.id"
           :item="reply"
+          :options="options"
         />
       </ul>
     </div>
@@ -89,16 +98,28 @@ export default {
       type: Object,
       required: true,
     },
+    options: {
+      type: Object,
+      required: true,
+    },
   },
   data() {
     return {
-      isOpen: true,
+      isOpen: !this.isLowScore(),
       YT_LINK_CLASS,
     };
   },
   methods: {
     timeAgo,
     pluralize,
+    isLowScore() {
+      // no threshold?
+      if (this.options.COMMENT_SCORE_THRESHOLD === '') {
+        return false;
+      }
+
+      return this.item.score < this.options.COMMENT_SCORE_THRESHOLD;
+    },
     scrollTo(id) {
       // scroll to element with id, accounting for YT navbar
       const target = document.getElementById(id);

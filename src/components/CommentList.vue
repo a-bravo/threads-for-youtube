@@ -12,6 +12,7 @@
       :key="submission.id"
       class="at-title"
       :submission="submission"
+      :show-flair="options.SHOW_POST_FLAIR"
     />
     <spinner v-if="loading" />
     <div v-else-if="apiError">
@@ -28,6 +29,7 @@
         v-for="comment in comments"
         :key="comment.id"
         :item="comment"
+        :options="options"
       />
     </ul>
   </div>
@@ -46,6 +48,10 @@ export default {
   },
   props: {
     submission: {
+      type: Object,
+      required: true,
+    },
+    options: {
       type: Object,
       required: true,
     },

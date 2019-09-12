@@ -1,5 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import CommentList from '../src/components/CommentList.vue';
+import { OPTIONS } from '../src/constants';
 
 
 describe('CommentList', () => {
@@ -10,6 +11,7 @@ describe('CommentList', () => {
         id: 1,
         fetch: jest.fn().mockResolvedValue({ comments: [{ id: 3 }] }),
       },
+      options: OPTIONS,
     },
   });
 
@@ -23,6 +25,7 @@ describe('CommentList', () => {
       expect(typeof CommentList.data).toBe('function');
       expect(wrapper.vm.comments).toHaveLength(1);
       expect(wrapper.vm.loading).toBe(false);
+      expect(wrapper.vm.options).toStrictEqual(OPTIONS);
     });
 
     test('renders correct markup', () => {

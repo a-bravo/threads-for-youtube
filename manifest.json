@@ -8,6 +8,13 @@
     "64": "icons/icon.png"
   },
 
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "alienTube.id@example.com",
+      "strict_min_version": "53.0"
+    }
+  },
+
   "content_scripts": [
     {
       "matches": [
@@ -29,10 +36,12 @@
   "permissions": [
     "webNavigation",
     "tabs",
+    "storage",
     "https://*.reddit.com/*"
   ],
 
   "options_ui": {
-    "page": "src/options/index.html"
+    "page": "src/options/index.html",
+    "open_in_tab": true
   }
 }

@@ -24,3 +24,16 @@
     @include highlight-author($rt-op-blue);
   }
 }
+
+@mixin at-button-link-style {
+  a {
+    cursor: pointer;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  button {
+    cursor: pointer;
+  }
+}

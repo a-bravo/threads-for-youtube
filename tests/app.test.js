@@ -1,5 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import App from '../src/App.vue';
+import { OPTIONS } from '../src/constants';
 
 
 // Constants
@@ -8,6 +9,11 @@ const browser = {
   runtime: {
     onMessage: {
       addListener: jest.fn(),
+    },
+  },
+  storage: {
+    sync: {
+      get: jest.fn().mockResolvedValue({}),
     },
   },
 };
@@ -28,7 +34,8 @@ describe('App', () => {
     expect(typeof App.data).toBe('function');
     expect(wrapper.vm.loading).toBe(false);
     expect(wrapper.vm.apiError).toBe(false);
-    expect(wrapper.vm.currentTabComponent).toBe('submission-list');
+    expect(wrapper.vm.options).toStrictEqual(OPTIONS);
+    expect(wrapper.vm.currentTabComponent).toBe(OPTIONS.DEFAULT_TAB);
     expect(wrapper.vm.submissions).toHaveLength(0);
   });
 
@@ -37,7 +44,7 @@ describe('App', () => {
     expect(wrapper.html()).toContain(numCommentsMessage);
     expect(wrapper.findAll('button')).toHaveLength(wrapper.vm.tabs.length);
 
-    expect(wrapper.contains('submission-list-stub')).toBe(true);
+    expect(wrapper.contains(`${OPTIONS.DEFAULT_TAB}-stub`)).toBe(true);
   });
 
   describe('renders the correct markup when no submissions added', () => {

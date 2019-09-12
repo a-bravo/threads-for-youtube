@@ -1,5 +1,12 @@
 import { shallowMount } from '@vue/test-utils';
 import CommentsView from '../src/components/CommentsView.vue';
+import { OPTIONS } from '../src/constants';
+
+
+// Constants
+
+const ABOVE_COMMENT_THRESHOLD = OPTIONS.POST_COMMENT_THRESHOLD + 1;
+const BELOW_COMMENT_THRESHOLD = OPTIONS.POST_COMMENT_THRESHOLD - 1;
 
 
 describe('CommentsView', () => {
@@ -9,6 +16,7 @@ describe('CommentsView', () => {
       submissions: [],
       loading: true,
       apiError: false,
+      options: OPTIONS,
     },
   });
 
@@ -21,6 +29,7 @@ describe('CommentsView', () => {
       expect(typeof CommentsView.data).toBe('function');
       expect(wrapper.vm.submissions).toHaveLength(0);
       expect(wrapper.vm.visibleSubmissions).toHaveLength(0);
+      expect(wrapper.vm.options).toStrictEqual(OPTIONS);
     });
 
     test('renders correct markup', () => {
@@ -65,13 +74,13 @@ describe('CommentsView', () => {
       expect(wrapper.contains('comment-list-stub')).toBe(false);
     });
 
-    test('when adding submissions with no comments', () => {
+    test('when adding submissions with # of comments below threshold', () => {
       wrapper.setProps({
         loading: false,
         apiError: false,
         submissions: [
-          { id: 1, num_comments: 0 },
-          { id: 2, num_comments: 0 },
+          { id: 1, num_comments: BELOW_COMMENT_THRESHOLD },
+          { id: 2, num_comments: BELOW_COMMENT_THRESHOLD },
         ],
       });
 
@@ -82,7 +91,7 @@ describe('CommentsView', () => {
     });
   });
 
-  describe('renders correctly when adding submissions with comments', () => {
+  describe('renders correctly when adding submissions with # of comments above threshold', () => {
     wrapper.setProps({
       loading: false,
       apiError: false,
@@ -91,8 +100,8 @@ describe('CommentsView', () => {
     test('on initial state', () => {
       wrapper.setProps({
         submissions: [
-          { id: 1, num_comments: 10, subreddit: { display_name: 'test' } },
-          { id: 2, num_comments: 5, subreddit: { display_name: 'test2' } },
+          { id: 1, num_comments: ABOVE_COMMENT_THRESHOLD, subreddit: { display_name: 'test' } },
+          { id: 2, num_comments: ABOVE_COMMENT_THRESHOLD, subreddit: { display_name: 'test2' } },
         ],
       });
 
@@ -106,11 +115,11 @@ describe('CommentsView', () => {
       expect(wrapper.findAll('comment-list-stub')).toHaveLength(1);
     });
 
-    test('on initial state with mixed comments and no comments', () => {
+    test('on initial state with mixed comments(above thresh) and no comments(below thres)', () => {
       wrapper.setProps({
         submissions: [
-          { id: 1, num_comments: 0, subreddit: { display_name: 'test' } },
-          { id: 2, num_comments: 10, subreddit: { display_name: 'test2' } },
+          { id: 1, num_comments: BELOW_COMMENT_THRESHOLD, subreddit: { display_name: 'test' } },
+          { id: 2, num_comments: ABOVE_COMMENT_THRESHOLD, subreddit: { display_name: 'test2' } },
         ],
       });
 
@@ -126,8 +135,8 @@ describe('CommentsView', () => {
     test('when user clicks on another sidebar-item', () => {
       wrapper.setProps({
         submissions: [
-          { id: 1, num_comments: 10, subreddit: { display_name: 'test' } },
-          { id: 2, num_comments: 5, subreddit: { display_name: 'test2' } },
+          { id: 1, num_comments: ABOVE_COMMENT_THRESHOLD, subreddit: { display_name: 'test' } },
+          { id: 2, num_comments: ABOVE_COMMENT_THRESHOLD, subreddit: { display_name: 'test2' } },
         ],
       });
 

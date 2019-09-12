@@ -7,9 +7,9 @@
       <div class="tabs">
         <button
           v-for="tab in tabs"
-          :key="tab"
-          :class="['tab-button', { selected: currentTabComponent === tab }]"
-          @click="currentTabComponent = tab"
+          :key="tab.value"
+          :class="['tab-button', { selected: currentTabComponent === tab.value }]"
+          @click="currentTabComponent = tab.value"
         >
           {{ getTabTitle(tab) }}
         </button>
@@ -31,9 +31,15 @@ import debounce from 'lodash/debounce';
 import SubmissionList from './components/SubmissionList.vue';
 import CommentsView from './components/CommentsView.vue';
 import YoutubeCommentsView from './components/YoutubeCommentsView.vue';
+import optionsMixin from './mixins/optionsMixin';
 import search from './services/api';
 import { pluralize } from './util';
-import { APP_ID, YT_COMMENTS_ID, YT_CONTENT_RENDERER_CLASS } from './constants';
+import {
+  APP_ID,
+  YT_COMMENTS_ID,
+  YT_CONTENT_RENDERER_CLASS,
+  COMPONENT_TABS,
+} from './constants';
 
 const VIDEO_ID_LENGTH = 11;
 
@@ -43,13 +49,14 @@ export default {
     CommentsView,
     YoutubeCommentsView,
   },
+  mixins: [optionsMixin],
   data() {
     return {
       loading: true,
       apiError: false,
       submissions: [],
-      currentTabComponent: 'submission-list',
-      tabs: ['submission-list', 'comments-view', 'youtube-comments-view'],
+      currentTabComponent: '',
+      tabs: COMPONENT_TABS,
       query: '',
       APP_ID,
       YT_CONTENT_RENDERER_CLASS,
@@ -62,6 +69,7 @@ export default {
           submissions: this.submissions,
           apiError: this.apiError,
           loading: this.loading,
+          options: this.options,
         };
       }
 
@@ -69,6 +77,11 @@ export default {
     },
     totalComments() {
       return this.submissions.reduce((sum, sub) => sum + sub.num_comments, 0);
+    },
+  },
+  watch: {
+    options() {
+      this.currentTabComponent = this.options.DEFAULT_TAB;
     },
   },
   created() {
@@ -105,6 +118,7 @@ export default {
       // reset state
       this.loading = true;
       this.submissions = [];
+      this.getOptions();
 
       // guard against non-video pages
       // occurs when: youtube pushes 2 history states (last page(video) & new page)
@@ -123,6 +137,7 @@ export default {
         .then((extendedListing) => {
           this.submissions = extendedListing;
           this.apiError = false;
+          this.updateCurrentTabIfNeeded();
         })
         .catch(() => {
           this.apiError = true;
@@ -131,15 +146,20 @@ export default {
         .finally(() => { this.loading = false; });
     },
     getTabTitle(tab) {
-      switch (tab) {
+      switch (tab.value) {
         case 'submission-list':
-          return pluralize(this.submissions.length, 'reddit post');
+          return pluralize(this.submissions.length, tab.text.slice(0, -1));
         case 'comments-view':
-          return pluralize(this.totalComments, 'reddit comment');
+          return pluralize(this.totalComments, tab.text.slice(0, -1));
         case 'youtube-comments-view':
-          return 'Youtube Comments';
+          return tab.text;
         default:
           return '';
+      }
+    },
+    updateCurrentTabIfNeeded() {
+      if (!this.totalComments && this.options.BACKUP_YT_TAB) {
+        this.currentTabComponent = 'youtube-comments-view';
       }
     },
   },
@@ -148,22 +168,14 @@ export default {
 
 <style lang="scss">
 @import "./styles/variables.scss";
+@import "./styles/mixins.scss";
 
 /* Global app styles */
 #at-app {
-  font-family: verdana, arial, helvetica, sans-serif;
+  font-family: $at-font-family;
   margin-top: $at-spacing;
   word-wrap: break-word;
-  a {
-    cursor: pointer;
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-  button {
-    cursor: pointer;
-  }
+  @include at-button-link-style;
   .stickied {
     color: $rt-mod-green;
   }
