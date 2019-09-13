@@ -19,8 +19,8 @@ const browser = {
 };
 const mocks = { $browser: browser };
 
-const numPostsMessage = 'reddit posts';
-const numCommentsMessage = 'reddit comments';
+const numPostsMessage = 'reddit post';
+const numCommentsMessage = 'reddit comment';
 
 describe('App', () => {
   // mount component
@@ -70,7 +70,10 @@ describe('App', () => {
   describe('renders the correct markup when submissions added', () => {
     test('with no comments', () => {
       wrapper.vm.loading = false;
-      wrapper.vm.submissions = [{ id: 1, num_comments: 0 }, { id: 2, num_comments: 0 }];
+      wrapper.vm.submissions = [
+        { id: 1, num_comments: 0, subreddit: { display_name: 'test' } },
+        { id: 2, num_comments: 0, subreddit: { display_name: 'test' } },
+      ];
 
       expect(wrapper.html()).toContain(`2 ${numPostsMessage}`);
       expect(wrapper.html()).toContain(`0 ${numCommentsMessage}`);
@@ -78,10 +81,25 @@ describe('App', () => {
 
     test('with comments', () => {
       wrapper.vm.loading = false;
-      wrapper.vm.submissions = [{ id: 1, num_comments: 10 }, { id: 2, num_comments: 2 }];
+      wrapper.vm.submissions = [
+        { id: 1, num_comments: 10, subreddit: { display_name: 'test' } },
+        { id: 2, num_comments: 2, subreddit: { display_name: 'test' } },
+      ];
 
       expect(wrapper.html()).toContain(`2 ${numPostsMessage}`);
       expect(wrapper.html()).toContain(`12 ${numCommentsMessage}`);
+    });
+
+    test('from subreddit that is being filtered', () => {
+      wrapper.vm.loading = false;
+      wrapper.vm.options.FILTERS = ['test'];
+      wrapper.vm.submissions = [
+        { id: 1, num_comments: 10, subreddit: { display_name: 'test' } },
+        { id: 2, num_comments: 2, subreddit: { display_name: 'tests' } },
+      ];
+
+      expect(wrapper.html()).toContain(`1 ${numPostsMessage}`);
+      expect(wrapper.html()).toContain(`2 ${numCommentsMessage}`);
     });
   });
 

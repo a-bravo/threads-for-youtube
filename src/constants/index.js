@@ -14,6 +14,7 @@ export const OPTIONS = {
   COMMENT_SCORE_THRESHOLD: -4,
   SHOW_USER_FLAIR: true,
   SHOW_POST_FLAIR: true,
+  FILTERS: [],
 };
 export const COMPONENT_TABS = [
   { text: 'reddit posts', value: 'submission-list' },

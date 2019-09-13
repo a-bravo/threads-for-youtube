@@ -66,7 +66,7 @@ export default {
     currentProperties() {
       if (this.currentTabComponent !== 'youtube-comments-view') {
         return {
-          submissions: this.submissions,
+          submissions: this.filteredSubmissions,
           apiError: this.apiError,
           loading: this.loading,
           options: this.options,
@@ -76,7 +76,12 @@ export default {
       return {};
     },
     totalComments() {
-      return this.submissions.reduce((sum, sub) => sum + sub.num_comments, 0);
+      return this.filteredSubmissions.reduce((sum, sub) => sum + sub.num_comments, 0);
+    },
+    filteredSubmissions() {
+      return this.submissions.filter(
+        s => this.options.FILTERS.indexOf(s.subreddit.display_name.toLowerCase()) === -1,
+      );
     },
   },
   watch: {
@@ -148,7 +153,7 @@ export default {
     getTabTitle(tab) {
       switch (tab.value) {
         case 'submission-list':
-          return pluralize(this.submissions.length, tab.text.slice(0, -1));
+          return pluralize(this.filteredSubmissions.length, tab.text.slice(0, -1));
         case 'comments-view':
           return pluralize(this.totalComments, tab.text.slice(0, -1));
         case 'youtube-comments-view':

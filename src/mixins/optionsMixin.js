@@ -1,4 +1,4 @@
-import defaults from 'lodash/defaults';
+import defaultsDeep from 'lodash/defaultsDeep';
 import { OPTIONS } from '../constants';
 
 export default {
@@ -14,7 +14,7 @@ export default {
     getOptions() {
       this.$browser.storage.sync.get('options')
         .then((item) => {
-          this.options = defaults(item.options, OPTIONS);
+          this.options = defaultsDeep(item.options, OPTIONS);
         });
     },
   },

@@ -112,5 +112,37 @@ describe('Options', () => {
         });
       });
     });
+
+    describe('FILTERS', () => {
+      const input = wrapper.findAll('input').at(5);
+
+      describe('when changing to invalid value', () => {
+        test('whitespace', () => {
+          const whitespace = '    ';
+          input.element.value = whitespace;
+          wrapper.find('form > button').trigger('click');
+
+          expect(input.element.value).toBe(whitespace);
+        });
+      });
+
+      describe('when changing to valid values', () => {
+        test('valid value', () => {
+          wrapper.vm.newFilter = 'TEST';
+          wrapper.vm.addFilter();
+
+          expect(input.element.value).toBe('');
+          expect(wrapper.html()).toContain('test');
+        });
+
+        test('will trim whitespace', () => {
+          wrapper.vm.newFilter = '   test2   ';
+          wrapper.vm.addFilter();
+
+          expect(input.element.value).toBe('');
+          expect(wrapper.html()).toContain('test2');
+        });
+      });
+    });
   });
 });

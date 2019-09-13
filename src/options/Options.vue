@@ -92,20 +92,55 @@
               >
               <label>show post flair</label>
             </div>
+            <br>
+
+            <form @submit.prevent="addFilter">
+              don't show me posts from certain subreddits
+              <input
+                v-model="newFilter"
+                placeholder="subreddit"
+                size="21"
+                maxlength="21"
+              >
+              <button>Add</button>
+            </form>
+            <div>
+              <div v-if="options.FILTERS && options.FILTERS.length">
+                Filtered Subreddits:
+                <ul>
+                  <li
+                    v-for="(filter, index) in options.FILTERS"
+                    :key="`filter-${index}`"
+                  >
+                    {{ filter }}
+                    <a
+                      class="delete pull-right"
+                      @click="removeFilter(index)"
+                    >
+                      ×
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <th>reset options</th>
+          <td>
+            <button @click="resetOptions">
+              Reset to default settings
+            </button>
           </td>
         </tr>
       </tbody>
     </table>
-
-    <div>
-      <button @click="resetOptions">
-        Reset to default settings
-      </button>
-    </div>
   </div>
 </template>
 
 <script>
+import cloneDeep from 'lodash/cloneDeep';
 import optionsMixin from '../mixins/optionsMixin';
 import { OPTIONS, COMPONENT_TABS } from '../constants';
 
@@ -114,6 +149,7 @@ export default {
   data() {
     return {
       tabs: COMPONENT_TABS,
+      newFilter: '',
     };
   },
   computed: {
@@ -146,7 +182,19 @@ export default {
   },
   methods: {
     resetOptions() {
-      this.options = { ...OPTIONS };
+      this.options = cloneDeep(OPTIONS);
+    },
+    addFilter() {
+      const filter = this.newFilter.trim();
+      if (filter === '') {
+        return;
+      }
+
+      this.options.FILTERS.push(filter.toLowerCase());
+      this.newFilter = '';
+    },
+    removeFilter(index) {
+      this.options.FILTERS.splice(index, 1);
     },
   },
 };
@@ -170,9 +218,25 @@ export default {
   td {
     padding: 10px;
   }
+  ul {
+    @include reset-list;
+    width: 75%;
+    padding: 15px;
+    border: 1px solid $rt-grey;
+    word-wrap: break-word;
+    li:hover {
+      background-color: $rt-light-blue;
+    }
+  }
   .details {
     color: $rt-grey;
     font-size: $at-tiny-font;
+  }
+  .delete {
+    color: $yt-red;
+  }
+  .pull-right {
+    float: right;
   }
 }
 </style>
