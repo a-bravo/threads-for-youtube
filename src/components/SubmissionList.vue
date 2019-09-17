@@ -17,7 +17,7 @@
         v-for="submission in submissions.slice(0, maxIndex)"
         :key="submission.id"
         :show-flair="options.SHOW_POST_FLAIR"
-        :submission="submission"
+        :submission="submission.data"
       />
 
       <li

@@ -16,24 +16,24 @@
       <ul class="submissions-sidebar">
         <li
           v-for="submission in visibleSubmissions"
-          :key="submission.id"
+          :key="submission.data.id"
           :class="[
-            { stickied: submission.stickied },
+            { stickied: submission.data.stickied },
             { selected: submission === currentSubmission }
           ]"
           @click="currentSubmission = submission"
         >
           <div>
-            <span id="subreddit">{{ submission.subreddit.display_name }}</span>
-            <span class="num-comments">({{ submission.num_comments }})</span>
+            <span id="subreddit">{{ submission.data.subreddit }}</span>
+            <span class="num-comments">({{ submission.data.num_comments }})</span>
           </div>
         </li>
       </ul>
 
       <div class="comments-container">
         <comment-list
-          :key="getCurrentSubmission().id"
-          :submission="getCurrentSubmission()"
+          :key="getCurrentSubmission().data.id"
+          :submission="getCurrentSubmission().data"
           :options="options"
         />
       </div>
@@ -79,7 +79,7 @@ export default {
         return this.submissions;
       }
       return this.submissions.filter(
-        submission => submission.num_comments > this.options.POST_COMMENT_THRESHOLD,
+        submission => submission.data.num_comments > this.options.POST_COMMENT_THRESHOLD,
       );
     },
   },

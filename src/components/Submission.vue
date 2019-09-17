@@ -24,11 +24,11 @@
         by
         <a
           :class="authorClass(submission.distinguished)"
-          :href="`https://old.reddit.com/user/${submission.author.name}`"
+          :href="`https://old.reddit.com/user/${submission.author}`"
           target="_blank"
           rel="noopener noreferrer"
         >
-          {{ submission.author.name }}
+          {{ submission.author }}
         </a>
         <span
           v-if="submission.distinguished"

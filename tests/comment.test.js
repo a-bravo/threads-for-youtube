@@ -15,16 +15,19 @@ describe('Comment', () => {
     propsData: {
       item: {
         id: 1,
-        author: {
-          name: 'test',
-        },
+        author: 'test',
         score: ABOVE_SCORE_THRESHOLD,
         created_utc: 23142131,
         body: 'test',
         permalink: 'link',
-        replies: [],
+        replies: {
+          data: {
+            children: [],
+          },
+        },
       },
       options: OPTIONS,
+      kind: 'Listing',
     },
   });
 
@@ -58,17 +61,19 @@ describe('Comment', () => {
     wrapper.setProps({
       item: {
         id: 1,
-        author: {
-          name: 'test',
-        },
+        author: 'test',
         score: 9,
         created_utc: 23142131,
         body: 'test',
         permalink: 'link',
-        replies: [
-          { id: 2 },
-          { id: 3 },
-        ],
+        replies: {
+          data: {
+            children: [
+              { data: { id: 2 }, kind: 'Listing' },
+              { data: { id: 3 }, kind: 'Listing' },
+            ],
+          },
+        },
       },
     });
 
@@ -83,17 +88,19 @@ describe('Comment', () => {
       wrapper.setProps({
         item: {
           id: 1,
-          author: {
-            name: 'test',
-          },
+          author: 'test',
           score: 9,
           created_utc: 23142131,
           body: 'test',
           permalink: 'link',
-          replies: [
-            { id: 2 },
-            { id: 3 },
-          ],
+          replies: {
+            data: {
+              children: [
+                { data: { id: 2 }, kind: 'Listing' },
+                { data: { id: 3 }, kind: 'Listing' },
+              ],
+            },
+          },
         },
       });
 
@@ -120,17 +127,19 @@ describe('Comment', () => {
       wrapper.setProps({
         item: {
           id: 1,
-          author: {
-            name: 'test',
-          },
+          author: 'test',
           score: BELOW_SCORE_THRESHOLD,
           created_utc: 23142131,
           body: 'test',
           permalink: 'link',
-          replies: [
-            { id: 2 },
-            { id: 3 },
-          ],
+          replies: {
+            data: {
+              children: [
+                { data: { id: 2 }, kind: 'Listing' },
+                { data: { id: 3 }, kind: 'Listing' },
+              ],
+            },
+          },
         },
       });
 

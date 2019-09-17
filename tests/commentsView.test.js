@@ -79,8 +79,8 @@ describe('CommentsView', () => {
         loading: false,
         apiError: false,
         submissions: [
-          { id: 1, num_comments: BELOW_COMMENT_THRESHOLD },
-          { id: 2, num_comments: BELOW_COMMENT_THRESHOLD },
+          { data: { id: 1, num_comments: BELOW_COMMENT_THRESHOLD } },
+          { data: { id: 2, num_comments: BELOW_COMMENT_THRESHOLD } },
         ],
       });
 
@@ -100,8 +100,8 @@ describe('CommentsView', () => {
     test('on initial state', () => {
       wrapper.setProps({
         submissions: [
-          { id: 1, num_comments: ABOVE_COMMENT_THRESHOLD, subreddit: { display_name: 'test' } },
-          { id: 2, num_comments: ABOVE_COMMENT_THRESHOLD, subreddit: { display_name: 'test2' } },
+          { data: { id: 1, num_comments: ABOVE_COMMENT_THRESHOLD, subreddit: 'test' } },
+          { data: { id: 2, num_comments: ABOVE_COMMENT_THRESHOLD, subreddit: 'test2' } },
         ],
       });
 
@@ -118,8 +118,8 @@ describe('CommentsView', () => {
     test('on initial state with mixed comments(above thresh) and no comments(below thres)', () => {
       wrapper.setProps({
         submissions: [
-          { id: 1, num_comments: BELOW_COMMENT_THRESHOLD, subreddit: { display_name: 'test' } },
-          { id: 2, num_comments: ABOVE_COMMENT_THRESHOLD, subreddit: { display_name: 'test2' } },
+          { data: { id: 1, num_comments: BELOW_COMMENT_THRESHOLD, subreddit: 'test' } },
+          { data: { id: 2, num_comments: ABOVE_COMMENT_THRESHOLD, subreddit: 'test2' } },
         ],
       });
 
@@ -135,8 +135,8 @@ describe('CommentsView', () => {
     test('when user clicks on another sidebar-item', () => {
       wrapper.setProps({
         submissions: [
-          { id: 1, num_comments: ABOVE_COMMENT_THRESHOLD, subreddit: { display_name: 'test' } },
-          { id: 2, num_comments: ABOVE_COMMENT_THRESHOLD, subreddit: { display_name: 'test2' } },
+          { data: { id: 1, num_comments: ABOVE_COMMENT_THRESHOLD, subreddit: 'test' } },
+          { data: { id: 2, num_comments: ABOVE_COMMENT_THRESHOLD, subreddit: 'test2' } },
         ],
       });
 

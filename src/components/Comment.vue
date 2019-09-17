@@ -3,84 +3,90 @@
     :id="item.name"
     class="comment"
   >
-    <span>
-      <span class="author">
-        <a
-          :class="isOpen ? YT_LINK_CLASS : 'details'"
-          @click="isOpen = !isOpen"
-        >
-          [{{ isOpen ? '-' : '+' }}]
-        </a>
-        <a
-          :class="isOpen ? authorClass(item.distinguished, item.is_submitter) : 'collapsed'"
-          :href="`https://old.reddit.com/user/${item.author.name}`"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {{ item.author.name }}
-        </a>
-        <span
-          v-if="item.is_submitter || item.distinguished"
-          :class="{ collapsed: !isOpen }"
-        >
-          {{ getAuthorStatus(item.distinguished, item.is_submitter) }}
-        </span>
-      </span>
-      <span :class="{ collapsed: !isOpen }">
-        <span
-          v-if="!isOpen && isLowScore()"
-          class="details"
-        >
-          comment score below threshold
-        </span>
-        <span v-else>
+    <div v-if="kind !== 'more'">
+      <span>
+        <span class="author">
+          <a
+            :class="isOpen ? YT_LINK_CLASS : 'details'"
+            @click="isOpen = !isOpen"
+          >
+            [{{ isOpen ? '-' : '+' }}]
+          </a>
+          <a
+            :class="isOpen ? authorClass(item.distinguished, item.is_submitter) : 'collapsed'"
+            :href="`https://old.reddit.com/user/${item.author}`"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {{ item.author }}
+          </a>
           <span
-            v-if="options.SHOW_USER_FLAIR && item.author_flair_text"
-            v-show="isOpen"
+            v-if="item.is_submitter || item.distinguished"
+            :class="{ collapsed: !isOpen }"
+          >
+            {{ getAuthorStatus(item.distinguished, item.is_submitter) }}
+          </span>
+        </span>
+        <span :class="{ collapsed: !isOpen }">
+          <span
+            v-if="!isOpen && isLowScore()"
             class="details"
           >
-            - {{ item.author_flair_text }}
+            comment score below threshold
           </span>
-          <span class="points">{{ pluralize(item.score, 'point') }}</span>
-          <span class="details">{{ timeAgo(item.created_utc) }} ago</span>
-          <span
-            v-if="item.stickied"
-            class="details stickied"
-          >
-            - stickied comment
+          <span v-else>
+            <span
+              v-if="options.SHOW_USER_FLAIR && item.author_flair_text"
+              v-show="isOpen"
+              class="details"
+            >
+              - {{ item.author_flair_text }}
+            </span>
+            <span class="points">{{ pluralize(item.score, 'point') }}</span>
+            <span class="details">{{ timeAgo(item.created_utc) }} ago</span>
+            <span
+              v-if="item.stickied"
+              class="details stickied"
+            >
+              - stickied comment
+            </span>
           </span>
         </span>
       </span>
-    </span>
 
-    <div v-show="isOpen">
-      <div class="body">
-        {{ item.body }}
-      </div>
-      <div class="links">
-        <a
-          :href="`https://old.reddit.com${item.permalink}`"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          permalink
-        </a>
-        <a
-          v-if="item.depth"
-          @click="scrollTo(item.parent_id)"
-        >
-          parent
-        </a>
-      </div>
+      <div v-show="isOpen">
+        <div class="body">
+          {{ item.body }}
+        </div>
+        <div class="links">
+          <a
+            :href="`https://old.reddit.com${item.permalink}`"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            permalink
+          </a>
+          <a
+            v-if="item.depth"
+            @click="scrollTo(item.parent_id)"
+          >
+            parent
+          </a>
+        </div>
 
-      <ul class="replies">
-        <comment
-          v-for="reply in item.replies"
-          :key="reply.id"
-          :item="reply"
-          :options="options"
-        />
-      </ul>
+        <ul
+          v-if="item.replies"
+          class="replies"
+        >
+          <comment
+            v-for="reply in item.replies.data.children"
+            :key="reply.data.id"
+            :item="reply.data"
+            :kind="reply.kind"
+            :options="options"
+          />
+        </ul>
+      </div>
     </div>
   </li>
 </template>
@@ -96,6 +102,10 @@ export default {
   props: {
     item: {
       type: Object,
+      required: true,
+    },
+    kind: {
+      type: String,
       required: true,
     },
     options: {

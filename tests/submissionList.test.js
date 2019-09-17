@@ -86,8 +86,8 @@ describe('SubmissionList', () => {
       loading: false,
       apiError: false,
       submissions: [
-        { id: 1, num_comments: 10 },
-        { id: 2, num_comments: 5 },
+        { data: { id: 1, num_comments: 10 } },
+        { data: { id: 2, num_comments: 5 } },
       ],
     });
 
@@ -100,8 +100,8 @@ describe('SubmissionList', () => {
       loading: false,
       apiError: false,
       submissions: [
-        { id: 1, num_comments: 10 },
-        { id: 2, num_comments: 5 },
+        { data: { id: 1, num_comments: 10 } },
+        { data: { id: 2, num_comments: 5 } },
       ],
     });
     wrapper.vm.maxIndex = 1;
@@ -119,8 +119,8 @@ describe('SubmissionList', () => {
     test('with 1 more thread to show', () => {
       wrapper.setProps({
         submissions: [
-          { id: 1, num_comments: 10 },
-          { id: 2, num_comments: 5 },
+          { data: { id: 1, num_comments: 10 } },
+          { data: { id: 2, num_comments: 5 } },
         ],
       });
       wrapper.vm.maxIndex = 1;
@@ -137,8 +137,8 @@ describe('SubmissionList', () => {
     test('with more threads to show', () => {
       wrapper.setProps({
         submissions: [
-          { id: 1, num_comments: 10 },
-          { id: 2, num_comments: 5 },
+          { data: { id: 1, num_comments: 10 } },
+          { data: { id: 2, num_comments: 5 } },
         ],
       });
       wrapper.vm.maxIndex = -9;

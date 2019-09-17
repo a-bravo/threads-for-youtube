@@ -27,8 +27,9 @@
     >
       <comment
         v-for="comment in comments"
-        :key="comment.id"
-        :item="comment"
+        :key="comment.data.id"
+        :item="comment.data"
+        :kind="comment.kind"
         :options="options"
       />
     </ul>
@@ -39,6 +40,7 @@
 import Submission from './Submission.vue';
 import Comment from './Comment.vue';
 import Spinner from './Spinner.vue';
+import { getComments } from '../services/api';
 
 export default {
   components: {
@@ -64,10 +66,11 @@ export default {
     };
   },
   mounted() {
-    this.submission.fetch().then((submission) => {
-      this.comments = submission.comments;
-      this.apiError = false;
-    })
+    getComments(this.submission.id)
+      .then((listing) => {
+        this.comments = listing;
+        this.apiError = false;
+      })
       .catch(() => {
         this.apiError = true;
       })

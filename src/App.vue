@@ -32,7 +32,7 @@ import SubmissionList from './components/SubmissionList.vue';
 import CommentsView from './components/CommentsView.vue';
 import YoutubeCommentsView from './components/YoutubeCommentsView.vue';
 import optionsMixin from './mixins/optionsMixin';
-import search from './services/api';
+import { search } from './services/api';
 import { pluralize } from './util';
 import {
   APP_ID,
@@ -76,11 +76,11 @@ export default {
       return {};
     },
     totalComments() {
-      return this.filteredSubmissions.reduce((sum, sub) => sum + sub.num_comments, 0);
+      return this.filteredSubmissions.reduce((sum, sub) => sum + sub.data.num_comments, 0);
     },
     filteredSubmissions() {
       return this.submissions.filter(
-        s => this.options.FILTERS.indexOf(s.subreddit.display_name.toLowerCase()) === -1,
+        s => this.options.FILTERS.indexOf(s.data.subreddit.toLowerCase()) === -1,
       );
     },
   },
@@ -138,9 +138,8 @@ export default {
     },
     getSubmissions(query) {
       search(query, 'comments')
-        .then(listing => listing.fetchAll())
-        .then((extendedListing) => {
-          this.submissions = extendedListing;
+        .then((listing) => {
+          this.submissions = listing;
           this.apiError = false;
           this.updateCurrentTabIfNeeded();
         })

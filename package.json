@@ -64,7 +64,6 @@
   },
   "dependencies": {
     "lodash": "^4.17.15",
-    "snoowrap": "^1.18.0",
     "vue": "^2.6.10"
   }
 }

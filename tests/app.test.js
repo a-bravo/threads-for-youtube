@@ -71,8 +71,8 @@ describe('App', () => {
     test('with no comments', () => {
       wrapper.vm.loading = false;
       wrapper.vm.submissions = [
-        { id: 1, num_comments: 0, subreddit: { display_name: 'test' } },
-        { id: 2, num_comments: 0, subreddit: { display_name: 'test' } },
+        { data: { id: 1, num_comments: 0, subreddit: 'test' } },
+        { data: { id: 2, num_comments: 0, subreddit: 'test' } },
       ];
 
       expect(wrapper.html()).toContain(`2 ${numPostsMessage}`);
@@ -82,8 +82,8 @@ describe('App', () => {
     test('with comments', () => {
       wrapper.vm.loading = false;
       wrapper.vm.submissions = [
-        { id: 1, num_comments: 10, subreddit: { display_name: 'test' } },
-        { id: 2, num_comments: 2, subreddit: { display_name: 'test' } },
+        { data: { id: 1, num_comments: 10, subreddit: 'test' } },
+        { data: { id: 2, num_comments: 2, subreddit: 'test' } },
       ];
 
       expect(wrapper.html()).toContain(`2 ${numPostsMessage}`);
@@ -94,8 +94,8 @@ describe('App', () => {
       wrapper.vm.loading = false;
       wrapper.vm.options.FILTERS = ['test'];
       wrapper.vm.submissions = [
-        { id: 1, num_comments: 10, subreddit: { display_name: 'test' } },
-        { id: 2, num_comments: 2, subreddit: { display_name: 'tests' } },
+        { data: { id: 1, num_comments: 10, subreddit: 'test' } },
+        { data: { id: 2, num_comments: 2, subreddit: 'tests' } },
       ];
 
       expect(wrapper.html()).toContain(`1 ${numPostsMessage}`);
