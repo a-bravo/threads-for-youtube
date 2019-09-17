@@ -14,27 +14,19 @@
       class="submission-list"
     >
       <submission
-        v-for="submission in submissions.slice(0, maxIndex)"
+        v-for="submission in submissions"
         :key="submission.id"
         :show-flair="options.SHOW_POST_FLAIR"
         :submission="submission.data"
       />
 
-      <li
-        v-if="!isFinished"
-        class="submission"
+      <more-button
+        v-if="morePosts"
+        :loading="moreLoading"
+        @more="$emit('moreSubmissions')"
       >
-        <button
-          v-if="!buttonPressed"
-          id="more-threads-button"
-          @click="fetchMore"
-        >
-          view more
-        </button>
-        <div v-else>
-          loading...
-        </div>
-      </li>
+        load more posts
+      </more-button>
     </ul>
   </div>
 </template>
@@ -42,11 +34,13 @@
 <script>
 import Submission from './Submission.vue';
 import Spinner from './Spinner.vue';
+import MoreButton from './MoreButton.vue';
 
 export default {
   components: {
     Submission,
     Spinner,
+    MoreButton,
   },
   props: {
     submissions: {
@@ -65,28 +59,13 @@ export default {
       type: Object,
       required: true,
     },
-  },
-  data() {
-    return {
-      maxIndex: this.options.NUM_POSTS,
-      buttonPressed: false,
-    };
-  },
-  computed: {
-    isFinished() {
-      return this.maxIndex >= this.submissions.length;
+    morePosts: {
+      type: Boolean,
+      required: true,
     },
-  },
-  watch: {
-    submissions() {
-      this.maxIndex = this.options.NUM_POSTS;
-    },
-  },
-  methods: {
-    fetchMore() {
-      this.buttonPressed = true;
-      this.maxIndex += this.options.NUM_POSTS;
-      this.buttonPressed = false;
+    moreLoading: {
+      type: Boolean,
+      required: true,
     },
   },
 };
@@ -94,6 +73,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "../styles/mixins.scss";
+@import "../styles/variables.scss";
 
 .submission-list {
   @include reset-list;

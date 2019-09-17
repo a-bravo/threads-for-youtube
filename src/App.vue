@@ -19,6 +19,7 @@
           <component
             :is="currentTabComponent"
             v-bind="currentProperties"
+            @moreSubmissions="getMoreSubmissions"
           />
         </keep-alive>
       </div>
@@ -53,8 +54,10 @@ export default {
   data() {
     return {
       loading: true,
+      moreLoading: false,
       apiError: false,
       submissions: [],
+      after: null,
       currentTabComponent: '',
       tabs: COMPONENT_TABS,
       query: '',
@@ -70,6 +73,8 @@ export default {
           apiError: this.apiError,
           loading: this.loading,
           options: this.options,
+          morePosts: this.after !== null,
+          moreLoading: this.moreLoading,
         };
       }
 
@@ -123,6 +128,7 @@ export default {
       // reset state
       this.loading = true;
       this.submissions = [];
+      this.after = null;
       this.getOptions();
 
       // guard against non-video pages
@@ -134,12 +140,13 @@ export default {
         return;
       }
 
-      this.debouncedGetSubmissions(newQuery);
+      this.debouncedGetSubmissions();
     },
-    getSubmissions(query) {
-      search(query, 'comments')
-        .then((listing) => {
-          this.submissions = listing;
+    getSubmissions() {
+      search(this.query, 'comments', this.options.NUM_POSTS)
+        .then((result) => {
+          this.submissions = result.submissions;
+          this.after = result.after;
           this.apiError = false;
           this.updateCurrentTabIfNeeded();
         })
@@ -149,12 +156,26 @@ export default {
         })
         .finally(() => { this.loading = false; });
     },
+    getMoreSubmissions() {
+      this.moreLoading = true;
+      search(this.query, 'comments', this.options.NUM_POSTS, this.after)
+        .then((result) => {
+          this.submissions.push(...result.submissions);
+          this.after = result.after;
+        })
+        .finally(() => { this.moreLoading = false; });
+    },
     getTabTitle(tab) {
+      let more = '';
+      if (this.after) {
+        more = '+';
+      }
+
       switch (tab.value) {
         case 'submission-list':
-          return pluralize(this.filteredSubmissions.length, tab.text.slice(0, -1));
+          return pluralize(this.filteredSubmissions.length, tab.text.slice(0, -1), more);
         case 'comments-view':
-          return pluralize(this.totalComments, tab.text.slice(0, -1));
+          return pluralize(this.totalComments, tab.text.slice(0, -1), more);
         case 'youtube-comments-view':
           return tab.text;
         default:

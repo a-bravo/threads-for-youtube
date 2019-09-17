@@ -17,16 +17,32 @@ let comments = {};
  * @param {string} query The search query
  * @param {string} sort Determines how the results should be sorted (relevance,
  *    hot, top, new, comments)
+ * @param {int} limit The max number of submissions (maximum: 100)
+ * @param {string} after The id of the previous submission
  * @returns {Promise} A reddit Listing containing search results
  */
-export function search(query, sort) {
+export function search(query, sort, limit, after = null) {
   const urlQuery = `url:youtube.com/${query} OR url:youtu.be/${query}`;
 
-  return authRequest('get', 'search', { q: urlQuery, sort })
-    .then((r) => {
+  return authRequest(
+    'get',
+    'search',
+    {
+      q: urlQuery,
+      sort,
+      after,
+      limit,
+    },
+  ).then((listing) => {
+    if (!after) {
       comments = {};
-      return r.data.children;
-    });
+    }
+
+    return {
+      submissions: listing.data.children,
+      after: listing.data.after,
+    };
+  });
 }
 
 /**

@@ -28,6 +28,21 @@
             <span class="num-comments">({{ submission.data.num_comments }})</span>
           </div>
         </li>
+
+        <div
+          v-if="visibleSubmissions.length < submissions.length"
+          class="details"
+        >
+          {{ submissions.length - visibleSubmissions.length }} hidden
+        </div>
+
+        <more-button
+          v-if="morePosts"
+          :loading="moreLoading"
+          @more="$emit('moreSubmissions')"
+        >
+          load more
+        </more-button>
       </ul>
 
       <div class="comments-container">
@@ -44,11 +59,13 @@
 <script>
 import CommentList from './CommentList.vue';
 import Spinner from './Spinner.vue';
+import MoreButton from './MoreButton.vue';
 
 export default {
   components: {
     CommentList,
     Spinner,
+    MoreButton,
   },
   props: {
     submissions: {
@@ -65,6 +82,14 @@ export default {
     },
     options: {
       type: Object,
+      required: true,
+    },
+    morePosts: {
+      type: Boolean,
+      required: true,
+    },
+    moreLoading: {
+      type: Boolean,
       required: true,
     },
   },
@@ -84,7 +109,13 @@ export default {
     },
   },
   watch: {
-    submissions() {
+    submissions(newVal, oldVal) {
+      /* Only reset currentSubmission when submission's first object differs (loading
+      new submissons), not when they are the same (loading more submissions) */
+      if (newVal.length > 0 && oldVal.length > 0 && oldVal[0] === newVal[0]) {
+        return;
+      }
+
       this.currentSubmission = null;
     },
   },
@@ -135,6 +166,10 @@ export default {
       color: white !important;
     }
   }
+}
+.details {
+  font-size: $at-tiny-font;
+  color: $rt-grey;
 }
 .num-comments {
   display: none;

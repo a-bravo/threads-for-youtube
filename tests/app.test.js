@@ -34,6 +34,7 @@ describe('App', () => {
     expect(typeof App.data).toBe('function');
     expect(wrapper.vm.loading).toBe(false);
     expect(wrapper.vm.apiError).toBe(false);
+    expect(wrapper.vm.after).toBe(null);
     expect(wrapper.vm.options).toStrictEqual(OPTIONS);
     expect(wrapper.vm.currentTabComponent).toBe(OPTIONS.DEFAULT_TAB);
     expect(wrapper.vm.submissions).toHaveLength(0);
@@ -90,8 +91,21 @@ describe('App', () => {
       expect(wrapper.html()).toContain(`12 ${numCommentsMessage}`);
     });
 
+    test('with more submissions to load', () => {
+      wrapper.vm.loading = false;
+      wrapper.vm.after = 'someId';
+      wrapper.vm.submissions = [
+        { data: { id: 1, num_comments: 10, subreddit: 'test' } },
+        { data: { id: 2, num_comments: 2, subreddit: 'test' } },
+      ];
+
+      expect(wrapper.html()).toContain(`2+ ${numPostsMessage}`);
+      expect(wrapper.html()).toContain(`12+ ${numCommentsMessage}`);
+    });
+
     test('from subreddit that is being filtered', () => {
       wrapper.vm.loading = false;
+      wrapper.vm.after = null;
       wrapper.vm.options.FILTERS = ['test'];
       wrapper.vm.submissions = [
         { data: { id: 1, num_comments: 10, subreddit: 'test' } },

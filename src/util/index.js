@@ -18,12 +18,12 @@ const YEAR = 31556952;
  * @param {string} unit The unit of measurement
  * @returns {string} Pluralized string
  */
-export function pluralize(amount, unit) {
+export function pluralize(amount, unit, message = '') {
   if (amount === 1) {
-    return `${amount} ${unit}`;
+    return `${amount}${message} ${unit}`;
   }
 
-  return `${amount} ${unit}s`;
+  return `${amount}${message} ${unit}s`;
 }
 
 /**

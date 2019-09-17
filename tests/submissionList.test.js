@@ -3,11 +3,6 @@ import SubmissionList from '../src/components/SubmissionList.vue';
 import { OPTIONS } from '../src/constants';
 
 
-// Constants
-
-const moreThreadsButton = '#more-threads-button';
-
-
 describe('SubmissionList', () => {
   // mount component
   const wrapper = shallowMount(SubmissionList, {
@@ -16,6 +11,8 @@ describe('SubmissionList', () => {
       loading: true,
       apiError: false,
       options: OPTIONS,
+      morePosts: false,
+      moreLoading: false,
     },
   });
 
@@ -31,7 +28,6 @@ describe('SubmissionList', () => {
         submissions: [],
       });
 
-      expect(typeof SubmissionList.data).toBe('function');
       expect(wrapper.vm.submissions).toHaveLength(0);
     });
 
@@ -46,7 +42,7 @@ describe('SubmissionList', () => {
 
       // not present
       expect(wrapper.contains('ul')).toBe(false);
-      expect(wrapper.contains(moreThreadsButton)).toBe(false);
+      expect(wrapper.contains('more-button-stub')).toBe(false);
       expect(wrapper.contains('submission-stub')).toBe(false);
     });
   });
@@ -62,7 +58,7 @@ describe('SubmissionList', () => {
       expect(wrapper.html()).toContain('Could not reach reddit. Try again later.');
 
       expect(wrapper.contains('ul')).toBe(false);
-      expect(wrapper.contains(moreThreadsButton)).toBe(false);
+      expect(wrapper.contains('more-button-stub')).toBe(false);
       expect(wrapper.contains('submission-stub')).toBe(false);
     });
 
@@ -76,80 +72,41 @@ describe('SubmissionList', () => {
       expect(wrapper.html()).toContain('No posts.');
 
       expect(wrapper.contains('ul')).toBe(false);
-      expect(wrapper.contains(moreThreadsButton)).toBe(false);
+      expect(wrapper.contains('more-button-stub')).toBe(false);
       expect(wrapper.contains('submission-stub')).toBe(false);
     });
   });
 
-  describe('renders correctly when adding few submissions', () => {
-    wrapper.setProps({
-      loading: false,
-      apiError: false,
-      submissions: [
-        { data: { id: 1, num_comments: 10 } },
-        { data: { id: 2, num_comments: 5 } },
-      ],
-    });
-
-    expect(wrapper.findAll('submission-stub')).toHaveLength(2);
-    expect(wrapper.contains(moreThreadsButton)).toBe(false);
-  });
-
-  describe('renders correctly when adding more than maxIndex submissions', () => {
-    wrapper.setProps({
-      loading: false,
-      apiError: false,
-      submissions: [
-        { data: { id: 1, num_comments: 10 } },
-        { data: { id: 2, num_comments: 5 } },
-      ],
-    });
-    wrapper.vm.maxIndex = 1;
-
-    expect(wrapper.findAll('submission-stub')).toHaveLength(1);
-    expect(wrapper.contains(moreThreadsButton)).toBe(true);
-  });
-
-  describe('show more submission-stubs when user clicks More Threads button', () => {
-    wrapper.setProps({
-      loading: false,
-      apiError: false,
-    });
-
-    test('with 1 more thread to show', () => {
+  describe('renders correctly when adding submissions', () => {
+    test('few submissions', () => {
       wrapper.setProps({
+        loading: false,
+        apiError: false,
+        morePosts: false,
         submissions: [
           { data: { id: 1, num_comments: 10 } },
           { data: { id: 2, num_comments: 5 } },
         ],
       });
-      wrapper.vm.maxIndex = 1;
-
-      const more = wrapper.find(moreThreadsButton);
-      expect(wrapper.findAll('submission-stub')).toHaveLength(1);
-
-      more.trigger('click');
 
       expect(wrapper.findAll('submission-stub')).toHaveLength(2);
-      expect(wrapper.contains(moreThreadsButton)).toBe(false);
+      expect(wrapper.contains('more-button-stub')).toBe(false);
     });
 
-    test('with more threads to show', () => {
+    test('more submissions to load', () => {
       wrapper.setProps({
+        loading: false,
+        apiError: false,
+        moreLoading: false,
+        morePosts: true,
         submissions: [
           { data: { id: 1, num_comments: 10 } },
           { data: { id: 2, num_comments: 5 } },
         ],
       });
-      wrapper.vm.maxIndex = -9;
 
-      const more = wrapper.find(moreThreadsButton);
-      expect(wrapper.findAll('submission-stub')).toHaveLength(0);
-
-      more.trigger('click');
-
-      expect(wrapper.findAll('submission-stub')).toHaveLength(1);
-      expect(wrapper.contains(moreThreadsButton)).toBe(true);
+      expect(wrapper.findAll('submission-stub')).toHaveLength(2);
+      expect(wrapper.contains('more-button-stub')).toBe(true);
     });
   });
 });
