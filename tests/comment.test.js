@@ -9,26 +9,36 @@ const ABOVE_SCORE_THRESHOLD = OPTIONS.COMMENT_SCORE_THRESHOLD + 1;
 const BELOW_SCORE_THRESHOLD = OPTIONS.COMMENT_SCORE_THRESHOLD - 1;
 const COMMENT_HIDDEN_MESSAGE = 'comment score below threshold';
 
+const root = {
+  data() {
+    return {
+      state: {
+        comments: {},
+      },
+      loadComments: jest.fn().mockResolvedValue({}),
+    };
+  },
+};
+
 describe('Comment', () => {
   // mount component
   const wrapper = shallowMount(Comment, {
     propsData: {
       item: {
-        id: 1,
-        author: 'test',
-        score: ABOVE_SCORE_THRESHOLD,
-        created_utc: 23142131,
-        body: 'test',
-        permalink: 'link',
-        replies: {
-          data: {
-            children: [],
-          },
+        data: {
+          id: 1,
+          author: 'test',
+          score: ABOVE_SCORE_THRESHOLD,
+          created_utc: 23142131,
+          body: 'test',
+          permalink: 'link',
         },
+        comments: [],
+        kind: 'Listing',
       },
       options: OPTIONS,
-      kind: 'Listing',
     },
+    parentComponent: root,
   });
 
   describe('initial state', () => {
@@ -43,7 +53,7 @@ describe('Comment', () => {
 
     test('renders correct markup', () => {
       expect(wrapper.contains('li')).toBe(true);
-      expect(wrapper.contains('ul')).toBe(true);
+      expect(wrapper.contains('ul.replies')).toBe(false);
       expect(wrapper.find('.body').isVisible()).toBe(true);
 
       // no replies
@@ -58,49 +68,44 @@ describe('Comment', () => {
   });
 
   test('renders correctly when comment has replies', () => {
+    wrapper.vm.$root.$data.state.comments = {
+      2: { data: { id: 2 } },
+      3: { data: { id: 3 } },
+    };
     wrapper.setProps({
       item: {
-        id: 1,
-        author: 'test',
-        score: 9,
-        created_utc: 23142131,
-        body: 'test',
-        permalink: 'link',
-        replies: {
-          data: {
-            children: [
-              { data: { id: 2 }, kind: 'Listing' },
-              { data: { id: 3 }, kind: 'Listing' },
-            ],
-          },
-        },
+        comments: ['2', '3'],
+        kind: 'Listing',
+        data: { score: ABOVE_SCORE_THRESHOLD },
       },
     });
 
     expect(wrapper.contains('li')).toBe(true);
-    expect(wrapper.contains('ul')).toBe(true);
+    expect(wrapper.contains('ul.replies')).toBe(true);
 
     expect(wrapper.findAll('comment-stub')).toHaveLength(2);
   });
 
   describe('renders correctly when comment is collapsed', () => {
+    beforeEach(() => {
+      wrapper.vm.$root.$data.state.comments = {
+        2: { data: { id: 2 } },
+        3: { data: { id: 3 } },
+      };
+    });
+
     test('user collapses comment', () => {
       wrapper.setProps({
         item: {
-          id: 1,
-          author: 'test',
-          score: 9,
-          created_utc: 23142131,
-          body: 'test',
-          permalink: 'link',
-          replies: {
-            data: {
-              children: [
-                { data: { id: 2 }, kind: 'Listing' },
-                { data: { id: 3 }, kind: 'Listing' },
-              ],
-            },
+          data: {
+            id: 1,
+            author: 'test',
+            score: 9,
+            created_utc: 23142131,
+            body: 'test',
+            permalink: 'link',
           },
+          comments: ['2', '3'],
         },
       });
 
@@ -109,14 +114,14 @@ describe('Comment', () => {
 
       // elements still present
       expect(wrapper.contains('li')).toBe(true);
-      expect(wrapper.contains('ul')).toBe(true);
+      expect(wrapper.contains('ul.replies')).toBe(true);
       expect(wrapper.contains('.body')).toBe(true);
       expect(wrapper.contains('.links')).toBe(true);
       expect(wrapper.findAll('comment-stub')).toHaveLength(2);
 
       // elements not visible
       expect(wrapper.contains('.collapsed')).toBe(true);
-      expect(wrapper.find('ul').isVisible()).toBe(false);
+      expect(wrapper.find('ul.replies').isVisible()).toBe(false);
       expect(wrapper.find('.body').isVisible()).toBe(false);
       expect(wrapper.find('.links').isVisible()).toBe(false);
       expect(wrapper.find('comment-stub').isVisible()).toBe(false);
@@ -126,26 +131,21 @@ describe('Comment', () => {
     test('comment is hidden due to score', () => {
       wrapper.setProps({
         item: {
-          id: 1,
-          author: 'test',
-          score: BELOW_SCORE_THRESHOLD,
-          created_utc: 23142131,
-          body: 'test',
-          permalink: 'link',
-          replies: {
-            data: {
-              children: [
-                { data: { id: 2 }, kind: 'Listing' },
-                { data: { id: 3 }, kind: 'Listing' },
-              ],
-            },
+          data: {
+            id: 1,
+            author: 'test',
+            score: BELOW_SCORE_THRESHOLD,
+            created_utc: 23142131,
+            body: 'test',
+            permalink: 'link',
           },
+          comments: ['2', '3'],
         },
       });
 
       // elements still present
       expect(wrapper.contains('li')).toBe(true);
-      expect(wrapper.contains('ul')).toBe(true);
+      expect(wrapper.contains('ul.replies')).toBe(true);
       expect(wrapper.contains('.body')).toBe(true);
       expect(wrapper.contains('.links')).toBe(true);
       expect(wrapper.findAll('comment-stub')).toHaveLength(2);
@@ -154,7 +154,7 @@ describe('Comment', () => {
 
       // elements not visible
       expect(wrapper.contains('.collapsed')).toBe(true);
-      expect(wrapper.find('ul').isVisible()).toBe(false);
+      expect(wrapper.find('ul.replies').isVisible()).toBe(false);
       expect(wrapper.find('.body').isVisible()).toBe(false);
       expect(wrapper.find('.links').isVisible()).toBe(false);
       expect(wrapper.find('comment-stub').isVisible()).toBe(false);

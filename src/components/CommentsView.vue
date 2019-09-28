@@ -1,9 +1,9 @@
 <template>
   <div class="at-component">
-    <h3 v-if="loading">
+    <h3 v-if="$root.$data.state.submissions.loading">
       <spinner />
     </h3>
-    <h3 v-else-if="apiError">
+    <h3 v-else-if="$root.$data.state.submissions.error">
       Could not reach reddit. Try again later.
     </h3>
     <h3 v-else-if="!visibleSubmissions.length">
@@ -37,8 +37,8 @@
         </div>
 
         <more-button
-          v-if="morePosts"
-          :loading="moreLoading"
+          v-if="this.$root.$data.state.nextSubmission"
+          :loading="$root.$data.state.submissions.moreLoading"
           @more="$emit('moreSubmissions')"
         >
           load more
@@ -72,24 +72,8 @@ export default {
       type: Array,
       required: true,
     },
-    loading: {
-      type: Boolean,
-      required: true,
-    },
-    apiError: {
-      type: Boolean,
-      required: true,
-    },
     options: {
       type: Object,
-      required: true,
-    },
-    morePosts: {
-      type: Boolean,
-      required: true,
-    },
-    moreLoading: {
-      type: Boolean,
       required: true,
     },
   },

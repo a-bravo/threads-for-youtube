@@ -8,21 +8,36 @@ import { OPTIONS } from '../src/constants';
 const ABOVE_COMMENT_THRESHOLD = OPTIONS.POST_COMMENT_THRESHOLD + 1;
 const BELOW_COMMENT_THRESHOLD = OPTIONS.POST_COMMENT_THRESHOLD - 1;
 
+const root = {
+  data() {
+    return {
+      state: {
+        submissionList: [],
+        submissions: { error: false, loading: true, moreLoading: false },
+        comments: {},
+        nextSubmission: null,
+      },
+    };
+  },
+};
 
 describe('CommentsView', () => {
   // mount component
   const wrapper = shallowMount(CommentsView, {
     propsData: {
       submissions: [],
-      loading: true,
-      apiError: false,
       options: OPTIONS,
-      morePosts: false,
-      moreLoading: false,
     },
+    parentComponent: root,
   });
 
   describe('initial state', () => {
+    beforeEach(() => {
+      wrapper.vm.$root.$data.state.submissions.loading = true;
+      wrapper.vm.$root.$data.state.submissions.error = false;
+      wrapper.setProps({ submissions: [] });
+    });
+
     test('is a Vue instance', () => {
       expect(wrapper.isVueInstance()).toBeTruthy();
     });
@@ -35,11 +50,6 @@ describe('CommentsView', () => {
     });
 
     test('renders correct markup', () => {
-      wrapper.setProps({
-        apiError: false,
-        loading: true,
-        submissions: [],
-      });
       // present
       expect(wrapper.contains('spinner-stub')).toBe(true);
 
@@ -51,12 +61,16 @@ describe('CommentsView', () => {
   });
 
   describe('renders correctly on edge cases', () => {
+    beforeEach(() => {
+      wrapper.vm.$root.$data.state.submissions.loading = false;
+      wrapper.vm.$root.$data.state.submissions.error = false;
+      wrapper.vm.$root.$data.state.submissions.moreLoading = false;
+      wrapper.vm.$root.$data.state.nextSubmission = null;
+      wrapper.setProps({ submissions: [] });
+    });
+
     test('on api error', () => {
-      wrapper.setProps({
-        apiError: true,
-        loading: false,
-        submissions: [],
-      });
+      wrapper.vm.$root.$data.state.submissions.error = true;
 
       expect(wrapper.html()).toContain('Could not reach reddit. Try again later.');
 
@@ -65,12 +79,6 @@ describe('CommentsView', () => {
     });
 
     test('on load no results', () => {
-      wrapper.setProps({
-        loading: false,
-        apiError: false,
-        submissions: [],
-      });
-
       expect(wrapper.html()).toContain('No comments.');
 
       expect(wrapper.contains('ul')).toBe(false);
@@ -79,8 +87,6 @@ describe('CommentsView', () => {
 
     test('when adding submissions with # of comments below threshold', () => {
       wrapper.setProps({
-        loading: false,
-        apiError: false,
         submissions: [
           { data: { id: 1, num_comments: BELOW_COMMENT_THRESHOLD } },
           { data: { id: 2, num_comments: BELOW_COMMENT_THRESHOLD } },
@@ -95,9 +101,6 @@ describe('CommentsView', () => {
 
     test('when there are no more submissions to load', () => {
       wrapper.setProps({
-        loading: false,
-        apiError: false,
-        morePosts: false,
         submissions: [
           { data: { id: 1, num_comments: 10 } },
           { data: { id: 2, num_comments: 5 } },
@@ -109,10 +112,8 @@ describe('CommentsView', () => {
     });
 
     test('when there are more submissions to load', () => {
+      wrapper.vm.$root.$data.state.nextSubmission = 'someId';
       wrapper.setProps({
-        loading: false,
-        apiError: false,
-        morePosts: true,
         submissions: [
           { data: { id: 1, num_comments: 10 } },
           { data: { id: 2, num_comments: 5 } },
@@ -125,9 +126,11 @@ describe('CommentsView', () => {
   });
 
   describe('renders correctly when adding submissions with # of comments above threshold', () => {
-    wrapper.setProps({
-      loading: false,
-      apiError: false,
+    beforeEach(() => {
+      wrapper.vm.$root.$data.state.submissions.loading = false;
+      wrapper.vm.$root.$data.state.submissions.moreLoading = false;
+      wrapper.vm.$root.$data.state.submissions.error = false;
+      wrapper.vm.$root.$data.state.nextSubmission = null;
     });
 
     test('on initial state', () => {

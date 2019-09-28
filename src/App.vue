@@ -19,7 +19,7 @@
           <component
             :is="currentTabComponent"
             v-bind="currentProperties"
-            @moreSubmissions="getMoreSubmissions"
+            @moreSubmissions="getSubmissions"
           />
         </keep-alive>
       </div>
@@ -33,7 +33,6 @@ import SubmissionList from './components/SubmissionList.vue';
 import CommentsView from './components/CommentsView.vue';
 import YoutubeCommentsView from './components/YoutubeCommentsView.vue';
 import optionsMixin from './mixins/optionsMixin';
-import { search } from './services/api';
 import { pluralize } from './util';
 import {
   APP_ID,
@@ -53,11 +52,6 @@ export default {
   mixins: [optionsMixin],
   data() {
     return {
-      loading: true,
-      moreLoading: false,
-      apiError: false,
-      submissions: [],
-      after: null,
       currentTabComponent: '',
       tabs: COMPONENT_TABS,
       query: '',
@@ -66,15 +60,16 @@ export default {
     };
   },
   computed: {
+    submissions() {
+      return this.$root.$data.state.submissionList.map(
+        id => this.$root.$data.state.submissions[id],
+      );
+    },
     currentProperties() {
       if (this.currentTabComponent !== 'youtube-comments-view') {
         return {
           submissions: this.filteredSubmissions,
-          apiError: this.apiError,
-          loading: this.loading,
           options: this.options,
-          morePosts: this.after !== null,
-          moreLoading: this.moreLoading,
         };
       }
 
@@ -126,9 +121,8 @@ export default {
       this.query = newQuery;
 
       // reset state
-      this.loading = true;
-      this.submissions = [];
-      this.after = null;
+      this.$root.$data.clearDataAction();
+      this.$root.$data.setSubmissionLoadAction(true);
       this.getOptions();
 
       // guard against non-video pages
@@ -136,38 +130,21 @@ export default {
       if (url.pathname !== '/watch' || !newQuery || newQuery.length !== VIDEO_ID_LENGTH) {
         // not a video, cancel any pending calls
         this.debouncedGetSubmissions.cancel();
-        this.loading = false;
+        this.$root.$data.setSubmissionLoadAction(false);
         return;
       }
 
       this.debouncedGetSubmissions();
     },
     getSubmissions() {
-      search(this.query, 'comments', this.options.NUM_POSTS)
-        .then((result) => {
-          this.submissions = result.submissions;
-          this.after = result.after;
-          this.apiError = false;
+      this.$root.$data.loadSubmissions(this.query, 'comments', this.options.NUM_POSTS, this.$root.$data.state.nextSubmission)
+        .then(() => {
           this.updateCurrentTabIfNeeded();
-        })
-        .catch(() => {
-          this.apiError = true;
-          this.submissions = [];
-        })
-        .finally(() => { this.loading = false; });
-    },
-    getMoreSubmissions() {
-      this.moreLoading = true;
-      search(this.query, 'comments', this.options.NUM_POSTS, this.after)
-        .then((result) => {
-          this.submissions.push(...result.submissions);
-          this.after = result.after;
-        })
-        .finally(() => { this.moreLoading = false; });
+        });
     },
     getTabTitle(tab) {
       let more = '';
-      if (this.after) {
+      if (this.$root.$data.state.nextSubmission) {
         more = '+';
       }
 

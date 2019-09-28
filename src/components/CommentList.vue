@@ -14,8 +14,8 @@
       :submission="submission"
       :show-flair="options.SHOW_POST_FLAIR"
     />
-    <spinner v-if="loading" />
-    <div v-else-if="apiError">
+    <spinner v-if="$root.$data.state.submissions[submission.name].loading" />
+    <div v-else-if="$root.$data.state.submissions[submission.name].error">
       Could not reach reddit. Try again later.
     </div>
     <div v-else-if="!comments.length">
@@ -28,8 +28,7 @@
       <comment
         v-for="comment in comments"
         :key="comment.data.id"
-        :item="comment.data"
-        :kind="comment.kind"
+        :item="comment"
         :options="options"
       />
     </ul>
@@ -40,7 +39,6 @@
 import Submission from './Submission.vue';
 import Comment from './Comment.vue';
 import Spinner from './Spinner.vue';
-import { getComments } from '../services/api';
 
 export default {
   components: {
@@ -58,23 +56,15 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {
-      comments: null,
-      loading: true,
-      apiError: false,
-    };
+  computed: {
+    comments() {
+      return this.$root.$data.state.submissions[this.submission.name].comments.map(
+        id => this.$root.$data.state.comments[id],
+      );
+    },
   },
   mounted() {
-    getComments(this.submission.id)
-      .then((listing) => {
-        this.comments = listing;
-        this.apiError = false;
-      })
-      .catch(() => {
-        this.apiError = true;
-      })
-      .finally(() => { this.loading = false; });
+    this.$root.$data.loadComments(this.submission.id, this.submission.name);
   },
 };
 </script>

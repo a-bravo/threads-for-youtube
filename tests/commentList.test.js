@@ -3,13 +3,27 @@ import CommentList from '../src/components/CommentList.vue';
 import { OPTIONS } from '../src/constants';
 
 
+const root = {
+  data() {
+    return {
+      state: {
+        submissionList: [],
+        submissions: { 1: { comments: [], loading: true, error: false } },
+        comments: {},
+      },
+      loadComments: jest.fn().mockResolvedValue({}),
+    };
+  },
+};
+
 describe('CommentList', () => {
   // mount component
   const wrapper = shallowMount(CommentList, {
     propsData: {
-      submission: { id: 1 },
+      submission: { id: 1, name: 1 },
       options: OPTIONS,
     },
+    parentComponent: root,
   });
 
   // submissions will have comments
@@ -19,9 +33,7 @@ describe('CommentList', () => {
     });
 
     test('has the correct data', () => {
-      expect(typeof CommentList.data).toBe('function');
-      expect(wrapper.vm.comments).toBe(null);
-      expect(wrapper.vm.loading).toBe(true);
+      expect(wrapper.vm.comments).toHaveLength(0);
       expect(wrapper.vm.options).toStrictEqual(OPTIONS);
     });
 
@@ -35,11 +47,13 @@ describe('CommentList', () => {
   });
 
   test('renders correctly when loading new comments', () => {
-    wrapper.vm.comments = [
-      { data: { id: 1 }, kind: 'test' },
-      { data: { id: 2 }, kind: 'test' },
-    ];
-    wrapper.vm.loading = false;
+    wrapper.vm.$root.$data.state.comments = {
+      1: { data: { id: 1 }, kind: 'test' },
+      2: { data: { id: 2 }, kind: 'test' },
+    };
+    wrapper.vm.$root.$data.state.submissions['1'].loading = false;
+    wrapper.vm.$root.$data.state.submissions['1'].error = false;
+    wrapper.vm.$root.$data.state.submissions['1'].comments = ['1', '2'];
 
     // present
     expect(wrapper.contains('submission-stub')).toBe(true);
@@ -48,10 +62,14 @@ describe('CommentList', () => {
   });
 
   describe('renders correctly on edge cases', () => {
+    beforeEach(() => {
+      wrapper.vm.$root.$data.state.submissions['1'].loading = false;
+      wrapper.vm.$root.$data.state.submissions['1'].error = false;
+      wrapper.vm.$root.$data.state.submissions['1'].comments = [];
+    });
+
     test('on api error', () => {
-      wrapper.vm.apiError = true;
-      wrapper.vm.loading = false;
-      wrapper.vm.comments = [];
+      wrapper.vm.$root.$data.state.submissions['1'].error = true;
 
       expect(wrapper.html()).toContain('Could not reach reddit. Try again later.');
 
@@ -61,11 +79,6 @@ describe('CommentList', () => {
     });
 
     test('on load no results', () => {
-      wrapper.vm.apiError = false;
-      wrapper.vm.loading = false;
-      wrapper.vm.comments = [];
-
-
       expect(wrapper.html()).toContain('there doesn\'t seem to be anything here');
 
       expect(wrapper.contains('submission-stub')).toBe(true);

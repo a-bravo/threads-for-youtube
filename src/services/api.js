@@ -6,11 +6,6 @@
 import authRequest from './request';
 
 
-// Globals
-
-let comments = {};
-
-
 /**
  * Conducts a search of reddit submissions
  *
@@ -33,16 +28,7 @@ export function search(query, sort, limit, after = null) {
       after,
       limit,
     },
-  ).then((listing) => {
-    if (!after) {
-      comments = {};
-    }
-
-    return {
-      submissions: listing.data.children,
-      after: listing.data.after,
-    };
-  });
+  ).then(listing => ({ submissions: listing.data.children, nextSubmission: listing.data.after }));
 }
 
 /**
@@ -52,14 +38,6 @@ export function search(query, sort, limit, after = null) {
  * @returns {Promise} A reddit Listing containing comment list
  */
 export function getComments(submissionId) {
-  const commentList = comments[submissionId];
-  if (commentList) {
-    return Promise.resolve(commentList);
-  }
-
   return authRequest('get', `comments/${submissionId}`)
-    .then((r) => {
-      comments[submissionId] = r[1].data.children;
-      return comments[submissionId];
-    });
+    .then(response => response[1].data.children);
 }

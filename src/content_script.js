@@ -4,6 +4,7 @@
 
 import Vue from 'vue';
 import App from './App.vue';
+import store from './services/store';
 import { APP_ID, YT_COMMENTS_ID } from './constants';
 
 
@@ -41,6 +42,7 @@ function mount(app) {
 // create vue instance
 Vue.prototype.$browser = browser;
 const app = new Vue({ // eslint-disable-line no-new
+  data: store,
   render: h => h(App),
 });
 

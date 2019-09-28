@@ -1,9 +1,9 @@
 <template>
   <li
-    :id="item.name"
+    :id="item.data.name"
     class="comment"
   >
-    <div v-if="kind !== 'more'">
+    <div v-if="item.kind !== 'more'">
       <span>
         <span class="author">
           <a
@@ -13,18 +13,21 @@
             [{{ isOpen ? '-' : '+' }}]
           </a>
           <a
-            :class="isOpen ? authorClass(item.distinguished, item.is_submitter) : 'collapsed'"
-            :href="`https://old.reddit.com/user/${item.author}`"
+            :class="isOpen ? authorClass(
+              item.data.distinguished,
+              item.data.is_submitter
+            ) : 'collapsed'"
+            :href="`https://old.reddit.com/user/${item.data.author}`"
             target="_blank"
             rel="noopener noreferrer"
           >
-            {{ item.author }}
+            {{ item.data.author }}
           </a>
           <span
-            v-if="item.is_submitter || item.distinguished"
+            v-if="item.data.is_submitter || item.data.distinguished"
             :class="{ collapsed: !isOpen }"
           >
-            {{ getAuthorStatus(item.distinguished, item.is_submitter) }}
+            {{ getAuthorStatus(item.data.distinguished, item.data.is_submitter) }}
           </span>
         </span>
         <span :class="{ collapsed: !isOpen }">
@@ -36,16 +39,16 @@
           </span>
           <span v-else>
             <span
-              v-if="options.SHOW_USER_FLAIR && item.author_flair_text"
+              v-if="options.SHOW_USER_FLAIR && item.data.author_flair_text"
               v-show="isOpen"
               class="details"
             >
-              - {{ item.author_flair_text }}
+              - {{ item.data.author_flair_text }}
             </span>
-            <span class="points">{{ pluralize(item.score, 'point') }}</span>
-            <span class="details">{{ timeAgo(item.created_utc) }} ago</span>
+            <span class="points">{{ pluralize(item.data.score, 'point') }}</span>
+            <span class="details">{{ timeAgo(item.data.created_utc) }} ago</span>
             <span
-              v-if="item.stickied"
+              v-if="item.data.stickied"
               class="details stickied"
             >
               - stickied comment
@@ -56,33 +59,32 @@
 
       <div v-show="isOpen">
         <div class="body">
-          {{ item.body }}
+          {{ item.data.body }}
         </div>
         <div class="links">
           <a
-            :href="`https://old.reddit.com${item.permalink}`"
+            :href="`https://old.reddit.com${item.data.permalink}`"
             target="_blank"
             rel="noopener noreferrer"
           >
             permalink
           </a>
           <a
-            v-if="item.depth"
-            @click="scrollTo(item.parent_id)"
+            v-if="item.data.depth"
+            @click="scrollTo(item.data.parent_id)"
           >
             parent
           </a>
         </div>
 
         <ul
-          v-if="item.replies"
+          v-if="item.comments.length"
           class="replies"
         >
           <comment
-            v-for="reply in item.replies.data.children"
+            v-for="reply in replies"
             :key="reply.data.id"
-            :item="reply.data"
-            :kind="reply.kind"
+            :item="reply"
             :options="options"
           />
         </ul>
@@ -104,10 +106,6 @@ export default {
       type: Object,
       required: true,
     },
-    kind: {
-      type: String,
-      required: true,
-    },
     options: {
       type: Object,
       required: true,
@@ -119,6 +117,11 @@ export default {
       YT_LINK_CLASS,
     };
   },
+  computed: {
+    replies() {
+      return this.item.comments.map(id => this.$root.$data.state.comments[id]);
+    },
+  },
   methods: {
     timeAgo,
     pluralize,
@@ -128,7 +131,7 @@ export default {
         return false;
       }
 
-      return this.item.score < this.options.COMMENT_SCORE_THRESHOLD;
+      return this.item.data.score < this.options.COMMENT_SCORE_THRESHOLD;
     },
     scrollTo(id) {
       // scroll to element with id, accounting for YT navbar

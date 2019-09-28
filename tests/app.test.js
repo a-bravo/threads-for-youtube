@@ -17,6 +17,21 @@ const browser = {
     },
   },
 };
+const root = {
+  data() {
+    return {
+      state: {
+        submissionList: [],
+        submissions: { error: false },
+        comments: {},
+        nextSubmission: null,
+      },
+      loadSubmissions: jest.fn().mockResolvedValue({}),
+      clearDataAction: jest.fn(),
+      setSubmissionLoadAction: jest.fn(),
+    };
+  },
+};
 const mocks = { $browser: browser };
 
 const numPostsMessage = 'reddit post';
@@ -24,44 +39,47 @@ const numCommentsMessage = 'reddit comment';
 
 describe('App', () => {
   // mount component
-  const wrapper = shallowMount(App, { mocks });
+  const wrapper = shallowMount(App, { mocks, parentComponent: root });
 
-  test('is a Vue instance', () => {
-    expect(wrapper.isVueInstance()).toBeTruthy();
-  });
+  describe('init', () => {
+    beforeEach(() => {
+      wrapper.vm.$root.$data.state.submissionList = [];
+      wrapper.vm.$root.$data.state.nextSubmission = null;
+    });
 
-  test('has the correct default data', () => {
-    expect(typeof App.data).toBe('function');
-    expect(wrapper.vm.loading).toBe(false);
-    expect(wrapper.vm.apiError).toBe(false);
-    expect(wrapper.vm.after).toBe(null);
-    expect(wrapper.vm.options).toStrictEqual(OPTIONS);
-    expect(wrapper.vm.currentTabComponent).toBe(OPTIONS.DEFAULT_TAB);
-    expect(wrapper.vm.submissions).toHaveLength(0);
-  });
+    test('is a Vue instance', () => {
+      expect(wrapper.isVueInstance()).toBeTruthy();
+    });
 
-  test('renders the correct markup at init', () => {
-    expect(wrapper.html()).toContain(numPostsMessage);
-    expect(wrapper.html()).toContain(numCommentsMessage);
-    expect(wrapper.findAll('button')).toHaveLength(wrapper.vm.tabs.length);
+    test('has the correct default data', () => {
+      expect(typeof App.data).toBe('function');
+      expect(wrapper.vm.options).toStrictEqual(OPTIONS);
+      expect(wrapper.vm.currentTabComponent).toBe(OPTIONS.DEFAULT_TAB);
+      expect(wrapper.vm.submissions).toHaveLength(0);
+    });
 
-    expect(wrapper.contains(`${OPTIONS.DEFAULT_TAB}-stub`)).toBe(true);
+    test('renders the correct markup at init', () => {
+      expect(wrapper.html()).toContain(numPostsMessage);
+      expect(wrapper.html()).toContain(numCommentsMessage);
+      expect(wrapper.findAll('button')).toHaveLength(wrapper.vm.tabs.length);
+
+      expect(wrapper.contains(`${OPTIONS.DEFAULT_TAB}-stub`)).toBe(true);
+    });
   });
 
   describe('renders the correct markup when no submissions added', () => {
-    test('api returns with no submissions', () => {
-      wrapper.vm.loading = false;
-      wrapper.vm.submissions = [];
-      wrapper.vm.apiError = false;
+    beforeEach(() => {
+      wrapper.vm.$root.$data.state.submissionList = [];
+      wrapper.vm.$root.$data.state.nextSubmission = null;
+    });
 
+    test('api returns with no submissions', () => {
       expect(wrapper.html()).toContain(`0 ${numPostsMessage}`);
       expect(wrapper.html()).toContain(`0 ${numCommentsMessage}`);
     });
 
     test('api returns with error', () => {
-      wrapper.vm.loading = false;
-      wrapper.vm.submissions = [];
-      wrapper.vm.apiError = true;
+      wrapper.vm.$root.$data.state.submissions.error = true;
 
       expect(wrapper.html()).toContain(`0 ${numPostsMessage}`);
       expect(wrapper.html()).toContain(`0 ${numCommentsMessage}`);
@@ -69,48 +87,48 @@ describe('App', () => {
   });
 
   describe('renders the correct markup when submissions added', () => {
-    test('with no comments', () => {
-      wrapper.vm.loading = false;
-      wrapper.vm.submissions = [
-        { data: { id: 1, num_comments: 0, subreddit: 'test' } },
-        { data: { id: 2, num_comments: 0, subreddit: 'test' } },
-      ];
+    beforeEach(() => {
+      wrapper.vm.$root.$data.state.submissions = {
+        1: { data: { id: 1, num_comments: 0, subreddit: 'test' } },
+        2: { data: { id: 2, num_comments: 0, subreddit: 'test' } },
+      };
+      wrapper.vm.$root.$data.state.submissionList = ['1', '2'];
+      wrapper.vm.$root.$data.state.nextSubmission = null;
+    });
 
+    test('with no comments', () => {
       expect(wrapper.html()).toContain(`2 ${numPostsMessage}`);
       expect(wrapper.html()).toContain(`0 ${numCommentsMessage}`);
     });
 
     test('with comments', () => {
-      wrapper.vm.loading = false;
-      wrapper.vm.submissions = [
-        { data: { id: 1, num_comments: 10, subreddit: 'test' } },
-        { data: { id: 2, num_comments: 2, subreddit: 'test' } },
-      ];
+      wrapper.vm.$root.$data.state.submissions['1'].data.num_comments = 10;
+      wrapper.vm.$root.$data.state.submissions['2'].data.num_comments = 2;
 
       expect(wrapper.html()).toContain(`2 ${numPostsMessage}`);
       expect(wrapper.html()).toContain(`12 ${numCommentsMessage}`);
     });
 
     test('with more submissions to load', () => {
-      wrapper.vm.loading = false;
-      wrapper.vm.after = 'someId';
-      wrapper.vm.submissions = [
-        { data: { id: 1, num_comments: 10, subreddit: 'test' } },
-        { data: { id: 2, num_comments: 2, subreddit: 'test' } },
-      ];
+      wrapper.vm.$root.$data.state.submissions['1'].data.num_comments = 10;
+      wrapper.vm.$root.$data.state.submissions['2'].data.num_comments = 2;
+
+      wrapper.vm.$root.$data.state.nextSubmission = 'someId';
+      wrapper.vm.$root.$data.state.submissions = {
+        1: { data: { id: 1, num_comments: 10, subreddit: 'test' } },
+        2: { data: { id: 2, num_comments: 2, subreddit: 'test' } },
+      };
 
       expect(wrapper.html()).toContain(`2+ ${numPostsMessage}`);
       expect(wrapper.html()).toContain(`12+ ${numCommentsMessage}`);
     });
 
     test('from subreddit that is being filtered', () => {
-      wrapper.vm.loading = false;
-      wrapper.vm.after = null;
       wrapper.vm.options.FILTERS = ['test'];
-      wrapper.vm.submissions = [
-        { data: { id: 1, num_comments: 10, subreddit: 'test' } },
-        { data: { id: 2, num_comments: 2, subreddit: 'tests' } },
-      ];
+      wrapper.vm.$root.$data.state.submissions = {
+        1: { data: { id: 1, num_comments: 10, subreddit: 'test' } },
+        2: { data: { id: 2, num_comments: 2, subreddit: 'tests' } },
+      };
 
       expect(wrapper.html()).toContain(`1 ${numPostsMessage}`);
       expect(wrapper.html()).toContain(`2 ${numCommentsMessage}`);
