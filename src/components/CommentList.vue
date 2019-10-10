@@ -30,6 +30,7 @@
         :key="comment.data.id"
         :item="comment"
         :options="options"
+        @moreComments="moreComments"
       />
     </ul>
   </div>
@@ -65,6 +66,11 @@ export default {
   },
   mounted() {
     this.$root.$data.loadComments(this.submission.id, this.submission.name);
+  },
+  methods: {
+    moreComments(more) {
+      this.$root.$data.loadMoreComments(this.submission.name, more);
+    },
   },
 };
 </script>

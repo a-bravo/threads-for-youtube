@@ -3,7 +3,7 @@
     :id="item.data.name"
     class="comment"
   >
-    <div v-if="item.kind !== 'more'">
+    <div v-if="item.kind !== RT_MORE_OBJECT">
       <span>
         <span class="author">
           <a
@@ -86,20 +86,45 @@
             :key="reply.data.id"
             :item="reply"
             :options="options"
+            @moreComments="(more) => $emit('moreComments', more)"
           />
         </ul>
       </div>
     </div>
+
+    <more-button
+      v-else-if="item.data.count"
+      :loading="item.moreLoading"
+      class="details"
+      @more="$emit('moreComments', item.data)"
+    >
+      <span class="bold">load more comments</span>
+      <span class="subtext">({{ item.data.count }} replies)</span>
+    </more-button>
+
+    <a
+      v-else
+      :class="YT_LINK_CLASS"
+      :href="`https://old.reddit.com${$parent.item.data.permalink}`"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      continue this thread on reddit -->
+    </a>
   </li>
 </template>
 
 <script>
+import MoreButton from './MoreButton.vue';
 import authorStatusMixin from '../mixins/authorStatusMixin';
 import { timeAgo, pluralize } from '../util';
-import { YT_NAVBAR_ID, YT_LINK_CLASS } from '../constants';
+import { YT_NAVBAR_ID, YT_LINK_CLASS, RT_MORE_OBJECT } from '../constants';
 
 export default {
   name: 'Comment',
+  components: {
+    MoreButton,
+  },
   mixins: [authorStatusMixin],
   props: {
     item: {
@@ -115,6 +140,7 @@ export default {
     return {
       isOpen: !this.isLowScore(),
       YT_LINK_CLASS,
+      RT_MORE_OBJECT,
     };
   },
   computed: {
@@ -174,5 +200,11 @@ export default {
 }
 .body {
   max-width: 60em;
+}
+.bold {
+  font-weight: bold;
+}
+.subtext {
+  color: $rt-grey;
 }
 </style>

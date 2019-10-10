@@ -3,7 +3,9 @@
  */
 
 
-import { search, getComments } from './api';
+import Vue from 'vue';
+import { search, getComments, getMoreComments } from './api';
+import { RT_SUBMISSION_PREFIX, RT_MORE_OBJECT } from '../constants';
 
 
 const emptyDataObject = {
@@ -26,11 +28,11 @@ export default {
     this.state.submissions.loading = value;
   },
   addSubmissionAction(submission) {
-    this.state.submissions[submission.data.name] = {
-      ...submission,
-      ...emptyDataObject,
-      comments: [],
-    };
+    Vue.set(
+      this.state.submissions,
+      submission.data.name,
+      { ...submission, ...emptyDataObject, comments: [] },
+    );
     this.state.submissionList.push(submission.data.name);
   },
   clearDataAction() {
@@ -43,6 +45,13 @@ export default {
     const parentId = comment.data.parent_id;
     const commentName = comment.data.name;
 
+    // Add comment to store
+    if (comment.kind === RT_MORE_OBJECT) {
+      Vue.set(this.state.comments, commentName, { ...comment, ...emptyMoreDataObject });
+    } else {
+      Vue.set(this.state.comments, commentName, { ...comment, comments: [] });
+    }
+
     // add comment id/name to parent object (submission/comment obj)
     if (!comment.data.depth) {
       // top level comment -> comment is a direct child of a submission
@@ -51,10 +60,6 @@ export default {
       // comment is a child of another comment
       this.state.comments[parentId].comments.push(commentName);
     }
-
-    // Add comment to comments table
-    this.state.comments[commentName] = comment;
-    this.state.comments[commentName].comments = [];
   },
   addComments(comments) {
     comments.forEach((comment) => {
@@ -67,6 +72,19 @@ export default {
       // remove replies from object
       delete this.state.comments[comment.data.name].data.replies;
     });
+  },
+  removeLastCommentAction(id) {
+    let commentId;
+
+    // pop last child comment from object
+    if (id.substring(0, 3) === RT_SUBMISSION_PREFIX) {
+      commentId = this.state.submissions[id].comments.pop();
+    } else {
+      commentId = this.state.comments[id].comments.pop();
+    }
+
+    // remove comment from store
+    Vue.delete(this.state.comments, commentId);
   },
   loadSubmissions(query, sort, limit, after = null) {
     if (after) {
@@ -112,5 +130,14 @@ export default {
         return Promise.reject();
       })
       .finally(() => { this.state.submissions[submissionName].loading = false; });
+  },
+  loadMoreComments(submissionId, more) {
+    this.state.comments[more.name].moreLoading = true;
+    return getMoreComments(submissionId, more.children)
+      .then((comments) => {
+        this.removeLastCommentAction(more.parent_id);
+        this.addComments(comments);
+        return Promise.resolve();
+      });
   },
 };

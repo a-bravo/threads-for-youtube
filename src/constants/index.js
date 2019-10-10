@@ -29,3 +29,8 @@ export const YT_NAVBAR_ID = 'masthead';
 
 export const YT_LINK_CLASS = 'yt-simple-endpoint';
 export const YT_CONTENT_RENDERER_CLASS = 'ytd-comment-renderer';
+
+// Reddit api
+
+export const RT_MORE_OBJECT = 'more';
+export const RT_SUBMISSION_PREFIX = 't3_';

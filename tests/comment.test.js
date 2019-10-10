@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import Comment from '../src/components/Comment.vue';
-import { YT_LINK_CLASS, OPTIONS } from '../src/constants';
+import { YT_LINK_CLASS, RT_MORE_OBJECT, OPTIONS } from '../src/constants';
 
 
 // Constants
@@ -16,6 +16,11 @@ const root = {
         comments: {},
       },
       loadComments: jest.fn().mockResolvedValue({}),
+      item: {
+        data: {
+          permalink: '/test',
+        },
+      },
     };
   },
 };
@@ -64,6 +69,9 @@ describe('Comment', () => {
       expect(wrapper.contains('.body')).toBe(true);
       expect(wrapper.contains('.collapsed')).toBe(false);
       expect(wrapper.find('.body').isVisible()).toBe(true);
+
+      // not a 'more' object
+      expect(wrapper.contains('more-button-stub')).toBe(false);
     });
   });
 
@@ -158,6 +166,35 @@ describe('Comment', () => {
       expect(wrapper.find('.body').isVisible()).toBe(false);
       expect(wrapper.find('.links').isVisible()).toBe(false);
       expect(wrapper.find('comment-stub').isVisible()).toBe(false);
+    });
+  });
+
+  describe('renders correctly when comment is a reddit "more" object', () => {
+    test('normal "more" object', () => {
+      wrapper.setProps({
+        item: {
+          kind: RT_MORE_OBJECT,
+          data: { count: 2 },
+          moreLoading: false,
+        },
+      });
+
+      expect(wrapper.contains('more-button-stub')).toBe(true);
+      expect(wrapper.contains('.body')).toBe(false);
+    });
+
+    test('continue thread object', () => {
+      wrapper.setProps({
+        item: {
+          kind: RT_MORE_OBJECT,
+          data: { count: 0 },
+          moreLoading: false,
+        },
+      });
+
+      expect(wrapper.html()).toContain('continue this thread');
+      expect(wrapper.find('a').attributes('href')).toBe('https://old.reddit.com/test');
+      expect(wrapper.contains('.body')).toBe(false);
     });
   });
 });

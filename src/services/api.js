@@ -23,10 +23,12 @@ export function search(query, sort, limit, after = null) {
     'get',
     'search',
     {
-      q: urlQuery,
-      sort,
-      after,
-      limit,
+      params: {
+        q: urlQuery,
+        sort,
+        after,
+        limit,
+      },
     },
   ).then(listing => ({ submissions: listing.data.children, nextSubmission: listing.data.after }));
 }
@@ -40,4 +42,27 @@ export function search(query, sort, limit, after = null) {
 export function getComments(submissionId) {
   return authRequest('get', `comments/${submissionId}`)
     .then(response => response[1].data.children);
+}
+
+/**
+ * Get additional comments ommited from a base comment tree
+ *
+ * @param {string} linkId ID36 of a submission
+ * @param {Array} children List of comment ID36s
+ *
+ * @returns {Promise} A reddit Listing containing comment list
+ */
+export function getMoreComments(linkId, children) {
+  // TODO: check json.errors array?
+  return authRequest(
+    'post',
+    'api/morechildren',
+    {
+      body: {
+        link_id: linkId,
+        children,
+        api_type: 'json',
+      },
+    },
+  ).then(response => response.json.data.things);
 }

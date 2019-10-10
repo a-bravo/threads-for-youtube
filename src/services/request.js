@@ -87,20 +87,25 @@ function getAccessToken() {
  *
  * @param {string} method The http action verb
  * @param {string} endpoint The reddit api endpoint
+ * @parma {object} options Options for the request (`body`, 'params')
+ *
  * @returns {Promise} A Promise with the response data
  */
-export default function authRequest(method, endpoint, params) {
+export default function authRequest(method, endpoint, options = {}) {
   // create request url
-  const search = new URLSearchParams(params);
-  search.append('raw_json', 1);
+  const params = new URLSearchParams(options.params);
+  params.append('raw_json', 1);
 
   const url = new URL(`${ENDPOINT_DOMAIN}/${endpoint}`);
-  url.search = search;
+  url.search = params;
+
+  // request body
+  const body = options.body ? new URLSearchParams(options.body) : null;
 
   // send request
   return requestDelay()
     .then(() => getAccessToken())
-    .then(accessToken => fetch(url, { method, headers: { authorization: `bearer ${accessToken}` } }))
+    .then(accessToken => fetch(url, { method, body, headers: { authorization: `bearer ${accessToken}` } }))
     .then(response => response.text())
     .then(JSON.parse);
 }
