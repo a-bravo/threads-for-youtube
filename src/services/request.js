@@ -106,6 +106,14 @@ export default function authRequest(method, endpoint, options = {}) {
   return requestDelay()
     .then(() => getAccessToken())
     .then(accessToken => fetch(url, { method, body, headers: { authorization: `bearer ${accessToken}` } }))
-    .then(response => response.text())
-    .then(JSON.parse);
+    .then((response) => {
+      // if invalid auth, invalidate token then retry once
+      if (response.status === 401 && token.accessToken) {
+        token.accessToken = null;
+        token.expirationDate = -Infinity;
+        return authRequest(method, endpoint, options);
+      }
+
+      return response.text().then(JSON.parse);
+    });
 }
