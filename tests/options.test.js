@@ -114,7 +114,7 @@ describe('Options', () => {
     });
 
     describe('FILTERS', () => {
-      const input = wrapper.findAll('input').at(5);
+      const input = wrapper.find('input#filters');
 
       describe('when changing to invalid value', () => {
         test('whitespace', () => {

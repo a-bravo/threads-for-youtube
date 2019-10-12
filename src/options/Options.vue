@@ -97,6 +97,7 @@
             <form @submit.prevent="addFilter">
               don't show me posts from certain subreddits
               <input
+                id="filters"
                 v-model="newFilter"
                 placeholder="subreddit"
                 size="21"
