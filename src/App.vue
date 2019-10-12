@@ -149,21 +149,23 @@ export default {
         });
     },
     getTabTitle(tab) {
-      let more = '';
-      if (this.$root.$data.state.nextSubmission) {
-        more = '+';
+      // set youtube title
+      if (tab.value === 'youtube-comments-view') {
+        return tab.text;
       }
 
-      switch (tab.value) {
-        case 'submission-list':
-          return pluralize(this.filteredSubmissions.length, tab.text.slice(0, -1), more);
-        case 'comments-view':
-          return pluralize(this.totalComments, tab.text.slice(0, -1), more);
-        case 'youtube-comments-view':
-          return tab.text;
-        default:
-          return '';
+      // set default title on data load/error
+      if (this.$root.$data.state.submissions.loading || this.$root.$data.state.submissions.error) {
+        return `-- ${tab.text}`;
       }
+
+      // set post/comment title
+      const more = this.$root.$data.state.nextSubmission ? '+' : '';
+      if (tab.value === 'submission-list') {
+        return pluralize(this.filteredSubmissions.length, tab.text.slice(0, -1), more);
+      }
+
+      return pluralize(this.totalComments, tab.text.slice(0, -1), more);
     },
     updateCurrentTabIfNeeded() {
       if (!this.totalComments && this.options.BACKUP_YT_TAB) {

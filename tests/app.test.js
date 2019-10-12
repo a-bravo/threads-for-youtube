@@ -22,7 +22,7 @@ const root = {
     return {
       state: {
         submissionList: [],
-        submissions: { error: false },
+        submissions: { error: false, loading: false },
         comments: {},
         nextSubmission: null,
       },
@@ -71,6 +71,8 @@ describe('App', () => {
     beforeEach(() => {
       wrapper.vm.$root.$data.state.submissionList = [];
       wrapper.vm.$root.$data.state.nextSubmission = null;
+      wrapper.vm.$root.$data.state.submissions.error = false;
+      wrapper.vm.$root.$data.state.submissions.loading = false;
     });
 
     test('api returns with no submissions', () => {
@@ -81,8 +83,15 @@ describe('App', () => {
     test('api returns with error', () => {
       wrapper.vm.$root.$data.state.submissions.error = true;
 
-      expect(wrapper.html()).toContain(`0 ${numPostsMessage}`);
-      expect(wrapper.html()).toContain(`0 ${numCommentsMessage}`);
+      expect(wrapper.html()).toContain(`-- ${numPostsMessage}`);
+      expect(wrapper.html()).toContain(`-- ${numCommentsMessage}`);
+    });
+
+    test('data loading', () => {
+      wrapper.vm.$root.$data.state.submissions.loading = true;
+
+      expect(wrapper.html()).toContain(`-- ${numPostsMessage}`);
+      expect(wrapper.html()).toContain(`-- ${numCommentsMessage}`);
     });
   });
 
