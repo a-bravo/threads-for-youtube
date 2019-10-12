@@ -21,6 +21,7 @@ describe('SubmissionList', () => {
     propsData: {
       submissions: [],
       options: OPTIONS,
+      numFilteredSubmissions: 0,
     },
     parentComponent: root,
   });
@@ -55,7 +56,7 @@ describe('SubmissionList', () => {
     beforeEach(() => {
       wrapper.vm.$root.$data.state.submissions.loading = false;
       wrapper.vm.$root.$data.state.submissions.error = false;
-      wrapper.setProps({ submissions: [] });
+      wrapper.setProps({ submissions: [], numFilteredSubmissions: 0 });
     });
 
     test('on api error', () => {
@@ -73,6 +74,31 @@ describe('SubmissionList', () => {
       expect(wrapper.contains('ul')).toBe(false);
       expect(wrapper.contains('more-button-stub')).toBe(false);
       expect(wrapper.contains('submission-stub')).toBe(false);
+    });
+
+    describe('posts have been filtered', () => {
+      test('with no unfiltered posts', () => {
+        wrapper.setProps({ submissions: [], numFilteredSubmissions: 1 });
+        expect(wrapper.html()).not.toContain('No posts.');
+        expect(wrapper.html()).toContain('1 post filtered');
+
+        expect(wrapper.contains('ul')).toBe(true);
+        expect(wrapper.contains('more-button-stub')).toBe(false);
+        expect(wrapper.contains('submission-stub')).toBe(false);
+      });
+
+      test('with unfiltered posts', () => {
+        wrapper.setProps({
+          submissions: [{ data: { id: 1, num_comments: 10 } }],
+          numFilteredSubmissions: 1,
+        });
+        expect(wrapper.html()).not.toContain('No posts.');
+        expect(wrapper.html()).toContain('1 post filtered');
+
+        expect(wrapper.contains('ul')).toBe(true);
+        expect(wrapper.contains('more-button-stub')).toBe(false);
+        expect(wrapper.findAll('submission-stub')).toHaveLength(1);
+      });
     });
   });
 

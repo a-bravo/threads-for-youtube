@@ -6,7 +6,7 @@
     <h3 v-else-if="$root.$data.state.submissions.error">
       Could not reach reddit. Try again later.
     </h3>
-    <h3 v-else-if="!submissions.length">
+    <h3 v-else-if="!submissions.length && !numFilteredSubmissions">
       No posts.
     </h3>
     <ul
@@ -19,6 +19,13 @@
         :show-flair="options.SHOW_POST_FLAIR"
         :submission="submission.data"
       />
+
+      <div
+        v-if="numFilteredSubmissions"
+        class="details"
+      >
+        {{ pluralize(numFilteredSubmissions, 'post') }} filtered
+      </div>
 
       <more-button
         v-if="this.$root.$data.state.nextSubmission"
@@ -38,6 +45,7 @@
 import Submission from './Submission.vue';
 import Spinner from './Spinner.vue';
 import MoreButton from './MoreButton.vue';
+import { pluralize } from '../util';
 
 export default {
   components: {
@@ -50,10 +58,17 @@ export default {
       type: Array,
       required: true,
     },
+    numFilteredSubmissions: {
+      type: Number,
+      required: true,
+    },
     options: {
       type: Object,
       required: true,
     },
+  },
+  methods: {
+    pluralize,
   },
 };
 </script>
@@ -65,5 +80,9 @@ export default {
 .submission-list {
   @include reset-list;
   max-width: 750px;
+}
+.details {
+  color: $rt-grey;
+  padding-bottom: $at-spacing;
 }
 </style>

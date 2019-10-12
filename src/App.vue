@@ -67,10 +67,16 @@ export default {
     },
     currentProperties() {
       if (this.currentTabComponent !== 'youtube-comments-view') {
-        return {
+        const props = {
           submissions: this.filteredSubmissions,
           options: this.options,
         };
+
+        if (this.currentTabComponent === 'submission-list') {
+          props.numFilteredSubmissions = this.submissions.length - this.filteredSubmissions.length;
+        }
+
+        return props;
       }
 
       return {};
