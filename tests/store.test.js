@@ -101,6 +101,7 @@ describe('store', () => {
         expect(store.state.comments.c_1.data.name).toBe('c_1');
         expect(store.state.comments.c_1.comments).toBe(undefined);
         expect(store.state.comments.c_1.moreLoading).toBe(false);
+        expect(store.state.comments.c_1.moreError).toBe(false);
       });
     });
 

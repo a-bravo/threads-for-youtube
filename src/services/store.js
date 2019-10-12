@@ -15,6 +15,7 @@ const emptyDataObject = {
 
 const emptyMoreDataObject = {
   moreLoading: false,
+  moreError: false,
 };
 
 export default {
@@ -89,6 +90,7 @@ export default {
   loadSubmissions(query, sort, limit, after = null) {
     if (after) {
       this.state.submissions.moreLoading = true;
+      this.state.submissions.moreError = false;
     } else {
       this.clearDataAction();
       this.state.submissions.loading = true;
@@ -100,7 +102,9 @@ export default {
         return Promise.resolve();
       })
       .catch(() => {
-        if (!after) {
+        if (after) {
+          this.state.submissions.moreError = true;
+        } else {
           this.state.submissions.error = true;
         }
 
@@ -133,11 +137,17 @@ export default {
   },
   loadMoreComments(submissionId, more) {
     this.state.comments[more.name].moreLoading = true;
+    this.state.comments[more.name].moreError = false;
     return getMoreComments(submissionId, more.children)
       .then((comments) => {
         this.removeLastCommentAction(more.parent_id);
         this.addComments(comments);
         return Promise.resolve();
+      })
+      .catch(() => {
+        this.state.comments[more.name].moreError = true;
+        this.state.comments[more.name].moreLoading = false;
+        return Promise.reject();
       });
   },
 };

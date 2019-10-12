@@ -26,6 +26,9 @@
         @more="$emit('moreSubmissions')"
       >
         load more posts
+        <span v-if="$root.$data.state.submissions.moreError">
+          (Could not reach reddit. Try again later.)
+        </span>
       </more-button>
     </ul>
   </div>

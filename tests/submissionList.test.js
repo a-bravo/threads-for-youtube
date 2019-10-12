@@ -7,7 +7,7 @@ const root = {
     return {
       state: {
         submissionList: [],
-        submissions: { loading: true, error: false },
+        submissions: { loading: true, error: false, moreError: false },
         comments: {},
         nextSubmission: null,
       },
@@ -81,6 +81,7 @@ describe('SubmissionList', () => {
       wrapper.vm.$root.$data.state.submissions.loading = false;
       wrapper.vm.$root.$data.state.submissions.error = false;
       wrapper.vm.$root.$data.state.submissions.moreLoading = false;
+      wrapper.vm.$root.$data.state.submissions.moreError = false;
       wrapper.vm.$root.$data.state.nextSubmission = null;
       wrapper.setProps({
         submissions: [
@@ -95,11 +96,25 @@ describe('SubmissionList', () => {
       expect(wrapper.contains('more-button-stub')).toBe(false);
     });
 
-    test('more submissions to load', () => {
-      wrapper.vm.$root.$data.state.nextSubmission = 'someId';
+    describe('more submissions', () => {
+      test('available to load', () => {
+        wrapper.vm.$root.$data.state.nextSubmission = 'someId';
 
-      expect(wrapper.findAll('submission-stub')).toHaveLength(2);
-      expect(wrapper.contains('more-button-stub')).toBe(true);
+        expect(wrapper.findAll('submission-stub')).toHaveLength(2);
+        expect(wrapper.contains('more-button-stub')).toBe(true);
+        expect(wrapper.html()).toContain('load more posts');
+        expect(wrapper.html()).not.toContain('(Could not reach reddit. Try again later.)');
+      });
+
+      test('error on load', () => {
+        wrapper.vm.$root.$data.state.nextSubmission = 'someId';
+        wrapper.vm.$root.$data.state.submissions.moreError = true;
+
+        expect(wrapper.findAll('submission-stub')).toHaveLength(2);
+        expect(wrapper.contains('more-button-stub')).toBe(true);
+        expect(wrapper.html()).toContain('load more posts');
+        expect(wrapper.html()).toContain('(Could not reach reddit. Try again later.)');
+      });
     });
   });
 });

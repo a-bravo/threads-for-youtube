@@ -99,7 +99,12 @@
       @more="$emit('moreComments', item.data)"
     >
       <span class="bold">load more comments</span>
-      <span class="subtext">({{ item.data.count }} replies)</span>
+      <span class="subtext">
+        ({{ item.data.count }} replies)
+        <span v-if="item.moreError">
+          [Could not reach reddit. Try again later.]
+        </span>
+      </span>
     </more-button>
 
     <a

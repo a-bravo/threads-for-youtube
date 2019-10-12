@@ -181,6 +181,24 @@ describe('Comment', () => {
 
       expect(wrapper.contains('more-button-stub')).toBe(true);
       expect(wrapper.contains('.body')).toBe(false);
+      expect(wrapper.html()).toContain('load more comments');
+      expect(wrapper.html()).not.toContain('[Could not reach reddit. Try again later.]');
+    });
+
+    test('"more" object with error on load', () => {
+      wrapper.setProps({
+        item: {
+          kind: RT_MORE_OBJECT,
+          data: { count: 2 },
+          moreLoading: false,
+          moreError: true,
+        },
+      });
+
+      expect(wrapper.contains('more-button-stub')).toBe(true);
+      expect(wrapper.contains('.body')).toBe(false);
+      expect(wrapper.html()).toContain('load more comments');
+      expect(wrapper.html()).toContain('[Could not reach reddit. Try again later.]');
     });
 
     test('continue thread object', () => {
