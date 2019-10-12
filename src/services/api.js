@@ -38,11 +38,12 @@ export function search(query, sort, limit, after = null) {
  * Get a the comment tree for a given submission
  *
  * @param {String} submissionId ID36 of a submission
+ * @param {Number} limit Maximum number of comments to return
  *
  * @returns {Promise} A reddit Listing containing comment list
  */
-export function getComments(submissionId) {
-  return authRequest('get', `comments/${submissionId}`)
+export function getComments(submissionId, limit) {
+  return authRequest('get', `comments/${submissionId}`, { params: { limit } })
     .then(response => response[1].data.children);
 }
 

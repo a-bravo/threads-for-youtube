@@ -65,7 +65,11 @@ export default {
     },
   },
   mounted() {
-    this.$root.$data.loadComments(this.submission.id, this.submission.name);
+    this.$root.$data.loadComments(
+      this.submission.id,
+      this.submission.name,
+      this.options.NUM_COMMENTS,
+    );
   },
   methods: {
     moreComments(more) {

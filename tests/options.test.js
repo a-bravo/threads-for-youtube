@@ -113,6 +113,49 @@ describe('Options', () => {
       });
     });
 
+    describe('NUM_COMMENTS', () => {
+      const input = wrapper.findAll('input').at(3);
+
+      describe('when changing to invalid value', () => {
+        test('non-integer value', () => {
+          input.element.value = 'fdsffdsf';
+          input.trigger('change');
+
+          expect(parseInt(input.element.value, 10)).toBe(OPTIONS.NUM_COMMENTS);
+        });
+
+        test('whitespace', () => {
+          input.element.value = '   ';
+          input.trigger('change');
+
+          expect(parseInt(input.element.value, 10)).toBe(OPTIONS.NUM_COMMENTS);
+        });
+
+        test('out of bounds value', () => {
+          input.element.value = '-5';
+          input.trigger('change');
+
+          expect(input.element.value).toBe('1');
+        });
+
+        test('out of bounds value with non-integer characters', () => {
+          input.element.value = '-3gdf';
+          input.trigger('change');
+
+          expect(input.element.value).toBe('1');
+        });
+      });
+
+      describe('when changing to valid values', () => {
+        test('positive', () => {
+          input.element.value = '5';
+          input.trigger('change');
+
+          expect(input.element.value).toBe('5');
+        });
+      });
+    });
+
     describe('FILTERS', () => {
       const input = wrapper.find('input#filters');
 

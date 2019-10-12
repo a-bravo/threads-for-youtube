@@ -72,6 +72,18 @@
               >
               <span class="details">(leave blank to show all comments)</span>
             </div>
+            <div>
+              display
+              <input
+                v-model.number.lazy.trim="options.NUM_COMMENTS"
+                size="3"
+                maxlength="3"
+              >
+              comments by default
+              <span class="details">
+                (1 - 500); the smaller the number, the faster your comments pages will load
+              </span>
+            </div>
           </td>
         </tr>
 
@@ -160,6 +172,9 @@ export default {
     postCommentThreshold() {
       return this.options.POST_COMMENT_THRESHOLD;
     },
+    numComments() {
+      return this.options.NUM_COMMENTS;
+    },
   },
   watch: {
     commentScoreThreshold(newVal, oldVal) {
@@ -172,6 +187,15 @@ export default {
         this.options.POST_COMMENT_THRESHOLD = oldVal;
       } else if (newVal < 0) {
         this.options.POST_COMMENT_THRESHOLD = 0;
+      }
+    },
+    numComments(newVal, oldVal) {
+      if (typeof newVal === 'string') {
+        this.options.NUM_COMMENTS = oldVal;
+      } else if (newVal < 1) {
+        this.options.NUM_COMMENTS = 1;
+      } else if (newVal > 500) {
+        this.options.NUM_COMMENTS = 500;
       }
     },
     options: {

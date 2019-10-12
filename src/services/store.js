@@ -115,7 +115,7 @@ export default {
         this.state.submissions.moreLoading = false;
       });
   },
-  loadComments(submissionId, submissionName) {
+  loadComments(submissionId, submissionName, limit) {
     if (this.state.submissions[submissionName].comments.length
       || this.state.submissions[submissionName].loading
     ) {
@@ -124,7 +124,7 @@ export default {
 
     this.state.submissions[submissionName].loading = true;
     this.state.submissions[submissionName].error = false;
-    return getComments(submissionId)
+    return getComments(submissionId, limit)
       .then((comments) => {
         this.addComments(comments);
         return Promise.resolve();

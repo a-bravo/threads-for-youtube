@@ -10,6 +10,7 @@ export const OPTIONS = {
   DEFAULT_TAB: 'comments-view',
   BACKUP_YT_TAB: true,
   NUM_POSTS: 10,
+  NUM_COMMENTS: 200,
   POST_COMMENT_THRESHOLD: 0,
   COMMENT_SCORE_THRESHOLD: -4,
   SHOW_USER_FLAIR: true,
