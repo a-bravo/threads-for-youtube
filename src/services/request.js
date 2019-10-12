@@ -85,9 +85,9 @@ function getAccessToken() {
 /**
  * Make an authenticated request to reddit api
  *
- * @param {string} method The http action verb
- * @param {string} endpoint The reddit api endpoint
- * @parma {object} options Options for the request (`body`, 'params')
+ * @param {String} method The http action verb
+ * @param {String} endpoint The reddit api endpoint
+ * @param {Object} [options] Options for the request (`body`, 'params')
  *
  * @returns {Promise} A Promise with the response data
  */

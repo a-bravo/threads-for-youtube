@@ -14,9 +14,11 @@ const YEAR = 31556952;
 /**
  * Pluralizes the unit based on amount
  *
- * @param {int} amount The amount of units
- * @param {string} unit The unit of measurement
- * @returns {string} Pluralized string
+ * @param {Number} amount The amount of units
+ * @param {String} unit The unit of measurement
+ * @param {String} [message] A message to add to the output
+ *
+ * @returns {String} Pluralized string
  */
 export function pluralize(amount, unit, message = '') {
   if (amount === 1) {
@@ -29,8 +31,9 @@ export function pluralize(amount, unit, message = '') {
 /**
  * Formats the relative time
  *
- * @param {int} time The utc value
- * @returns {string} The formatted relative time
+ * @param {Number} time The utc value
+ *
+ * @returns {String} The formatted relative time
  */
 export function timeAgo(time) {
   const timeElapsed = Date.now() / 1000 - Number(time);
