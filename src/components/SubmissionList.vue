@@ -23,7 +23,7 @@
 
       <div
         v-if="numFilteredSubmissions"
-        class="details"
+        class="details pad-bottom"
       >
         {{ pluralize(numFilteredSubmissions, 'post') }} filtered
       </div>
@@ -82,8 +82,7 @@ export default {
   @include reset-list;
   max-width: 750px;
 }
-.details {
-  color: $rt-grey;
+.pad-bottom {
   padding-bottom: $at-spacing;
 }
 </style>

@@ -201,6 +201,13 @@ export default {
   .at-component {
     margin-top: $at-spacing;
   }
+  .details {
+    color: $rt-grey;
+    font-size: $at-tiny-font;
+  }
+  .subtext {
+    color: $rt-grey;
+  }
 }
 </style>
 

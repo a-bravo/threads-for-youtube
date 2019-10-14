@@ -100,8 +100,4 @@ export default {
 .comment-list {
   @include reset-list;
 }
-.details {
-  color: $rt-grey;
-  font-size: $at-tiny-font;
-}
 </style>

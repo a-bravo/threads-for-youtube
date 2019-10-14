@@ -152,10 +152,6 @@ export default {
     }
   }
 }
-.details {
-  font-size: $at-tiny-font;
-  color: $rt-grey;
-}
 .num-comments {
   display: none;
 }

@@ -2,7 +2,7 @@
   <div>
     <div
       v-if="loading"
-      class="details"
+      class="subtext"
     >
       loading...
     </div>
@@ -36,9 +36,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../styles/variables.scss";
-
-.details {
-  color: $rt-grey;
-}
 </style>

@@ -3,12 +3,12 @@
     <span :class="{ stickied: submission.stickied }">{{ submission.title }}</span>
     <span
       v-if="showFlair && submission.link_flair_text"
-      class="meta-title"
+      class="subtext"
     >
       - {{ submission.link_flair_text }}
     </span>
     <br>
-    <span class="meta">
+    <span class="details">
       <span class="comments-link">
         <a
           :class="YT_LINK_CLASS"
@@ -90,17 +90,10 @@ export default {
   position: relative;
   line-height: 20px;
 }
-.meta-title {
-  color: $rt-grey;
-}
-.meta {
-  font-size: $at-tiny-font;
-  color: $rt-grey;
-  .comments-link {
-    font-weight: bold;
-    a:visited {
-      color: $rt-visited-purple;
-    }
+.comments-link {
+  font-weight: bold;
+  a:visited {
+    color: $rt-visited-purple;
   }
 }
 @include author-status;

@@ -61,7 +61,7 @@
         <div class="body">
           {{ item.data.body }}
         </div>
-        <div class="links">
+        <div class="details links">
           <a
             :href="`${RT_BASE_URL}${item.data.permalink}`"
             target="_blank"
@@ -99,7 +99,7 @@
       @more="$emit('moreComments', item.data)"
     >
       <span class="bold">load more comments</span>
-      <span class="subtext">
+      <span class="details">
         ({{ item.data.count }} replies)
         <span v-if="item.moreError">
           [Could not reach reddit. Try again later.]
@@ -185,9 +185,7 @@ export default {
 @import "../styles/variables.scss";
 @import "../styles/mixins.scss";
 
-.links, .details {
-  font-size: $at-tiny-font;
-  color: $rt-grey;
+.links {
   a {
     color: $rt-grey;
   }
@@ -214,8 +212,5 @@ export default {
 }
 .bold {
   font-weight: bold;
-}
-.subtext {
-  color: $rt-grey;
 }
 </style>
