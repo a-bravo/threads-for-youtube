@@ -12,7 +12,7 @@
       <span class="comments-link">
         <a
           :class="YT_LINK_CLASS"
-          :href="`https://old.reddit.com${submission.permalink}`"
+          :href="`${RT_BASE_URL}${submission.permalink}`"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -24,7 +24,7 @@
         by
         <a
           :class="authorClass(submission.distinguished)"
-          :href="`https://old.reddit.com/user/${submission.author}`"
+          :href="`${RT_BASE_URL}/user/${submission.author}`"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -40,7 +40,7 @@
         to
         <a
           :class="YT_LINK_CLASS"
-          :href="`https://old.reddit.com/${submission.subreddit_name_prefixed}`"
+          :href="`${RT_BASE_URL}/${submission.subreddit_name_prefixed}`"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -54,7 +54,7 @@
 <script>
 import authorStatusMixin from '../mixins/authorStatusMixin';
 import { timeAgo, pluralize } from '../util';
-import { YT_LINK_CLASS } from '../constants';
+import { YT_LINK_CLASS, RT_BASE_URL } from '../constants';
 
 export default {
   mixins: [authorStatusMixin],
@@ -71,6 +71,7 @@ export default {
   data() {
     return {
       YT_LINK_CLASS,
+      RT_BASE_URL,
     };
   },
   methods: {

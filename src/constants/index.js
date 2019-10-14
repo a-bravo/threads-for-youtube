@@ -35,3 +35,5 @@ export const YT_CONTENT_RENDERER_CLASS = 'ytd-comment-renderer';
 
 export const RT_MORE_OBJECT = 'more';
 export const RT_SUBMISSION_PREFIX = 't3_';
+
+export const RT_BASE_URL = 'https://old.reddit.com';

@@ -1,6 +1,11 @@
 import { shallowMount } from '@vue/test-utils';
 import Comment from '../src/components/Comment.vue';
-import { YT_LINK_CLASS, RT_MORE_OBJECT, OPTIONS } from '../src/constants';
+import {
+  YT_LINK_CLASS,
+  RT_MORE_OBJECT,
+  OPTIONS,
+  RT_BASE_URL,
+} from '../src/constants';
 
 
 // Constants
@@ -211,7 +216,7 @@ describe('Comment', () => {
       });
 
       expect(wrapper.html()).toContain('continue this thread');
-      expect(wrapper.find('a').attributes('href')).toBe('https://old.reddit.com/test');
+      expect(wrapper.find('a').attributes('href')).toBe(`${RT_BASE_URL}/test`);
       expect(wrapper.contains('.body')).toBe(false);
     });
   });

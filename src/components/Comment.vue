@@ -17,7 +17,7 @@
               item.data.distinguished,
               item.data.is_submitter
             ) : 'collapsed'"
-            :href="`https://old.reddit.com/user/${item.data.author}`"
+            :href="`${RT_BASE_URL}/user/${item.data.author}`"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -63,7 +63,7 @@
         </div>
         <div class="links">
           <a
-            :href="`https://old.reddit.com${item.data.permalink}`"
+            :href="`${RT_BASE_URL}${item.data.permalink}`"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -110,7 +110,7 @@
     <a
       v-else
       :class="YT_LINK_CLASS"
-      :href="`https://old.reddit.com${$parent.item.data.permalink}`"
+      :href="`${RT_BASE_URL}${$parent.item.data.permalink}`"
       target="_blank"
       rel="noopener noreferrer"
     >
@@ -123,7 +123,12 @@
 import MoreButton from './MoreButton.vue';
 import authorStatusMixin from '../mixins/authorStatusMixin';
 import { timeAgo, pluralize } from '../util';
-import { YT_NAVBAR_ID, YT_LINK_CLASS, RT_MORE_OBJECT } from '../constants';
+import {
+  YT_NAVBAR_ID,
+  YT_LINK_CLASS,
+  RT_MORE_OBJECT,
+  RT_BASE_URL,
+} from '../constants';
 
 export default {
   name: 'Comment',
@@ -146,6 +151,7 @@ export default {
       isOpen: !this.isLowScore(),
       YT_LINK_CLASS,
       RT_MORE_OBJECT,
+      RT_BASE_URL,
     };
   },
   computed: {
