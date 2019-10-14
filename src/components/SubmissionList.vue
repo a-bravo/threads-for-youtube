@@ -1,6 +1,7 @@
 <template>
   <div class="at-component">
-    <h3 v-if="$root.$data.state.submissions.loading">
+    <div v-if="$root.$data.state.init" />
+    <h3 v-else-if="$root.$data.state.submissions.loading">
       <spinner />
     </h3>
     <h3 v-else-if="$root.$data.state.submissions.error">

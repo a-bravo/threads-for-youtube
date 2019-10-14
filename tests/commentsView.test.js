@@ -16,6 +16,7 @@ const root = {
         submissions: { error: false, loading: true, moreLoading: false },
         comments: {},
         nextSubmission: null,
+        init: false,
       },
     };
   },
@@ -35,6 +36,7 @@ describe('CommentsView', () => {
     beforeEach(() => {
       wrapper.vm.$root.$data.state.submissions.loading = true;
       wrapper.vm.$root.$data.state.submissions.error = false;
+      wrapper.vm.$root.$data.state.init = false;
       wrapper.setProps({ submissions: [] });
     });
 
@@ -58,6 +60,15 @@ describe('CommentsView', () => {
       expect(wrapper.contains('comment-list-stub')).toBe(false);
       expect(wrapper.contains('more-button-stub')).toBe(false);
     });
+
+    test('renders correct markup on state.init', () => {
+      wrapper.vm.$root.$data.state.init = true;
+
+      expect(wrapper.contains('spinner-stub')).toBe(false);
+      expect(wrapper.contains('ul')).toBe(false);
+      expect(wrapper.contains('comment-list-stub')).toBe(false);
+      expect(wrapper.contains('more-button-stub')).toBe(false);
+    });
   });
 
   describe('renders correctly on edge cases', () => {
@@ -66,6 +77,7 @@ describe('CommentsView', () => {
       wrapper.vm.$root.$data.state.submissions.error = false;
       wrapper.vm.$root.$data.state.submissions.moreLoading = false;
       wrapper.vm.$root.$data.state.nextSubmission = null;
+      wrapper.vm.$root.$data.state.init = false;
       wrapper.setProps({ submissions: [] });
     });
 
@@ -131,6 +143,7 @@ describe('CommentsView', () => {
       wrapper.vm.$root.$data.state.submissions.moreLoading = false;
       wrapper.vm.$root.$data.state.submissions.error = false;
       wrapper.vm.$root.$data.state.nextSubmission = null;
+      wrapper.vm.$root.$data.state.init = false;
     });
 
     test('on initial state', () => {

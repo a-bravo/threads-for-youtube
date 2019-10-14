@@ -25,10 +25,11 @@ const root = {
         submissions: { error: false, loading: false },
         comments: {},
         nextSubmission: null,
+        init: false,
       },
       loadSubmissions: jest.fn().mockResolvedValue({}),
       clearDataAction: jest.fn(),
-      setSubmissionLoadAction: jest.fn(),
+      setInitAction: jest.fn(),
     };
   },
 };
@@ -73,11 +74,19 @@ describe('App', () => {
       wrapper.vm.$root.$data.state.nextSubmission = null;
       wrapper.vm.$root.$data.state.submissions.error = false;
       wrapper.vm.$root.$data.state.submissions.loading = false;
+      wrapper.vm.$root.$data.state.init = false;
     });
 
     test('api returns with no submissions', () => {
       expect(wrapper.html()).toContain(`0 ${numPostsMessage}`);
       expect(wrapper.html()).toContain(`0 ${numCommentsMessage}`);
+    });
+
+    test('on state.init', () => {
+      wrapper.vm.$root.$data.state.init = true;
+
+      expect(wrapper.html()).toContain(`-- ${numPostsMessage}`);
+      expect(wrapper.html()).toContain(`-- ${numCommentsMessage}`);
     });
 
     test('api returns with error', () => {

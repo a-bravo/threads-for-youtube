@@ -128,7 +128,7 @@ export default {
 
       // reset state
       this.$root.$data.clearDataAction();
-      this.$root.$data.setSubmissionLoadAction(true);
+      this.$root.$data.setInitAction(true);
       this.getOptions();
 
       // guard against non-video pages
@@ -136,7 +136,13 @@ export default {
       if (url.pathname !== '/watch' || !newQuery || newQuery.length !== VIDEO_ID_LENGTH) {
         // not a video, cancel any pending calls
         this.debouncedGetSubmissions.cancel();
-        this.$root.$data.setSubmissionLoadAction(false);
+
+        // invalid video id, reset state
+        if (newQuery) {
+          this.$root.$data.setInitAction(false);
+          // updateCurrentTabIfNeeded not needed on invalid ids
+        }
+
         return;
       }
 
@@ -154,8 +160,11 @@ export default {
         return tab.text;
       }
 
-      // set default title on data load/error
-      if (this.$root.$data.state.submissions.loading || this.$root.$data.state.submissions.error) {
+      // set default title on data init/load/error
+      if (this.$root.$data.state.init
+        || this.$root.$data.state.submissions.loading
+        || this.$root.$data.state.submissions.error
+      ) {
         return `-- ${tab.text}`;
       }
 

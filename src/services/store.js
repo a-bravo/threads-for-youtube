@@ -24,9 +24,10 @@ export default {
     submissions: { ...emptyDataObject, ...emptyMoreDataObject },
     comments: {},
     nextSubmission: null,
+    init: false,
   },
-  setSubmissionLoadAction(value) {
-    this.state.submissions.loading = value;
+  setInitAction(value) {
+    this.state.init = value;
   },
   addSubmissionAction(submission) {
     Vue.set(
@@ -41,6 +42,7 @@ export default {
     this.state.submissionList = [];
     this.state.comments = {};
     this.state.nextSubmission = null;
+    this.state.init = false;
   },
   addCommentAction(comment) {
     const parentId = comment.data.parent_id;

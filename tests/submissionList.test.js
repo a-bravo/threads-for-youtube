@@ -10,6 +10,7 @@ const root = {
         submissions: { loading: true, error: false, moreError: false },
         comments: {},
         nextSubmission: null,
+        init: false,
       },
     };
   },
@@ -30,6 +31,7 @@ describe('SubmissionList', () => {
     beforeEach(() => {
       wrapper.vm.$root.$data.state.submissions.loading = true;
       wrapper.vm.$root.$data.state.submissions.error = false;
+      wrapper.vm.$root.$data.state.init = false;
       wrapper.setProps({ submissions: [] });
     });
 
@@ -50,12 +52,22 @@ describe('SubmissionList', () => {
       expect(wrapper.contains('more-button-stub')).toBe(false);
       expect(wrapper.contains('submission-stub')).toBe(false);
     });
+
+    test('correct markup on state.init', () => {
+      wrapper.vm.$root.$data.state.init = true;
+
+      expect(wrapper.contains('spinner-stub')).toBe(false);
+      expect(wrapper.contains('ul')).toBe(false);
+      expect(wrapper.contains('more-button-stub')).toBe(false);
+      expect(wrapper.contains('submission-stub')).toBe(false);
+    });
   });
 
   describe('renders correctly on edge cases', () => {
     beforeEach(() => {
       wrapper.vm.$root.$data.state.submissions.loading = false;
       wrapper.vm.$root.$data.state.submissions.error = false;
+      wrapper.vm.$root.$data.state.init = false;
       wrapper.setProps({ submissions: [], numFilteredSubmissions: 0 });
     });
 
@@ -109,6 +121,7 @@ describe('SubmissionList', () => {
       wrapper.vm.$root.$data.state.submissions.moreLoading = false;
       wrapper.vm.$root.$data.state.submissions.moreError = false;
       wrapper.vm.$root.$data.state.nextSubmission = null;
+      wrapper.vm.$root.$data.state.init = false;
       wrapper.setProps({
         submissions: [
           { data: { id: 1, num_comments: 10 } },
