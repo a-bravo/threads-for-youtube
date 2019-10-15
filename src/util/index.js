@@ -16,16 +16,17 @@ const YEAR = 31556952;
  *
  * @param {Number} amount The amount of units
  * @param {String} unit The unit of measurement
+ * @param {String} [pluralUnit] The plural version of the unit (use for non-regular nouns)
  * @param {String} [message] A message to add to the output
  *
  * @returns {String} Pluralized string
  */
-export function pluralize(amount, unit, message = '') {
+export function pluralize(amount, unit, pluralUnit = `${unit}s`, message = '') {
   if (amount === 1) {
     return `${amount}${message} ${unit}`;
   }
 
-  return `${amount}${message} ${unit}s`;
+  return `${amount}${message} ${pluralUnit}`;
 }
 
 /**

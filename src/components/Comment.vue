@@ -100,7 +100,7 @@
     >
       <span class="bold">load more comments</span>
       <span class="details">
-        ({{ item.data.count }} replies)
+        ({{ pluralize(item.data.count, 'reply', 'replies') }})
         <span v-if="item.moreError">
           [Could not reach reddit. Try again later.]
         </span>

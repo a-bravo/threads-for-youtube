@@ -36,4 +36,10 @@ describe('pluralize', () => {
     expect(pluralize(3, 'hour')).toBe('3 hours');
     expect(pluralize(0, 'post')).toBe('0 posts');
   });
+
+  test('passed in plurals', () => {
+    expect(pluralize(3, 'child', 'children')).toBe('3 children');
+    expect(pluralize(1, 'child', 'children')).toBe('1 child');
+    expect(pluralize(2, 'deer', 'deer')).toBe('2 deer');
+  });
 });

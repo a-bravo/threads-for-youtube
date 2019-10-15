@@ -171,10 +171,10 @@ export default {
       // set post/comment title
       const more = this.$root.$data.state.nextSubmission ? '+' : '';
       if (tab.value === 'submission-list') {
-        return pluralize(this.filteredSubmissions.length, tab.text.slice(0, -1), more);
+        return pluralize(this.filteredSubmissions.length, tab.text.slice(0, -1), undefined, more);
       }
 
-      return pluralize(this.totalComments, tab.text.slice(0, -1), more);
+      return pluralize(this.totalComments, tab.text.slice(0, -1), undefined, more);
     },
     updateCurrentTabIfNeeded() {
       if (!this.totalComments && this.options.BACKUP_YT_TAB) {
