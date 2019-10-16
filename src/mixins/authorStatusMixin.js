@@ -31,7 +31,7 @@ export default {
           break;
       }
 
-      return `[${status}]`;
+      return status.length ? `[${status}]` : '';
     },
   },
 };

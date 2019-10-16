@@ -31,6 +31,8 @@ describe('authorStatusMixin', () => {
       ['special', false, '[Δ]'],
       ['special', true, '[S,Δ]'],
       ['other', true, '[S]'],
+      ['other', false, ''],
+      [undefined, undefined, ''],
     ])(
       'when distinguished: %s, isSubmitter: %s',
       (a, b, expected) => {
