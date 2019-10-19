@@ -71,7 +71,7 @@ describe('CommentList', () => {
     test('on api error', () => {
       wrapper.vm.$root.$data.state.submissions['1'].error = true;
 
-      expect(wrapper.html()).toContain('Could not reach reddit. Try again later.');
+      expect(wrapper.html()).toContain('Could not reach reddit.');
 
       expect(wrapper.contains('submission-stub')).toBe(true);
       expect(wrapper.contains('ul')).toBe(false);

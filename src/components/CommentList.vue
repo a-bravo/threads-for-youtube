@@ -16,7 +16,14 @@
     />
     <spinner v-if="$root.$data.state.submissions[submission.name].loading" />
     <div v-else-if="$root.$data.state.submissions[submission.name].error">
-      Could not reach reddit. Try again later.
+      Could not reach reddit.
+      <a
+        :class="YT_LINK_CLASS"
+        @click="loadComments"
+      >
+        Try again
+      </a>
+      later.
     </div>
     <div v-else-if="!comments.length">
       there doesn't seem to be anything here
@@ -40,6 +47,8 @@
 import Submission from './Submission.vue';
 import Comment from './Comment.vue';
 import Spinner from './Spinner.vue';
+import { YT_LINK_CLASS } from '../constants';
+
 
 export default {
   components: {
@@ -57,6 +66,11 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      YT_LINK_CLASS,
+    };
+  },
   computed: {
     comments() {
       return this.$root.$data.state.submissions[this.submission.name].comments.map(
@@ -65,13 +79,16 @@ export default {
     },
   },
   mounted() {
-    this.$root.$data.loadComments(
-      this.submission.id,
-      this.submission.name,
-      this.options.NUM_COMMENTS,
-    );
+    this.loadComments();
   },
   methods: {
+    loadComments() {
+      this.$root.$data.loadComments(
+        this.submission.id,
+        this.submission.name,
+        this.options.NUM_COMMENTS,
+      );
+    },
     moreComments(more) {
       this.$root.$data.loadMoreComments(this.submission.name, more);
     },
