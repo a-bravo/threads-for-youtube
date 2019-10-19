@@ -5,7 +5,14 @@
       <spinner />
     </h3>
     <h3 v-else-if="$root.$data.state.submissions.error">
-      Could not reach reddit. Try again later.
+      Could not reach reddit.
+      <a
+        :class="YT_LINK_CLASS"
+        @click="$emit('reload')"
+      >
+        Try again
+      </a>
+      later.
     </h3>
     <h3 v-else-if="!visibleSubmissions.length">
       No comments.
@@ -61,6 +68,7 @@
 import CommentList from './CommentList.vue';
 import Spinner from './Spinner.vue';
 import MoreButton from './MoreButton.vue';
+import { YT_LINK_CLASS } from '../constants';
 
 export default {
   components: {
@@ -81,6 +89,7 @@ export default {
   data() {
     return {
       currentSubmission: null,
+      YT_LINK_CLASS,
     };
   },
   computed: {

@@ -20,6 +20,7 @@
             :is="currentTabComponent"
             v-bind="currentProperties"
             @moreSubmissions="getSubmissions"
+            @reload="getSubmissions"
           />
         </keep-alive>
       </div>
