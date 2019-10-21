@@ -3,6 +3,7 @@
  */
 
 import Vue from 'vue';
+import browser from 'webextension-polyfill';
 import App from './App.vue';
 import store from './services/store';
 import { APP_ID, YT_COMMENTS_ID } from './constants';

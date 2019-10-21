@@ -1,3 +1,5 @@
+import browser from 'webextension-polyfill';
+
 browser.webNavigation.onHistoryStateUpdated.addListener(
   (details) => {
     // only when history url === new tab url: send message to content_script

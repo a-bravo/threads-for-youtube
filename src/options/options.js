@@ -3,6 +3,7 @@
  */
 
 import Vue from 'vue';
+import browser from 'webextension-polyfill';
 import Options from './Options.vue';
 
 Vue.prototype.$browser = browser;
