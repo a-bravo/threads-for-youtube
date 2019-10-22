@@ -1,3 +1,7 @@
+/**
+* @file background entrypoint, listens for history updates
+*/
+
 import browser from 'webextension-polyfill';
 
 browser.webNavigation.onHistoryStateUpdated.addListener(
