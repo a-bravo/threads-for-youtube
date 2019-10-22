@@ -138,7 +138,6 @@ export default {
   border-right: 1px solid $yt-light-grey;
   li {
     white-space: nowrap;
-    text-overflow: ellipsis;
     overflow: hidden;
     cursor: pointer;
     &:hover {
