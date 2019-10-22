@@ -37,11 +37,26 @@ npm run watch
 
 ###### With `web-ext`
 
-1. `npm run start`
+1. `npm run start:firefox`
 1. This reloads the extension on any change.
 
 ###### Without `web-ext`
 
+1. Open firefox.
 1. Go to `about:debugging` and tick the `Enable add-on debugging` checkbox.
 1. Click `Load Temporary Add-on` and select `/manifest.json`.
 1. Any time you make changes, you must go back to the `about:debugging` page and `Reload` the extension.
+
+##### Chrome
+
+###### With `web-ext`
+
+1. `npm run start:chrome`
+1. This reloads the extension on any change.
+
+###### Without `web-ext`
+
+1. Open Chrome.
+1. Go to `chrome://extensions/`.
+1. Click `Load unpacked` and select the project's root directory.
+1. Any time you make changes, you must go back to the `chrome://extensions/` page and reload the extension by clicking the 'refresh' icon.

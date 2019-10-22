@@ -4,7 +4,9 @@
   "description": "Reddit comments on Youtube",
   "main": "content_script.js",
   "scripts": {
-    "start": "web-ext run --browser-console --start-url https://youtu.be/adzYW5DZoWs --start-url about:addons",
+    "start:firefox": "web-ext run --browser-console --start-url https://youtu.be/adzYW5DZoWs --start-url about:addons",
+    "start:chrome": "web-ext run -t chromium --start-url https://youtu.be/adzYW5DZoWs",
+    "start": "web-ext run -t firefox-desktop -t chromium --start-url https://youtu.be/adzYW5DZoWs",
     "clean": "rimraf dist",
     "prebuild": "npm run test",
     "build": "npm run clean && webpack --mode production --progress",
