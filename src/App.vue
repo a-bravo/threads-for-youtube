@@ -209,6 +209,256 @@ export default {
   .subtext {
     color: $rt-grey;
   }
+  .md {
+    tr,
+    code,
+    .-cells,
+    .-lists,
+    .-blocks,
+    .-headers,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    th,
+    td,
+    ul,
+    ol,
+    .-lists,
+    pre,
+    blockquote,
+    table,
+    p,
+    ul,
+    ol {
+      margin: 0;
+      padding: 0;
+    }
+    .-blocks,
+    .-lists,
+    pre,
+    blockquote,
+    table,
+    p,
+    ul,
+    ol {
+     margin-top:0.35714285714285715em;
+     margin-bottom:0.35714285714285715em
+    }
+    .-headers,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      border: 0;
+    }
+    h6 {
+      text-decoration: underline;
+    }
+    th,
+    strong,
+    .-headers,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-weight: 600;
+      font-style: inherit
+    }
+    h2,
+    h4 {
+     font-weight: 500;
+    }
+    h6 {
+     font-weight: 400;
+    }
+    .md {
+      font-size: 1.0769230769230769em;
+    }
+    h1,
+    h2 {
+     font-size: 1.2857142857142858em;
+     line-height: 1.3888888888888888em;
+     margin-top: 0.8333333333333334em;
+     margin-bottom: 0.8333333333333334em;
+    }
+    h3,
+    h4 {
+     font-size: 1.1428571428571428em;
+     line-height: 1.25em;
+     margin-top: 0.625em;
+     margin-bottom: 0.625em;
+    }
+    h5,
+    h6 {
+     font-size: 1em;
+     line-height: 1.4285714285714286em;
+     margin-top: 0.7142857142857143em;
+     margin-bottom: 0.35714285714285715em;
+    }
+    hr {
+      border: 0;
+      color: transparent;
+      background: #c5c1ad;
+      height: 2px;
+      padding: 0;
+    }
+    blockquote {
+      border-left: 2px solid #c5c1ad;
+      padding: 0 8px;
+      padding-left: 10px;
+      margin-left: 5px;
+    }
+    blockquote, del {
+     color: $rt-grey;
+    }
+    ul {
+      list-style-type: disc;
+    }
+    ol {
+      list-style-type: decimal;
+    }
+    .-lists,
+    ul,
+    ol {
+      padding-left: 40px;
+    }
+    li li,
+    li p {
+     font-size: 1em !important;
+    }
+    textarea,
+    .-text,
+    p,
+    pre>code,
+    th,
+    td,
+    li {
+      font-size: 1em;
+      line-height: 1.4285714285714286em
+    }
+    table {
+      border-collapse: collapse;
+    }
+    td,
+    th {
+      border: 1px solid $rt-grey;
+      text-align: left;
+    }
+    td[align=center],
+    th[align=center] {
+      text-align: center;
+    }
+    td[align=right],
+    th[align=right] {
+      text-align: right;
+    }
+    pre,
+    .-cells,
+    th,
+    td {
+      padding: 4px 9px;
+    }
+    .-headers code,
+    h1 code,
+    h2 code,
+    h3 code,
+    h4 code,
+    h5 code,
+    h6 code {
+      font-size: inherit;
+    }
+    code,
+    pre {
+      border: 1px solid #e6e6de;
+      border-radius: 2px;
+    }
+    code {
+      margin: 0 2px;
+      white-space: nowrap;
+      word-break: normal;
+      padding: 0 4px;
+      font-family: monospace, monospace;
+    }
+    p code {
+      line-height: 1em;
+    }
+    pre {
+      overflow: auto;
+    }
+    pre code {
+      white-space: pre;
+      background-color: transparent;
+      border: 0;
+      display: block;
+      padding: 0!important;
+    }
+    .md-spoiler-text {
+      border-radius: 2px;
+    }
+    .md-spoiler-text, .md-spoiler-text * {
+        transition: all 1s ease-in;
+        background: rgba(79,79,79,0.1);
+    }
+    .md-spoiler-text:not(:hover), .md-spoiler-text:not(:hover) * {
+        color: transparent;
+        background: #4f4f4f;
+    }
+    >:first-child,
+    .-cells>:first-child,
+    .-lists>:first-child,
+    .-blocks>:first-child,
+    .-headers>:first-child,
+    h1>:first-child,
+    h2>:first-child,
+    h3>:first-child,
+    h4>:first-child,
+    h5>:first-child,
+    h6>:first-child,
+    th>:first-child,
+    td>:first-child,
+    ul>:first-child,
+    ol>:first-child,
+    .-lists>:first-child,
+    pre>:first-child,
+    blockquote>:first-child,
+    table>:first-child,
+    p>:first-child,
+    ul>:first-child,
+    ol>:first-child {
+      margin-top: 0;
+    }
+    >:last-child,
+    .-cells>:last-child,
+    .-lists>:last-child,
+    .-blocks>:last-child,
+    .-headers>:last-child,
+    h1>:last-child,
+    h2>:last-child,
+    h3>:last-child,
+    h4>:last-child,
+    h5>:last-child,
+    h6>:last-child,
+    th>:last-child,
+    td>:last-child,
+    ul>:last-child,
+    ol>:last-child,
+    .-lists>:last-child,
+    pre>:last-child,
+    blockquote>:last-child,
+    table>:last-child,
+    p>:last-child,
+    ul>:last-child,
+    ol>:last-child {
+      margin-bottom: 0;
+    }
+  }
 }
 </style>
 
