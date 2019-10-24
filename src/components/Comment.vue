@@ -58,9 +58,12 @@
       </span>
 
       <div v-show="isOpen">
-        <div class="body">
-          {{ item.data.body }}
-        </div>
+        <!-- eslint-disable vue/no-v-html -->
+        <div
+          class="body"
+          v-html="fixCommentLinks(item.data.body_html)"
+        />
+        <!-- eslint-enable -->
         <div class="details links">
           <a
             :href="`${RT_BASE_URL}${item.data.permalink}`"
@@ -176,6 +179,15 @@ export default {
       const navHeight = document.getElementById(YT_NAVBAR_ID).offsetHeight;
 
       window.scroll(0, target.offsetTop - navHeight);
+    },
+    fixCommentLinks(comment) {
+      // make relative urls absolute (with reddit base url)
+      const baseUrl = `<a href="${RT_BASE_URL}/`;
+      const updatedComment = comment.replace(/<a\shref="\//g, baseUrl);
+
+      // assign attributes to link tags
+      const linkAttributes = `<a class="${YT_LINK_CLASS}" rel="noopener noreferrer" target="_blank"`;
+      return updatedComment.replace(/<a/g, linkAttributes);
     },
   },
 };

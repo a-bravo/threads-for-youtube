@@ -40,7 +40,7 @@ describe('Comment', () => {
           author: 'test',
           score: ABOVE_SCORE_THRESHOLD,
           created_utc: 23142131,
-          body: 'test',
+          body_html: 'test',
           permalink: 'link',
         },
         comments: [],
@@ -89,7 +89,10 @@ describe('Comment', () => {
       item: {
         comments: ['2', '3'],
         kind: 'Listing',
-        data: { score: ABOVE_SCORE_THRESHOLD },
+        data: {
+          score: ABOVE_SCORE_THRESHOLD,
+          body_html: 'test',
+        },
       },
     });
 
@@ -115,7 +118,7 @@ describe('Comment', () => {
             author: 'test',
             score: 9,
             created_utc: 23142131,
-            body: 'test',
+            body_html: 'test',
             permalink: 'link',
           },
           comments: ['2', '3'],
@@ -149,7 +152,7 @@ describe('Comment', () => {
             author: 'test',
             score: BELOW_SCORE_THRESHOLD,
             created_utc: 23142131,
-            body: 'test',
+            body_html: 'test',
             permalink: 'link',
           },
           comments: ['2', '3'],
