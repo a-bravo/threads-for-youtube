@@ -64,7 +64,7 @@
           v-html="fixCommentLinks(item.data.body_html)"
         />
         <!-- eslint-enable -->
-        <div class="details links">
+        <div class="details links bold">
           <a
             :href="`${RT_BASE_URL}${item.data.permalink}`"
             target="_blank"
