@@ -165,6 +165,7 @@ export default {
 }
 .comments-container {
   min-width: 0;
+  flex: 1;
   padding-left: 10px;
 }
 </style>
