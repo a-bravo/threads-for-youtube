@@ -7,7 +7,7 @@ import { OPTIONS } from '../src/constants';
 
 const browser = {
   storage: {
-    sync: {
+    local: {
       set: jest.fn().mockResolvedValue({}),
       get: jest.fn().mockResolvedValue({}),
     },

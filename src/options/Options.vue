@@ -154,6 +154,7 @@
 
 <script>
 import cloneDeep from 'lodash/cloneDeep';
+import pick from 'lodash/pick';
 import optionsMixin from '../mixins/optionsMixin';
 import { OPTIONS, COMPONENT_TABS } from '../constants';
 
@@ -200,7 +201,9 @@ export default {
     },
     options: {
       handler() {
-        this.$browser.storage.sync.set({ options: this.options });
+        // remove extra properties from options
+        const options = pick(this.options, Object.keys(OPTIONS));
+        this.$browser.storage.local.set({ options });
       },
       deep: true,
     },

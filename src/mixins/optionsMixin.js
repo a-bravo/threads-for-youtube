@@ -12,7 +12,7 @@ export default {
   },
   methods: {
     getOptions() {
-      this.$browser.storage.sync.get('options')
+      this.$browser.storage.local.get('options')
         .then((item) => {
           this.options = defaultsDeep(item.options, OPTIONS);
         });

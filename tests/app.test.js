@@ -12,7 +12,7 @@ const browser = {
     },
   },
   storage: {
-    sync: {
+    local: {
       get: jest.fn().mockResolvedValue({}),
     },
   },
