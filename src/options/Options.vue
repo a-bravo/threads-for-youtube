@@ -147,6 +147,14 @@
             </button>
           </td>
         </tr>
+        <tr v-show="saved">
+          <th />
+          <td>
+            <div class="success">
+              Options updated
+            </div>
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -164,6 +172,8 @@ export default {
     return {
       tabs: COMPONENT_TABS,
       newFilter: '',
+      saved: false,
+      initialLoad: true,
     };
   },
   computed: {
@@ -203,14 +213,24 @@ export default {
       handler() {
         // remove extra properties from options
         const options = pick(this.options, Object.keys(OPTIONS));
-        this.$browser.storage.local.set({ options });
+        this.$browser.storage.local.set({ options })
+          .then(() => {
+            if (this.initialLoad) {
+              this.initialLoad = false;
+            } else {
+              this.saved = true;
+              setTimeout(() => { this.saved = false; }, 2000);
+            }
+          });
       },
       deep: true,
     },
   },
   methods: {
     resetOptions() {
-      this.options = cloneDeep(OPTIONS);
+      if (window.confirm('Are you sure you want to reset to default settings?')) { // eslint-disable-line no-alert
+        this.options = cloneDeep(OPTIONS);
+      }
     },
     addFilter() {
       const filter = this.newFilter.trim();
@@ -262,6 +282,9 @@ export default {
   }
   .delete {
     color: $yt-red;
+  }
+  .success {
+    color: $rt-mod-green;
   }
   .pull-right {
     float: right;

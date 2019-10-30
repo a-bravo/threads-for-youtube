@@ -188,4 +188,30 @@ describe('Options', () => {
       });
     });
   });
+
+  describe('reset options', () => {
+    const reset = wrapper.find('tr > td > button');
+
+    beforeEach(() => {
+      // set options to non-default
+      wrapper.vm.options.DEFAULT_TAB = 'submission-list';
+      wrapper.vm.options.BACKUP_YT_TAB = false;
+      wrapper.vm.options.NUM_COMMENTS = 10;
+      wrapper.vm.options.FILTERS = ['test'];
+    });
+
+    test('when accepting confirmation', () => {
+      expect(wrapper.vm.options).not.toStrictEqual(OPTIONS);
+      window.confirm = () => true;
+      reset.trigger('click');
+      expect(wrapper.vm.options).toStrictEqual(OPTIONS);
+    });
+
+    test('when canceling confirmation', () => {
+      expect(wrapper.vm.options).not.toStrictEqual(OPTIONS);
+      window.confirm = () => false;
+      reset.trigger('click');
+      expect(wrapper.vm.options).not.toStrictEqual(OPTIONS);
+    });
+  });
 });
