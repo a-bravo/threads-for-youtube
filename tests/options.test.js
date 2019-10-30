@@ -38,6 +38,24 @@ describe('Options', () => {
       expect(wrapper.find('select').element.value).toBe(OPTIONS.DEFAULT_TAB);
       expect(parseInt(wrapper.findAll('select').at(1).element.value, 10)).toBe(OPTIONS.NUM_POSTS);
     });
+
+    describe('getOptions', () => {
+      test('OPTIONS is correctly cloned', () => {
+        wrapper.vm.getOptions();
+        expect(wrapper.vm.options).toStrictEqual(OPTIONS);
+
+        wrapper.vm.options.FILTERS = ['test'];
+        expect(wrapper.vm.options).not.toStrictEqual(OPTIONS);
+      });
+
+      test('OPTIONS is correctly deep cloned', () => {
+        wrapper.vm.getOptions();
+        expect(wrapper.vm.options).toStrictEqual(OPTIONS);
+
+        wrapper.vm.options.FILTERS.push('test');
+        expect(wrapper.vm.options).not.toStrictEqual(OPTIONS);
+      });
+    });
   });
 
   describe('validate user input on textbox', () => {
@@ -211,6 +229,26 @@ describe('Options', () => {
       expect(wrapper.vm.options).not.toStrictEqual(OPTIONS);
       window.confirm = () => false;
       reset.trigger('click');
+      expect(wrapper.vm.options).not.toStrictEqual(OPTIONS);
+    });
+
+    test('OPTIONS is correctly cloned', () => {
+      expect(wrapper.vm.options).not.toStrictEqual(OPTIONS);
+      window.confirm = () => true;
+      reset.trigger('click');
+      expect(wrapper.vm.options).toStrictEqual(OPTIONS);
+
+      wrapper.vm.options.FILTERS = ['test'];
+      expect(wrapper.vm.options).not.toStrictEqual(OPTIONS);
+    });
+
+    test('OPTIONS is correctly deep cloned', () => {
+      expect(wrapper.vm.options).not.toStrictEqual(OPTIONS);
+      window.confirm = () => true;
+      reset.trigger('click');
+      expect(wrapper.vm.options).toStrictEqual(OPTIONS);
+
+      wrapper.vm.options.FILTERS.push('test');
       expect(wrapper.vm.options).not.toStrictEqual(OPTIONS);
     });
   });
