@@ -178,7 +178,10 @@ export default {
       return pluralize(this.totalComments, tab.text.slice(0, -1), undefined, more);
     },
     updateCurrentTabIfNeeded() {
-      if (!this.totalComments && this.options.BACKUP_YT_TAB) {
+      if (!this.totalComments
+        && !this.$root.$data.state.nextSubmission
+        && this.options.BACKUP_YT_TAB
+      ) {
         this.currentTabComponent = 'youtube-comments-view';
       }
     },

@@ -15,7 +15,16 @@
       later.
     </h3>
     <h3 v-else-if="!visibleSubmissions.length">
-      No comments.
+      <more-button
+        v-if="this.$root.$data.state.nextSubmission"
+        :loading="$root.$data.state.submissions.moreLoading"
+        @more="$emit('moreSubmissions')"
+      >
+        load more posts
+      </more-button>
+      <div v-else>
+        No comments.
+      </div>
     </h3>
     <div
       v-else
