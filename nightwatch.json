@@ -1,0 +1,22 @@
+{
+  "src_folders": ["tests/integration"],
+
+  "webdriver": {
+    "start_process": true
+  },
+
+  "test_settings": {
+    "chrome": {
+      "webdriver": {
+        "server_path": "node_modules/.bin/chromedriver",
+        "port": 9515
+      },
+      "desiredCapabilities": {
+        "browserName": "chrome",
+        "chromeOptions": {
+          "args": ["--load-extension=./"]
+        }
+      }
+    }
+  }
+}

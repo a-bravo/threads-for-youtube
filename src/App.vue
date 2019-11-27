@@ -7,6 +7,7 @@
       <div class="tabs">
         <button
           v-for="tab in tabs"
+          :id="tab.value"
           :key="tab.value"
           :class="['tab-button', { selected: currentTabComponent === tab.value }]"
           @click="currentTabComponent = tab.value"

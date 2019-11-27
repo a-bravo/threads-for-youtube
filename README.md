@@ -18,8 +18,11 @@ REDDIT_CLIENT_ID='your-client-id'
 # install dependencies
 npm install
 
-# run tests
+# run unit tests
 npm run test
+
+# run integration tests (chrome)
+npm run test:integration <browsers>
 
 # build for production with minification
 npm run build

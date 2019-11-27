@@ -1,7 +1,7 @@
 <template>
   <li
     :id="item.data.name"
-    class="comment"
+    :class="item.kind !== RT_MORE_OBJECT ? 'comment' : 'more'"
   >
     <div v-if="item.kind !== RT_MORE_OBJECT">
       <span>
@@ -209,7 +209,7 @@ export default {
 .replies {
   .replies {
     border-left: 1px dotted $rt-border-color;
-    .comment {
+    .comment, .more {
       margin-left: 1.8rem;
     }
   }
