@@ -113,6 +113,9 @@ export default function authRequest(method, endpoint, options = {}) {
         token.expirationDate = -Infinity;
         return authRequest(method, endpoint, options);
       }
+      if (!response.ok) {
+        return Promise.reject();
+      }
 
       return response.text().then(JSON.parse);
     });
