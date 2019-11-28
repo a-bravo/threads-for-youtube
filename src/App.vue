@@ -1,5 +1,11 @@
 <template>
   <div :id="APP_ID">
+    <transition name="fade">
+      <back-to-top-button
+        v-if="scrolledDown"
+        :destination-id="APP_ID"
+      />
+    </transition>
     <div
       id="content-text"
       :class="YT_CONTENT_RENDERER_CLASS"
@@ -34,6 +40,7 @@ import debounce from 'lodash/debounce';
 import SubmissionList from './components/SubmissionList.vue';
 import CommentsView from './components/CommentsView.vue';
 import YoutubeCommentsView from './components/YoutubeCommentsView.vue';
+import BackToTopButton from './components/BackToTopButton.vue';
 import optionsMixin from './mixins/optionsMixin';
 import { pluralize } from './util';
 import {
@@ -50,6 +57,7 @@ export default {
     SubmissionList,
     CommentsView,
     YoutubeCommentsView,
+    BackToTopButton,
   },
   mixins: [optionsMixin],
   data() {
@@ -59,6 +67,7 @@ export default {
       query: '',
       APP_ID,
       YT_CONTENT_RENDERER_CLASS,
+      scrolledDown: false,
     };
   },
   computed: {
@@ -123,8 +132,20 @@ export default {
         }
       });
     }
+
+    window.addEventListener('scroll', this.onScroll);
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.onScroll);
   },
   methods: {
+    onScroll() {
+      if (window.pageYOffset > document.getElementById(APP_ID).offsetTop) {
+        this.scrolledDown = true;
+      } else {
+        this.scrolledDown = false;
+      }
+    },
     pageChange() {
       const url = new URL(window.location.href);
       const newQuery = url.searchParams.get('v');
@@ -212,6 +233,7 @@ export default {
   }
   .at-component {
     margin-top: $at-spacing;
+    margin-bottom: $at-floating-btn-diameter;
   }
   .details {
     color: $rt-grey;
@@ -493,5 +515,11 @@ export default {
   &.selected {
     background-color: $yt-red;
   }
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }
 </style>

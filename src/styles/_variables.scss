@@ -28,6 +28,14 @@ $at-large-font: 1.6rem;
 $at-font-family: verdana, arial, helvetica, sans-serif;
 
 
-/* Spacing */
+/* Spacing, Sizes */
 
 $at-spacing: 20px;
+$at-floating-btn-diameter: 50px;
+
+
+/* z-index priorities */
+
+$at-high-z: 2;
+$at-med-z: 1;
+$at-low-z: 0;

@@ -12,6 +12,17 @@ module.exports = {
       .waitForElementVisible(`#${APP_ID}`)
   },
 
+  'Back to top button': function (browser) {
+    browser
+      .keys(browser.Keys.ESCAPE) // ensure any page popups are closed
+      .waitForElementVisible(`#${APP_ID} .comment-list`)
+      .assert.elementNotPresent(`#${APP_ID} #to-top-button`)
+      .execute('document.querySelector(".comment-list").scrollIntoView()')
+      .assert.elementPresent(`#${APP_ID} #to-top-button`)
+      .click('#to-top-button')
+      .assert.elementNotPresent(`#${APP_ID} #to-top-button`)
+  },
+
   'App location within DOM (next to YT comments)': function (browser) {
     // window resize moves elements around, ensure app is always a sibling of YT comments
     const windowSizes = [{}, {w: 1280, l: 1280}, {w: 600, l: 1280}];

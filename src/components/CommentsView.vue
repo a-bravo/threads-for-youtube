@@ -152,7 +152,7 @@ export default {
     &:hover {
       overflow: visible;
       position: relative;
-      z-index: 100;
+      z-index: $at-med-z;
       background: $yt-red;
       div {
         display: inline-block;

@@ -125,9 +125,9 @@
 <script>
 import MoreButton from './MoreButton.vue';
 import authorStatusMixin from '../mixins/authorStatusMixin';
+import scrollToMixin from '../mixins/scrollToMixin';
 import { timeAgo, pluralize } from '../util';
 import {
-  YT_NAVBAR_ID,
   YT_LINK_CLASS,
   RT_MORE_OBJECT,
   RT_BASE_URL,
@@ -138,7 +138,7 @@ export default {
   components: {
     MoreButton,
   },
-  mixins: [authorStatusMixin],
+  mixins: [authorStatusMixin, scrollToMixin],
   props: {
     item: {
       type: Object,
@@ -172,13 +172,6 @@ export default {
       }
 
       return this.item.data.score < this.options.COMMENT_SCORE_THRESHOLD;
-    },
-    scrollTo(id) {
-      // scroll to element with id, accounting for YT navbar
-      const target = document.getElementById(id);
-      const navHeight = document.getElementById(YT_NAVBAR_ID).offsetHeight;
-
-      window.scroll(0, target.offsetTop - navHeight);
     },
     fixCommentLinks(comment) {
       // make relative urls absolute (with reddit base url)
