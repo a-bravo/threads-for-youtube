@@ -47,16 +47,24 @@
           {{ submission.subreddit_name_prefixed }}
         </a>
       </span>
+      <awards-shelf
+        v-if="submission.gilded"
+        :gildings="submission.gildings"
+      />
     </span>
   </li>
 </template>
 
 <script>
+import AwardsShelf from './AwardsShelf.vue';
 import authorStatusMixin from '../mixins/authorStatusMixin';
 import { timeAgo, pluralize } from '../util';
 import { YT_LINK_CLASS, RT_BASE_URL } from '../constants';
 
 export default {
+  components: {
+    AwardsShelf,
+  },
   mixins: [authorStatusMixin],
   props: {
     submission: {

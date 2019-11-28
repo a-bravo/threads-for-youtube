@@ -9,6 +9,10 @@
     "96": "icons/icon@2.png"
   },
 
+  "web_accessible_resources": [
+    "images/*.png"
+  ],
+
   "minimum_chrome_version": "43",
   "browser_specific_settings": {
     "gecko": {

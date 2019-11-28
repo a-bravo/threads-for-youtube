@@ -53,6 +53,11 @@
             >
               - stickied comment
             </span>
+            <awards-shelf
+              v-if="item.data.gilded"
+              class="details"
+              :gildings="item.data.gildings"
+            />
           </span>
         </span>
       </span>
@@ -124,6 +129,7 @@
 
 <script>
 import MoreButton from './MoreButton.vue';
+import AwardsShelf from './AwardsShelf.vue';
 import authorStatusMixin from '../mixins/authorStatusMixin';
 import scrollToMixin from '../mixins/scrollToMixin';
 import { timeAgo, pluralize } from '../util';
@@ -137,6 +143,7 @@ export default {
   name: 'Comment',
   components: {
     MoreButton,
+    AwardsShelf,
   },
   mixins: [authorStatusMixin, scrollToMixin],
   props: {
