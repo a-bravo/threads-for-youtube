@@ -115,6 +115,13 @@ export default {
     const comments = document.getElementById(YT_COMMENTS_ID);
     if (comments) {
       comments.classList.add('hidden');
+
+      // ensure app and yt commments are siblings
+      window.addEventListener('resize', () => {
+        if (comments.previousSibling.id !== APP_ID) {
+          comments.before(document.getElementById(APP_ID));
+        }
+      });
     }
   },
   methods: {

@@ -11,11 +11,12 @@ import {
   YT_LINK_CLASS,
   YT_CONTENT_RENDERER_CLASS,
 } from '../../src/constants';
+import { VIDEO_URL } from './constants';
 
 module.exports = {
   'Open youtube video': function (browser) {
     browser
-      .url('https://www.youtube.com/watch?v=adzYW5DZoWs')
+      .url(VIDEO_URL)
   },
 
   'Youtube classes & ids are still the same': function (browser) {
