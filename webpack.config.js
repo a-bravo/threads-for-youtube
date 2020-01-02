@@ -1,4 +1,5 @@
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const DotEnv = require('dotenv-webpack');
 
 module.exports = {
@@ -21,5 +22,24 @@ module.exports = {
   plugins: [
     new VueLoaderPlugin(),
     new DotEnv(),
+    new CopyWebpackPlugin([
+      {
+        from: 'manifest.json',
+      },
+      {
+        from: '**/*.html',
+        context: 'src',
+      },
+      {
+        from: '**/*',
+        to: 'icons/',
+        context: 'icons',
+      },
+      {
+        from: '**/*',
+        to: 'images/',
+        context: 'images',
+      },
+    ]),
   ],
 };

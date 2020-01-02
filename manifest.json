@@ -27,7 +27,7 @@
         "*://*.youtube.com/*"
       ],
       "js": [
-        "dist/content_script.bundle.js"
+        "content_script.bundle.js"
       ],
       "run_at": "document_idle"
     }
@@ -35,7 +35,7 @@
 
   "background": {
     "scripts": [
-      "dist/background.bundle.js"
+      "background.bundle.js"
     ]
   },
 
@@ -47,7 +47,7 @@
   ],
 
   "options_ui": {
-    "page": "src/options/index.html",
+    "page": "options/index.html",
     "open_in_tab": true
   }
 }
