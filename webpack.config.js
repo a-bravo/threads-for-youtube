@@ -1,5 +1,6 @@
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ZipPlugin = require('zip-webpack-plugin');
 const DotEnv = require('dotenv-webpack');
 
 module.exports = {
@@ -41,5 +42,9 @@ module.exports = {
         context: 'images',
       },
     ]),
+    new ZipPlugin({
+      path: 'zip',
+      filename: 'alientube',
+    }),
   ],
 };
