@@ -16,11 +16,12 @@ module.exports = {
     browser
       .keys(browser.Keys.ESCAPE) // ensure any page popups are closed
       .waitForElementVisible(`#${APP_ID} .comment-list`)
-      .assert.elementNotPresent(`#${APP_ID} #to-top-button`)
+      .assert.not.elementPresent(`#${APP_ID} #to-top-button`)
       .execute('document.querySelector(".comment-list").scrollIntoView()')
       .assert.elementPresent(`#${APP_ID} #to-top-button`)
+      .keys(browser.Keys.ESCAPE) // ensure any page popups are closed
       .click('#to-top-button')
-      .assert.elementNotPresent(`#${APP_ID} #to-top-button`)
+      .assert.not.elementPresent(`#${APP_ID} #to-top-button`)
   },
 
   'App location within DOM (next to YT comments)': function (browser) {
