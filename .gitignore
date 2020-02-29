@@ -65,3 +65,6 @@ dist
 
 # nightwatch testing output
 tests_output/
+
+# vscode settings
+.vscode/
