@@ -49,7 +49,7 @@ module.exports = {
       .assert.cssClassPresent(`#${APP_ID} #comments-view`, 'selected')
       .waitForElementVisible(`#${APP_ID} .comment-list`)
       .assert.elementPresent('.submissions-sidebar .more-button')
-    browser.expect.elements(`#${APP_ID} .comment-list .comment`).count.to.equal(OPTIONS.NUM_COMMENTS)
+    browser.expect.elements(`#${APP_ID} .comment-list .comment-container`).count.to.equal(OPTIONS.NUM_COMMENTS)
     browser.expect.elements(`#${APP_ID} .submissions-sidebar li`).count.to.equal(OPTIONS.NUM_POSTS)
   },
 

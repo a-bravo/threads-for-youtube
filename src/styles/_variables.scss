@@ -6,6 +6,7 @@
 $yt-red: #FF0000;
 $yt-light-grey: #777;
 $yt-dark-grey: #606060;
+$yt-endpoint-blue: var(--yt-endpoint-color, var(--yt-spec-text-primary));
 
 $rt-mod-green: #228822;
 $rt-mod-red: red;
@@ -16,6 +17,7 @@ $rt-light-blue: #cee3f8;
 
 $rt-visited-purple: #336699;
 
+$at-transparent-grey: rgba(189, 189, 189, 0.15);
 
 /* Fonts */
 
@@ -32,6 +34,8 @@ $at-font-family: verdana, arial, helvetica, sans-serif;
 
 $at-spacing: 20px;
 $at-floating-btn-diameter: 50px;
+$at-collapse-width: 15px;
+$at-comment-spacing: 5px;
 
 
 /* z-index priorities */

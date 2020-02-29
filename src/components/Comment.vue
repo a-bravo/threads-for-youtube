@@ -1,17 +1,18 @@
 <template>
   <li
+    v-if="item.kind !== RT_MORE_OBJECT"
     :id="item.data.name"
-    :class="item.kind !== RT_MORE_OBJECT ? 'comment' : 'more'"
+    class="comment-container"
   >
-    <div v-if="item.kind !== RT_MORE_OBJECT">
+    <span
+      :class="['collapse-button', isOpen ? YT_LINK_CLASS : 'details' ]"
+      @click="toggleComment()"
+    >
+      {{ isOpen ? '-' : '+' }}
+    </span>
+    <div class="comment">
       <span>
         <span class="author">
-          <a
-            :class="isOpen ? YT_LINK_CLASS : 'details'"
-            @click="isOpen = !isOpen"
-          >
-            [{{ isOpen ? '-' : '+' }}]
-          </a>
           <a
             :class="isOpen ? authorClass(
               item.data.distinguished,
@@ -99,9 +100,15 @@
         </ul>
       </div>
     </div>
+  </li>
 
+  <li
+    v-else
+    :id="item.data.name"
+    class="more"
+  >
     <more-button
-      v-else-if="item.data.count"
+      v-if="item.data.count"
       :loading="item.moreLoading"
       class="details"
       @more="$emit('moreComments', item.data)"
@@ -189,6 +196,12 @@ export default {
       const linkAttributes = `<a class="${YT_LINK_CLASS}" rel="noopener noreferrer" target="_blank"`;
       return updatedComment.replace(/<a/g, linkAttributes);
     },
+    toggleComment() {
+      this.isOpen = !this.isOpen;
+      if (!this.isOpen) {
+        this.scrollTo(this.item.data.name, true);
+      }
+    },
   },
 };
 </script>
@@ -197,6 +210,30 @@ export default {
 @import "../styles/variables.scss";
 @import "../styles/mixins.scss";
 
+.comment-container {
+  margin-top: $at-comment-spacing;
+  display: flex;
+}
+.comment {
+  flex: 1;
+  min-width: 0;
+  padding-left: $at-comment-spacing;
+}
+.collapse-button {
+  font-weight: 100;
+  top: 0;
+  left: 0;
+  width: $at-collapse-width;
+  font-size: 16px;
+  text-align: center;
+  line-height: 16px;
+  background-color: $at-transparent-grey;
+  cursor: pointer;
+  &:hover {
+    color: white !important;
+    background-color: $yt-endpoint-blue;
+  }
+}
 .links {
   a {
     color: $rt-grey;
@@ -205,14 +242,6 @@ export default {
 .author, .points {
   font-size: $at-tiny-font;
   font-weight: bold;
-}
-.replies {
-  .replies {
-    border-left: 1px dotted $rt-border-color;
-    .comment, .more {
-      margin-left: 1.8rem;
-    }
-  }
 }
 @include author-status;
 .collapsed {

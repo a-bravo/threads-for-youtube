@@ -48,6 +48,9 @@ describe('Comment', () => {
       },
       options: OPTIONS,
     },
+    methods: {
+      scrollTo: jest.fn(),
+    },
     parentComponent: root,
   });
 
@@ -126,7 +129,7 @@ describe('Comment', () => {
       });
 
       // collapse comment
-      wrapper.find(`a.${YT_LINK_CLASS}`).trigger('click');
+      wrapper.find(`span.${YT_LINK_CLASS}`).trigger('click');
 
       // elements still present
       expect(wrapper.contains('li')).toBe(true);
