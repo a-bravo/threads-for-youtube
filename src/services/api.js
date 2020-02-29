@@ -31,7 +31,7 @@ export function search(query, sort, limit, after = null) {
         limit,
       },
     },
-  ).then(listing => ({ submissions: listing.data.children, nextSubmission: listing.data.after }));
+  ).then((listing) => ({ submissions: listing.data.children, nextSubmission: listing.data.after }));
 }
 
 /**
@@ -44,7 +44,7 @@ export function search(query, sort, limit, after = null) {
  */
 export function getComments(submissionId, limit) {
   return authRequest('get', `comments/${submissionId}`, { params: { limit } })
-    .then(response => response[1].data.children);
+    .then((response) => response[1].data.children);
 }
 
 /**
@@ -66,5 +66,5 @@ export function getMoreComments(linkId, children) {
         api_type: 'json',
       },
     },
-  ).then(response => response.json.data.things);
+  ).then((response) => response.json.data.things);
 }

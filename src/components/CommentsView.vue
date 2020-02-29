@@ -107,7 +107,7 @@ export default {
         return this.submissions;
       }
       return this.submissions.filter(
-        submission => submission.data.num_comments > this.options.POST_COMMENT_THRESHOLD,
+        (submission) => submission.data.num_comments > this.options.POST_COMMENT_THRESHOLD,
       );
     },
   },

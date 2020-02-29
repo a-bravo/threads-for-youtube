@@ -173,7 +173,7 @@ export default {
   },
   computed: {
     replies() {
-      return this.item.comments.map(id => this.$root.$data.state.comments[id]);
+      return this.item.comments.map((id) => this.$root.$data.state.comments[id]);
     },
   },
   methods: {

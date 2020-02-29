@@ -73,7 +73,7 @@ export default {
   computed: {
     submissions() {
       return this.$root.$data.state.submissionList.map(
-        id => this.$root.$data.state.submissions[id],
+        (id) => this.$root.$data.state.submissions[id],
       );
     },
     currentProperties() {
@@ -97,7 +97,7 @@ export default {
     },
     filteredSubmissions() {
       return this.submissions.filter(
-        s => this.options.FILTERS.indexOf(s.data.subreddit.toLowerCase()) === -1,
+        (s) => this.options.FILTERS.indexOf(s.data.subreddit.toLowerCase()) === -1,
       );
     },
   },

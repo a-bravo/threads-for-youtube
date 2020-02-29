@@ -74,7 +74,7 @@ export default {
   computed: {
     comments() {
       return this.$root.$data.state.submissions[this.submission.name].comments.map(
-        id => this.$root.$data.state.comments[id],
+        (id) => this.$root.$data.state.comments[id],
       );
     },
   },

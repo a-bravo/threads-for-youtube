@@ -32,7 +32,7 @@ function requestDelay() {
   const now = Date.now();
   const waitTime = nextRequestTimestamp - now;
   nextRequestTimestamp = Math.max(now, nextRequestTimestamp) + REQUEST_DELAY;
-  return new Promise(resolve => setTimeout(resolve, waitTime));
+  return new Promise((resolve) => setTimeout(resolve, waitTime));
 }
 
 /**
@@ -52,7 +52,7 @@ function fetchAnonymousToken() {
     method: 'POST',
     body: form,
     headers: { authorization: `Basic ${btoa(`${process.env.REDDIT_CLIENT_ID}:`)}` },
-  }).then(response => response.text())
+  }).then((response) => response.text())
     .then(JSON.parse)
     .then((tokenInfo) => {
       token.accessToken = tokenInfo.access_token;
@@ -105,7 +105,7 @@ export default function authRequest(method, endpoint, options = {}) {
   // send request
   return requestDelay()
     .then(() => getAccessToken())
-    .then(accessToken => fetch(url, { method, body, headers: { authorization: `bearer ${accessToken}` } }))
+    .then((accessToken) => fetch(url, { method, body, headers: { authorization: `bearer ${accessToken}` } }))
     .then((response) => {
       // if invalid auth, invalidate token then retry once
       if (response.status === 401 && token.accessToken) {

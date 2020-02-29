@@ -9,5 +9,5 @@ import Options from './Options.vue';
 Vue.prototype.$browser = browser;
 new Vue({ // eslint-disable-line no-new
   el: '#options-app',
-  render: h => h(Options),
+  render: (h) => h(Options),
 });

@@ -44,7 +44,7 @@ function mount(app) {
 Vue.prototype.$browser = browser;
 const app = new Vue({ // eslint-disable-line no-new
   data: store,
-  render: h => h(App),
+  render: (h) => h(App),
 });
 
 // watch for mounting elements to appear on page

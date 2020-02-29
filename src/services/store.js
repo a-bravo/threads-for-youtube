@@ -100,7 +100,7 @@ export default {
     return search(query, sort, limit, after)
       .then((data) => {
         this.state.nextSubmission = data.nextSubmission;
-        data.submissions.forEach(submission => this.addSubmissionAction(submission));
+        data.submissions.forEach((submission) => this.addSubmissionAction(submission));
         return Promise.resolve();
       })
       .catch(() => {
