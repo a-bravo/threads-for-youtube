@@ -42,6 +42,10 @@
       "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
     }
   },
+  "browserslist": [
+    "chrome 43",
+    "firefox 53"
+  ],
   "devDependencies": {
     "@babel/core": "^7.8.6",
     "@babel/preset-env": "^7.8.6",
