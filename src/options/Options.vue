@@ -1,6 +1,6 @@
 <template>
   <div id="options-app">
-    <h1>AlienTube Settings</h1>
+    <h1>Threads for YouTube Settings</h1>
     <table>
       <tbody>
         <tr>

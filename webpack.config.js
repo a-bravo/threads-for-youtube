@@ -52,7 +52,7 @@ module.exports = {
     ]),
     new ZipPlugin({
       path: 'zip',
-      filename: 'alientube',
+      filename: 'threads-for-youtube',
     }),
   ],
 };

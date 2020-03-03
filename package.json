@@ -1,5 +1,5 @@
 {
-  "name": "alientube",
+  "name": "threads-for-youtube",
   "version": "1.0.0",
   "description": "Reddit comments on Youtube",
   "main": "content_script.js",
@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/a-bravo/alientube.git"
+    "url": "git+https://github.com/a-bravo/threads-for-youtube.git"
   },
   "keywords": [
     "extension"
@@ -28,9 +28,9 @@
   "author": "a-bravo",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/a-bravo/alientube/issues"
+    "url": "https://github.com/a-bravo/threads-for-youtube/issues"
   },
-  "homepage": "https://github.com/a-bravo/alientube#readme",
+  "homepage": "https://github.com/a-bravo/threads-for-youtube#readme",
   "jest": {
     "moduleFileExtensions": [
       "js",

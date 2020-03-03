@@ -1,9 +1,9 @@
-# alientube
+# Threads for Youtube (TFY)
 Extension that injects reddit comments into Youtube
 
 ## Build Setup
 
-AlienTube requires:
+TFY requires:
 * `node`
 * `npm`
 * `web-ext` (optional)
@@ -34,7 +34,7 @@ npm run dev
 npm run watch
 ```
 
-#### Loading alienTube into your browser
+#### Loading TFY into your browser
 
 ##### Firefox
 

@@ -15,7 +15,7 @@ const browser = {
 };
 const mocks = { $browser: browser };
 
-const titleMessage = 'AlienTube Settings';
+const titleMessage = 'Threads for YouTube Settings';
 
 
 describe('Options', () => {
