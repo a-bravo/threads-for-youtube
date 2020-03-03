@@ -1,5 +1,5 @@
 # Threads for Youtube (TFY)
-Extension that injects reddit comments into Youtube
+Extension that adds reddit comments to YouTube
 
 ## Build Setup
 

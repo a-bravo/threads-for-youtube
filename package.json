@@ -1,7 +1,7 @@
 {
   "name": "threads-for-youtube",
-  "version": "1.0.0",
-  "description": "Reddit comments on Youtube",
+  "version": "0.8.1",
+  "description": "Reddit comments on YouTube",
   "main": "content_script.js",
   "scripts": {
     "start:firefox": "web-ext run -s dist --browser-console --start-url https://youtu.be/adzYW5DZoWs --start-url about:addons",
