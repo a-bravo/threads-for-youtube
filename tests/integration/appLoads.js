@@ -14,6 +14,10 @@ import {
 import { VIDEO_URL } from './constants';
 
 module.exports = {
+  beforeEach(browser) {
+    browser.execute('window.scrollTo(0, 0)') // reset scroll
+  },
+
   'Open youtube video': function (browser) {
     browser
       .url(VIDEO_URL)
@@ -58,17 +62,11 @@ module.exports = {
       .click(`#${APP_ID} #submission-list`)
       .assert.cssClassPresent(`#${APP_ID} #submission-list`, 'selected')
       .assert.elementPresent('.submission-list .more-button')
-
-    // test load more posts
     browser.expect.elements(`#${APP_ID} .submission-list .submission`).count.to.equal(OPTIONS.NUM_POSTS)
-    browser.click('.submission-list .more-button')
-    browser.expect.elements(`#${APP_ID} .submission-list .submission`).count.to.equal(2 * OPTIONS.NUM_POSTS)
-    browser.assert.elementPresent('.submission-list .more-button')
   },
 
   'YT comments': function (browser) {
     browser
-      .execute('window.scrollTo(0, 0)') // reset scroll
       .click(`#${APP_ID} #youtube-comments-view`)
       .assert.cssClassPresent(`#${APP_ID} #youtube-comments-view`, 'selected')
       .execute('document.querySelector("#comments #sections").scrollIntoView()')
