@@ -2,6 +2,8 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ZipPlugin = require('zip-webpack-plugin');
 const DotEnv = require('dotenv-webpack');
+const imagemin = require('imagemin');
+const imageminPngquant = require('imagemin-pngquant');
 
 module.exports = {
   entry: {
@@ -35,11 +37,17 @@ module.exports = {
         from: '**/*',
         to: 'icons/',
         context: 'icons',
+        transform: (content) => imagemin.buffer(content, {
+          plugins: [imageminPngquant()],
+        }),
       },
       {
         from: '**/*',
         to: 'images/',
         context: 'images',
+        transform: (content) => imagemin.buffer(content, {
+          plugins: [imageminPngquant()],
+        }),
       },
     ]),
     new ZipPlugin({
