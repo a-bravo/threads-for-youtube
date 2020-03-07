@@ -23,6 +23,7 @@ describe('SubmissionList', () => {
       submissions: [],
       options: OPTIONS,
       numFilteredSubmissions: 0,
+      sort: OPTIONS.DEFAULT_POSTS_SORT,
     },
     parentComponent: root,
   });
@@ -51,6 +52,7 @@ describe('SubmissionList', () => {
       expect(wrapper.contains('ul')).toBe(false);
       expect(wrapper.contains('more-button-stub')).toBe(false);
       expect(wrapper.contains('submission-stub')).toBe(false);
+      expect(wrapper.contains('#sort-by')).toBe(false);
     });
 
     test('correct markup on state.init', () => {
@@ -60,6 +62,7 @@ describe('SubmissionList', () => {
       expect(wrapper.contains('ul')).toBe(false);
       expect(wrapper.contains('more-button-stub')).toBe(false);
       expect(wrapper.contains('submission-stub')).toBe(false);
+      expect(wrapper.contains('#sort-by')).toBe(false);
     });
   });
 
@@ -81,6 +84,7 @@ describe('SubmissionList', () => {
       expect(wrapper.contains('ul')).toBe(false);
       expect(wrapper.contains('more-button-stub')).toBe(false);
       expect(wrapper.contains('submission-stub')).toBe(false);
+      expect(wrapper.contains('#sort-by')).toBe(false);
     });
 
     test('on load no results', () => {
@@ -89,6 +93,7 @@ describe('SubmissionList', () => {
       expect(wrapper.contains('ul')).toBe(false);
       expect(wrapper.contains('more-button-stub')).toBe(false);
       expect(wrapper.contains('submission-stub')).toBe(false);
+      expect(wrapper.contains('#sort-by')).toBe(false);
     });
 
     describe('posts have been filtered', () => {
@@ -98,6 +103,7 @@ describe('SubmissionList', () => {
         expect(wrapper.html()).toContain('1 post filtered');
 
         expect(wrapper.contains('ul')).toBe(true);
+        expect(wrapper.contains('#sort-by')).toBe(true);
         expect(wrapper.contains('more-button-stub')).toBe(false);
         expect(wrapper.contains('submission-stub')).toBe(false);
       });
@@ -111,6 +117,8 @@ describe('SubmissionList', () => {
         expect(wrapper.html()).toContain('1 post filtered');
 
         expect(wrapper.contains('ul')).toBe(true);
+        expect(wrapper.contains('#sort-by')).toBe(true);
+        expect(wrapper.find('select').element.value).toBe(OPTIONS.DEFAULT_POSTS_SORT);
         expect(wrapper.contains('more-button-stub')).toBe(false);
         expect(wrapper.findAll('submission-stub')).toHaveLength(1);
       });

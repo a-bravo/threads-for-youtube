@@ -36,7 +36,7 @@ describe('Options', () => {
       expect(wrapper.findAll('input, select')).toHaveLength(Object.keys(OPTIONS).length);
 
       expect(wrapper.find('select').element.value).toBe(OPTIONS.DEFAULT_TAB);
-      expect(parseInt(wrapper.findAll('select').at(1).element.value, 10)).toBe(OPTIONS.NUM_POSTS);
+      expect(parseInt(wrapper.findAll('select').at(2).element.value, 10)).toBe(OPTIONS.NUM_POSTS);
     });
 
     describe('getOptions', () => {

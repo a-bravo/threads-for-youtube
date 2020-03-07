@@ -21,6 +21,7 @@
           {{ getTabTitle(tab) }}
         </button>
       </div>
+
       <div>
         <keep-alive :include="keepAlive">
           <component
@@ -28,6 +29,7 @@
             v-bind="currentProperties"
             @moreSubmissions="getSubmissions"
             @reload="getSubmissions"
+            @sortChanged="s => sort = s"
           />
         </keep-alive>
       </div>
@@ -69,6 +71,7 @@ export default {
       YT_CONTENT_RENDERER_CLASS,
       scrolledDown: false,
       keepAlive: ['comments-view'],
+      sort: '',
     };
   },
   computed: {
@@ -86,6 +89,7 @@ export default {
 
         if (this.currentTabComponent === 'submission-list') {
           props.numFilteredSubmissions = this.submissions.length - this.filteredSubmissions.length;
+          props.sort = this.sort;
         }
 
         return props;
@@ -105,6 +109,17 @@ export default {
   watch: {
     options() {
       this.currentTabComponent = this.options.DEFAULT_TAB;
+      this.sort = this.options.DEFAULT_POSTS_SORT;
+    },
+    sort() {
+      // dont getSubmissions when first loading or loading submissions
+      if (!this.$root.$data.state.init
+        && !this.$root.$data.state.submissions.loading
+      ) {
+        // reset nextsubmission
+        this.$root.$data.clearDataAction();
+        this.getSubmissions();
+      }
     },
   },
   created() {
@@ -186,10 +201,14 @@ export default {
         this.$nextTick().then(() => { this.keepAlive = ['comments-view']; });
       }
 
-      this.$root.$data.loadSubmissions(this.query, 'comments', this.options.NUM_POSTS, this.$root.$data.state.nextSubmission)
-        .then(() => {
-          this.updateCurrentTabIfNeeded();
-        });
+      this.$root.$data.loadSubmissions(
+        this.query,
+        this.sort,
+        this.options.NUM_POSTS,
+        this.$root.$data.state.nextSubmission,
+      ).then(() => {
+        this.updateCurrentTabIfNeeded();
+      });
     },
     getTabTitle(tab) {
       // set youtube title

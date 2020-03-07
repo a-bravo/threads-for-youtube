@@ -34,6 +34,18 @@
           <th>posts tab options</th>
           <td>
             <div>
+              sort posts by
+              <select v-model="options.DEFAULT_POSTS_SORT">
+                <option
+                  v-for="s in postSorts"
+                  :key="s"
+                  :value="s"
+                >
+                  {{ s }}
+                </option>
+              </select>
+            </div>
+            <div>
               display
               <select
                 v-model.number="options.NUM_POSTS"
@@ -164,13 +176,14 @@
 import cloneDeep from 'lodash/cloneDeep';
 import pick from 'lodash/pick';
 import optionsMixin from '../mixins/optionsMixin';
-import { OPTIONS, COMPONENT_TABS } from '../constants';
+import { OPTIONS, COMPONENT_TABS, POST_SORTS } from '../constants';
 
 export default {
   mixins: [optionsMixin],
   data() {
     return {
       tabs: COMPONENT_TABS,
+      postSorts: POST_SORTS,
       newFilter: '',
       saved: false,
       initialLoad: true,

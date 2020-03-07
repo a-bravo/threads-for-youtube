@@ -38,6 +38,8 @@ const mocks = { $browser: browser };
 const numPostsMessage = 'reddit post';
 const numCommentsMessage = 'reddit comment';
 
+const youtubeTab = 'youtube-comments-view';
+
 describe('App', () => {
   // mount component
   const wrapper = shallowMount(App, { mocks, parentComponent: root });
@@ -55,7 +57,7 @@ describe('App', () => {
     test('has the correct default data', () => {
       expect(typeof App.data).toBe('function');
       expect(wrapper.vm.options).toStrictEqual(OPTIONS);
-      expect(wrapper.vm.currentTabComponent).toBe(OPTIONS.DEFAULT_TAB);
+      expect(wrapper.vm.currentTabComponent).toBe(youtubeTab);
       expect(wrapper.vm.submissions).toHaveLength(0);
     });
 
@@ -64,7 +66,7 @@ describe('App', () => {
       expect(wrapper.html()).toContain(numCommentsMessage);
       expect(wrapper.findAll('button')).toHaveLength(wrapper.vm.tabs.length);
 
-      expect(wrapper.contains(`${OPTIONS.DEFAULT_TAB}-stub`)).toBe(true);
+      expect(wrapper.contains(`${youtubeTab}-stub`)).toBe(true);
     });
   });
 
@@ -158,13 +160,13 @@ describe('App', () => {
       wrapper.vm.currentTabComponent = 'submission-list';
       expect(wrapper.contains('submission-list-stub')).toBe(true);
 
-      expect(wrapper.contains('youtube-comments-view-stub')).toBe(false);
+      expect(wrapper.contains(`${youtubeTab}-stub`)).toBe(false);
       expect(wrapper.contains('comments-view-stub')).toBe(false);
     });
 
     test('to youtube-comments-view component', () => {
-      wrapper.vm.currentTabComponent = 'youtube-comments-view';
-      expect(wrapper.contains('youtube-comments-view-stub')).toBe(true);
+      wrapper.vm.currentTabComponent = youtubeTab;
+      expect(wrapper.contains(`${youtubeTab}-stub`)).toBe(true);
 
       expect(wrapper.contains('submission-list-stub')).toBe(false);
       expect(wrapper.contains('comments-view-stub')).toBe(false);
@@ -175,7 +177,7 @@ describe('App', () => {
       expect(wrapper.contains('comments-view-stub')).toBe(true);
 
       expect(wrapper.contains('submission-list-stub')).toBe(false);
-      expect(wrapper.contains('youtube-comments-view-stub')).toBe(false);
+      expect(wrapper.contains(`${youtubeTab}-stub`)).toBe(false);
     });
   });
 });

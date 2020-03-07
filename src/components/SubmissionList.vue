@@ -21,6 +21,18 @@
       v-else
       class="submission-list"
     >
+      <div id="sort-by">
+        <span class="subtext">sorted by:</span>
+        <select v-model="selectSort">
+          <option
+            v-for="s in sorts"
+            :key="s"
+            :value="s"
+          >
+            {{ s }}
+          </option>
+        </select>
+      </div>
       <submission
         v-for="submission in submissions"
         :key="submission.id"
@@ -54,7 +66,7 @@ import Submission from './Submission.vue';
 import Spinner from './Spinner.vue';
 import MoreButton from './MoreButton.vue';
 import { pluralize } from '../util';
-import { YT_LINK_CLASS } from '../constants';
+import { YT_LINK_CLASS, POST_SORTS } from '../constants';
 
 export default {
   components: {
@@ -71,6 +83,10 @@ export default {
       type: Number,
       required: true,
     },
+    sort: {
+      type: String,
+      required: true,
+    },
     options: {
       type: Object,
       required: true,
@@ -79,7 +95,17 @@ export default {
   data() {
     return {
       YT_LINK_CLASS,
+      sorts: POST_SORTS,
+      selectSort: this.sort,
     };
+  },
+  watch: {
+    sort() {
+      this.selectSort = this.sort;
+    },
+    selectSort() {
+      this.$emit('sortChanged', this.selectSort);
+    },
   },
   methods: {
     pluralize,
@@ -97,5 +123,9 @@ export default {
 }
 .pad-bottom {
   padding-bottom: $at-spacing;
+}
+#sort-by {
+  width: 100%;
+  margin-bottom: $at-spacing;
 }
 </style>

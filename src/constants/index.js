@@ -11,6 +11,7 @@ export const OPTIONS = {
   BACKUP_YT_TAB: true,
   NUM_POSTS: 10,
   NUM_COMMENTS: 200,
+  DEFAULT_POSTS_SORT: 'comments',
   POST_COMMENT_THRESHOLD: 0,
   COMMENT_SCORE_THRESHOLD: -4,
   SHOW_USER_FLAIR: true,
@@ -21,6 +22,13 @@ export const COMPONENT_TABS = [
   { text: 'reddit posts', value: 'submission-list' },
   { text: 'reddit comments', value: 'comments-view' },
   { text: 'YouTube comments', value: 'youtube-comments-view' },
+];
+export const POST_SORTS = [
+  'comments',
+  'top',
+  'hot',
+  'new',
+  'relevance',
 ];
 
 // Youtube ids, classes
