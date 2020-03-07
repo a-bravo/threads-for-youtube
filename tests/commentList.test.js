@@ -12,6 +12,7 @@ const root = {
         comments: {},
       },
       loadComments: jest.fn().mockResolvedValue({}),
+      setSortAction: jest.fn(),
     };
   },
 };
@@ -43,6 +44,7 @@ describe('CommentList', () => {
 
       expect(wrapper.contains('ul')).toBe(false);
       expect(wrapper.findAll('comment-stub')).toHaveLength(0);
+      expect(wrapper.contains('#sort-by')).toBe(false);
     });
   });
 
@@ -59,6 +61,8 @@ describe('CommentList', () => {
     expect(wrapper.contains('submission-stub')).toBe(true);
     expect(wrapper.contains('ul')).toBe(true);
     expect(wrapper.findAll('comment-stub')).toHaveLength(2);
+    expect(wrapper.contains('#sort-by')).toBe(true);
+    expect(wrapper.find('select').element.value).toBe(OPTIONS.DEFAULT_COMMENTS_SORT);
   });
 
   describe('renders correctly on edge cases', () => {

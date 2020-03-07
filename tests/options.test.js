@@ -60,7 +60,7 @@ describe('Options', () => {
 
   describe('validate user input on textbox', () => {
     describe('POST_COMMENT_THRESHOLD', () => {
-      const input = wrapper.findAll('input').at(1);
+      const input = wrapper.findAll('input').at(2);
 
       describe('when changing to invalid value', () => {
         test('non-integer value', () => {
@@ -103,7 +103,7 @@ describe('Options', () => {
     });
 
     describe('COMMENT_SCORE_THRESHOLD', () => {
-      const input = wrapper.findAll('input').at(2);
+      const input = wrapper.findAll('input').at(3);
 
       describe('when changing to invalid value', () => {
         test('non-integer value', () => {
@@ -132,7 +132,7 @@ describe('Options', () => {
     });
 
     describe('NUM_COMMENTS', () => {
-      const input = wrapper.findAll('input').at(3);
+      const input = wrapper.findAll('input').at(4);
 
       describe('when changing to invalid value', () => {
         test('non-integer value', () => {

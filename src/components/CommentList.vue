@@ -32,6 +32,25 @@
       v-else
       class="replies"
     >
+      <div id="sort-by">
+        <span class="subtext">sorted by:</span>
+        <select
+          v-model="sort"
+          :disabled="moreLoading"
+        >
+          <option
+            v-for="s in sorts"
+            :key="s.value"
+            :value="s.value"
+          >
+            {{ s.text }}
+            <span v-if="!options.IGNORE_SUGGESTED_SORT && s.value === submission.suggested_sort">
+              (suggested)
+            </span>
+          </option>
+        </select>
+      </div>
+
       <comment
         v-for="comment in comments"
         :key="comment.data.id"
@@ -47,7 +66,7 @@
 import Submission from './Submission.vue';
 import Comment from './Comment.vue';
 import Spinner from './Spinner.vue';
-import { YT_LINK_CLASS } from '../constants';
+import { YT_LINK_CLASS, COMMENT_SORTS } from '../constants';
 
 
 export default {
@@ -69,6 +88,9 @@ export default {
   data() {
     return {
       YT_LINK_CLASS,
+      sort: this.getSort(),
+      sorts: COMMENT_SORTS,
+      moreLoading: false,
     };
   },
   computed: {
@@ -78,19 +100,43 @@ export default {
       );
     },
   },
+  watch: {
+    sort() {
+      this.$root.$data.setSortAction(this.submission.name, this.sort);
+
+      // reset and reload comments (with new sort)
+      this.$root.$data.clearComments(this.submission.name);
+      this.loadComments();
+    },
+  },
   mounted() {
     this.loadComments();
   },
   methods: {
+    getSort() {
+      if (!this.$root.$data.state.submissions[this.submission.name].sort) {
+        this.$root.$data.setSortAction(
+          this.submission.name,
+          this.options.IGNORE_SUGGESTED_SORT
+            ? this.options.DEFAULT_COMMENTS_SORT
+            : this.submission.suggested_sort || this.options.DEFAULT_COMMENTS_SORT,
+        );
+      }
+
+      return this.$root.$data.state.submissions[this.submission.name].sort;
+    },
     loadComments() {
       this.$root.$data.loadComments(
         this.submission.id,
         this.submission.name,
         this.options.NUM_COMMENTS,
+        this.sort,
       );
     },
     moreComments(more) {
-      this.$root.$data.loadMoreComments(this.submission.name, more);
+      this.moreLoading = true;
+      this.$root.$data.loadMoreComments(this.submission.name, more, this.sort)
+        .finally(() => { this.moreLoading = false; });
     },
   },
 };
@@ -116,5 +162,9 @@ export default {
 }
 .comment-list {
   @include reset-list;
+}
+#sort-by {
+  margin-bottom: $at-spacing;
+  border-top: 1px dotted $rt-grey;
 }
 </style>

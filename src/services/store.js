@@ -29,11 +29,19 @@ export default {
   setInitAction(value) {
     this.state.init = value;
   },
+  setSortAction(submissionName, sort) {
+    this.state.submissions[submissionName].sort = sort;
+  },
   addSubmissionAction(submission) {
     Vue.set(
       this.state.submissions,
       submission.data.name,
-      { ...submission, ...emptyDataObject, comments: [] },
+      {
+        ...submission,
+        ...emptyDataObject,
+        comments: [],
+        sort: '',
+      },
     );
     this.state.submissionList.push(submission.data.name);
   },
@@ -43,6 +51,33 @@ export default {
     this.state.comments = {};
     this.state.nextSubmission = null;
     this.state.init = false;
+  },
+  /**
+   * Clear comments and their children from store
+   *
+   * @param {string[]} commentNames A list of fullnames (type prefix + ID36)
+   */
+  clearCommentsAction(commentNames) {
+    commentNames.forEach((name) => {
+      if (this.state.comments[name] && this.state.comments[name].kind !== RT_MORE_OBJECT) {
+        // remove comments recursively
+        this.clearCommentsAction(this.state.comments[name].comments);
+      }
+
+      // delete comment from store
+      Vue.delete(this.state.comments, name);
+    });
+  },
+  /**
+   * Clear a sumbission's comments from store
+   *
+   * @param {String} submissionName Fullname (type prefix + ID36)
+   */
+  clearComments(submissionName) {
+    this.clearCommentsAction(this.state.submissions[submissionName].comments);
+
+    // remove top-level commentNames from submissions object
+    this.state.submissions[submissionName].comments = [];
   },
   addCommentAction(comment) {
     const parentId = comment.data.parent_id;
@@ -117,7 +152,7 @@ export default {
         this.state.submissions.moreLoading = false;
       });
   },
-  loadComments(submissionId, submissionName, limit) {
+  loadComments(submissionId, submissionName, limit, sort) {
     if (this.state.submissions[submissionName].comments.length
       || this.state.submissions[submissionName].loading
     ) {
@@ -126,7 +161,7 @@ export default {
 
     this.state.submissions[submissionName].loading = true;
     this.state.submissions[submissionName].error = false;
-    return getComments(submissionId, limit)
+    return getComments(submissionId, limit, sort)
       .then((comments) => {
         this.addComments(comments);
         return Promise.resolve();
@@ -137,10 +172,10 @@ export default {
       })
       .finally(() => { this.state.submissions[submissionName].loading = false; });
   },
-  loadMoreComments(submissionId, more) {
+  loadMoreComments(submissionId, more, sort) {
     this.state.comments[more.name].moreLoading = true;
     this.state.comments[more.name].moreError = false;
-    return getMoreComments(submissionId, more.children)
+    return getMoreComments(submissionId, more.children, sort)
       .then((comments) => {
         this.removeLastCommentAction(more.parent_id);
         this.addComments(comments);

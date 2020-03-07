@@ -6,6 +6,10 @@ import { APP_ID, YT_COMMENTS_ID, YT_NAVBAR_ID } from '../../src/constants';
 import { VIDEO_URL, FIRST_COMMENT_ID } from './constants';
 
 module.exports = {
+  beforeEach(browser) {
+    browser.execute('window.scrollTo(0, 0)') // reset scroll
+  },
+
   'Open youtube video': function (browser) {
     browser
       .url(VIDEO_URL)
@@ -64,6 +68,31 @@ module.exports = {
             )
           })
         })
+  },
+
+  'Select option state': function (browser) {
+    browser
+      // ensure comment select value maintains state
+      .click(`#${APP_ID} select option[value=qa]`)
+      .assert.value(`#${APP_ID} select`, 'qa')
+      .click(`#${APP_ID} .submissions-sidebar > li:nth-child(2)`)
+      .waitForElementVisible(`#${APP_ID} .comment-list`)
+      .assert.not.value(`#${APP_ID} select`, 'qa')
+      .click(`#${APP_ID} .submissions-sidebar > li:first-child`)
+      .waitForElementVisible(`#${APP_ID} .comment-list`)
+      .assert.value(`#${APP_ID} select`, 'qa') // maintained state
+
+      // ensure comment select resets state & post sort maintains state
+      .click(`#${APP_ID} #submission-list`)
+      .click(`#${APP_ID} select option[value=new]`)
+      .assert.value(`#${APP_ID} select`, 'new')
+      // check comment select state resets to 'confidence'
+      .click(`#${APP_ID} #comments-view`)
+      .waitForElementVisible(`#${APP_ID} .comment-list`)
+      .assert.value(`#${APP_ID} select`, 'confidence')
+      // check post sort value maintained state
+      .click(`#${APP_ID} #submission-list`)
+      .assert.value(`#${APP_ID} select`, 'new')
   },
 
   'App location within DOM (next to YT comments)': function (browser) {

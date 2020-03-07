@@ -39,11 +39,13 @@ export function search(query, sort, limit, after = null) {
  *
  * @param {String} submissionId ID36 of a submission
  * @param {Number} limit Maximum number of comments to return
+ * @param {String} sort Determines how the results should be sorted (confidence,
+ *    top, new, controversial, old, qa)
  *
  * @returns {Promise} A reddit Listing containing comment list
  */
-export function getComments(submissionId, limit) {
-  return authRequest('get', `comments/${submissionId}`, { params: { limit } })
+export function getComments(submissionId, limit, sort) {
+  return authRequest('get', `comments/${submissionId}`, { params: { limit, sort } })
     .then((response) => response[1].data.children);
 }
 
@@ -52,10 +54,12 @@ export function getComments(submissionId, limit) {
  *
  * @param {String} linkId ID36 of a submission
  * @param {Array} children List of comment ID36s
+ * @param {String} sort Determines how the results should be sorted (confidence,
+ *    top, new, controversial, old, qa
  *
  * @returns {Promise} A reddit Listing containing comment list
  */
-export function getMoreComments(linkId, children) {
+export function getMoreComments(linkId, children, sort) {
   return authRequest(
     'post',
     'api/morechildren',
@@ -63,6 +67,7 @@ export function getMoreComments(linkId, children) {
       body: {
         link_id: linkId,
         children,
+        sort,
         api_type: 'json',
       },
     },

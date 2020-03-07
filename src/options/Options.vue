@@ -65,6 +65,27 @@
           <th>comments tab options</th>
           <td>
             <div>
+              sort comments by
+              <select v-model="options.DEFAULT_COMMENTS_SORT">
+                <option
+                  v-for="s in commentSorts"
+                  :key="s.value"
+                  :value="s.value"
+                >
+                  {{ s.text }}
+                </option>
+              </select>
+            </div>
+            <div>
+              <input
+                v-model="options.IGNORE_SUGGESTED_SORT"
+                type="checkbox"
+              >
+              <label>
+                ignore suggested sorts
+              </label>
+            </div>
+            <div>
               don't show me posts with
               <input
                 v-model.number.lazy.trim="options.POST_COMMENT_THRESHOLD"
@@ -176,7 +197,12 @@
 import cloneDeep from 'lodash/cloneDeep';
 import pick from 'lodash/pick';
 import optionsMixin from '../mixins/optionsMixin';
-import { OPTIONS, COMPONENT_TABS, POST_SORTS } from '../constants';
+import {
+  OPTIONS,
+  COMPONENT_TABS,
+  POST_SORTS,
+  COMMENT_SORTS,
+} from '../constants';
 
 export default {
   mixins: [optionsMixin],
@@ -184,6 +210,7 @@ export default {
     return {
       tabs: COMPONENT_TABS,
       postSorts: POST_SORTS,
+      commentSorts: COMMENT_SORTS,
       newFilter: '',
       saved: false,
       initialLoad: true,

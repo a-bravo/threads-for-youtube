@@ -196,5 +196,133 @@ describe('store', () => {
         expect(store.state.comments[comment.name]).toBe(undefined);
       });
     });
+
+    describe('clearComments, clearCommentsAction', () => {
+      beforeEach(() => {
+        store.addComments([
+          {
+            data: {
+              parent_id: submissionId,
+              name: 'c_1',
+              depth: 0,
+              replies: {
+                data: {
+                  children: [
+                    {
+                      data: {
+                        parent_id: 'c_1',
+                        name: 'c_2',
+                        depth: 1,
+                      },
+                    },
+                    {
+                      data: {
+                        parent_id: 'c_1',
+                        name: 'c_3',
+                        depth: 1,
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
+          {
+            data: {
+              parent_id: submissionId,
+              name: 'c_4',
+              depth: 0,
+            },
+          },
+          {
+            data: {
+              parent_id: submissionId,
+              name: 'c_5',
+              depth: 0,
+            },
+          },
+        ]);
+      });
+
+      test('clears comments', () => {
+        expect(store.state.submissions[submissionId].comments).toHaveLength(3);
+        expect(store.state.comments.c_1.comments).toHaveLength(2);
+        expect(store.state.comments).not.toStrictEqual({});
+
+        store.clearComments(submissionId);
+
+        expect(store.state.submissions[submissionId].comments).toHaveLength(0);
+        expect(store.state.comments).toStrictEqual({});
+      });
+
+      test('doesnt clear other submission\'s comments', () => {
+        const target = `${submissionId}_target`;
+        store.addSubmissionAction({ data: { name: target } });
+
+        store.clearComments(target);
+
+        expect(store.state.submissions[submissionId].comments).toHaveLength(3);
+        expect(store.state.comments.c_1.comments).toHaveLength(2);
+        expect(store.state.comments.c_1).toBeTruthy();
+        expect(store.state.comments.c_2).toBeTruthy();
+        expect(store.state.comments.c_3).toBeTruthy();
+        expect(store.state.comments.c_4).toBeTruthy();
+        expect(store.state.comments.c_5).toBeTruthy();
+      });
+
+      describe('clears more objects', () => {
+        beforeEach(() => {
+          // add load more obj
+          store.addCommentAction({
+            data: {
+              parent_id: submissionId,
+              name: 'm_1',
+              depth: 0,
+            },
+            kind: RT_MORE_OBJECT,
+          });
+          // add continue more obj
+          store.addCommentAction({
+            data: {
+              parent_id: 'c_2',
+              name: 'm__', // ids for these objects are all the same
+              depth: 2,
+            },
+            kind: RT_MORE_OBJECT,
+          });
+        });
+
+        test('base case', () => {
+          expect(store.state.submissions[submissionId].comments).toHaveLength(4);
+          expect(store.state.comments.c_2.comments).toHaveLength(1);
+          expect(store.state.comments).not.toStrictEqual({});
+
+          store.clearComments(submissionId);
+
+          expect(store.state.submissions[submissionId].comments).toHaveLength(0);
+          expect(store.state.comments).toStrictEqual({});
+        });
+
+        test('multiple \'continue thread\' more objects', () => {
+          store.addCommentAction({
+            data: {
+              parent_id: 'c_3',
+              name: 'm__', // ids for these objects are all the same
+              depth: 2,
+            },
+            kind: RT_MORE_OBJECT,
+          });
+
+          expect(store.state.comments.c_2.comments).toHaveLength(1);
+          expect(store.state.comments.c_3.comments).toHaveLength(1);
+          expect(store.state.comments).not.toStrictEqual({});
+
+          store.clearComments(submissionId);
+
+          expect(store.state.submissions[submissionId].comments).toHaveLength(0);
+          expect(store.state.comments).toStrictEqual({});
+        });
+      });
+    });
   });
 });

@@ -12,6 +12,8 @@ export const OPTIONS = {
   NUM_POSTS: 10,
   NUM_COMMENTS: 200,
   DEFAULT_POSTS_SORT: 'comments',
+  DEFAULT_COMMENTS_SORT: 'confidence', // best
+  IGNORE_SUGGESTED_SORT: false,
   POST_COMMENT_THRESHOLD: 0,
   COMMENT_SCORE_THRESHOLD: -4,
   SHOW_USER_FLAIR: true,
@@ -29,6 +31,14 @@ export const POST_SORTS = [
   'hot',
   'new',
   'relevance',
+];
+export const COMMENT_SORTS = [
+  { text: 'best', value: 'confidence' },
+  { text: 'top', value: 'top' },
+  { text: 'new', value: 'new' },
+  { text: 'controversial', value: 'controversial' },
+  { text: 'old', value: 'old' },
+  { text: 'q&a', value: 'qa' },
 ];
 
 // Youtube ids, classes
