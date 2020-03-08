@@ -16,36 +16,6 @@ module.exports = {
       .waitForElementVisible(`#${APP_ID}`)
   },
 
-  'Load more submissions': function (browser) {
-    browser
-      .click(`#${APP_ID} #submission-list`)
-      .waitForElementVisible(`#${APP_ID} .submission-list`)
-      // match submissions
-      .elements('css selector', `#${APP_ID} .submission-list .submission`, (result) => {
-        browser
-          .keys(browser.Keys.ESCAPE) // ensure any page popups are closed
-          .click('.submission-list .more-button')
-        browser.expect.elements(`#${APP_ID} .submission-list .submission`)
-          .count.to.equal(result.value.length + OPTIONS.NUM_POSTS)
-      })
-      .assert.elementPresent('.submission-list .more-button')
-  },
-
-  'Load more submissions on comments tab': function (browser) {
-    browser
-      .click(`#${APP_ID} #comments-view`)
-      .waitForElementVisible(`#${APP_ID} .submissions-sidebar`)
-      // match submissions
-      .elements('css selector', `#${APP_ID} .submissions-sidebar li`, (result) => {
-        browser
-          .keys(browser.Keys.ESCAPE) // ensure any page popups are closed
-          .click('.submissions-sidebar .more-button')
-        browser.expect.elements(`#${APP_ID} .submissions-sidebar li`)
-          .count.to.equal(result.value.length + OPTIONS.NUM_POSTS)
-      })
-      .assert.elementPresent('.submissions-sidebar .more-button')
-  },
-
   'Load more nested comments': function (browser) {
     browser
       .click(`#${APP_ID} #comments-view`)
@@ -88,6 +58,55 @@ module.exports = {
           )
       })
   },
+
+  'Load more submissions': function (browser) {
+    browser
+      // change the current submission in comments view (will test for this value later)
+      .click(`#${APP_ID} #comments-view`)
+      .waitForElementVisible(`#${APP_ID} .submissions-sidebar`)
+      .click(`#${APP_ID} .submissions-sidebar > li:nth-child(2)`)
+      .assert.cssClassPresent(`#${APP_ID} .submissions-sidebar > li:nth-child(2)`, 'selected')
+
+      // load more
+      .click(`#${APP_ID} #submission-list`)
+      .waitForElementVisible(`#${APP_ID} .submission-list`)
+      // match submissions
+      .elements('css selector', `#${APP_ID} .submission-list .submission`, (result) => {
+        browser
+          .keys(browser.Keys.ESCAPE) // ensure any page popups are closed
+          .click('.submission-list .more-button')
+        browser.expect.elements(`#${APP_ID} .submission-list .submission`)
+          .count.to.equal(result.value.length + OPTIONS.NUM_POSTS)
+      })
+      .assert.elementPresent('.submission-list .more-button')
+
+      // ensure comments view cached by checking that current submission is the same
+      .execute('window.scrollTo(0, 0)') // reset scroll
+      .click(`#${APP_ID} #comments-view`)
+      .waitForElementVisible(`#${APP_ID} .submissions-sidebar`)
+      .assert.cssClassPresent(`#${APP_ID} .submissions-sidebar > li:nth-child(2)`, 'selected')
+  },
+
+  'Load more submissions on comments tab': function (browser) {
+    browser
+      .click(`#${APP_ID} #comments-view`)
+      .waitForElementVisible(`#${APP_ID} .submissions-sidebar`)
+      // set current submission
+      .click(`#${APP_ID} .submissions-sidebar > li:nth-child(2)`)
+      // match submissions
+      .elements('css selector', `#${APP_ID} .submissions-sidebar li`, (result) => {
+        browser
+          .keys(browser.Keys.ESCAPE) // ensure any page popups are closed
+          .click('.submissions-sidebar .more-button')
+        browser.expect.elements(`#${APP_ID} .submissions-sidebar li`)
+          .count.to.equal(result.value.length + OPTIONS.NUM_POSTS)
+      })
+      .assert.elementPresent('.submissions-sidebar .more-button')
+
+      // ensure current submission is the same
+      .assert.cssClassPresent(`#${APP_ID} .submissions-sidebar > li:nth-child(2)`, 'selected')
+  },
+
 
   'end': function (browser) {
     browser

@@ -2,12 +2,12 @@
 import { YT_COMMENTS_ID } from '../constants';
 
 export default {
-  activated() {
+  mounted() {
     // show comments and trigger scroll event (load comments)
     document.getElementById(YT_COMMENTS_ID).classList.remove('hidden');
     window.dispatchEvent(new CustomEvent('scroll'));
   },
-  deactivated() {
+  beforeDestroy() {
     document.getElementById(YT_COMMENTS_ID).classList.add('hidden');
   },
 };

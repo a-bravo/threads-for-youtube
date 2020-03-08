@@ -22,7 +22,7 @@
         </button>
       </div>
       <div>
-        <keep-alive>
+        <keep-alive :include="keepAlive">
           <component
             :is="currentTabComponent"
             v-bind="currentProperties"
@@ -68,6 +68,7 @@ export default {
       APP_ID,
       YT_CONTENT_RENDERER_CLASS,
       scrolledDown: false,
+      keepAlive: ['comments-view'],
     };
   },
   computed: {
@@ -179,6 +180,12 @@ export default {
       this.debouncedGetSubmissions();
     },
     getSubmissions() {
+      if (!this.$root.$data.state.nextSubmission) {
+        // loading new data: reset cached component (comments view)
+        this.keepAlive = [];
+        this.$nextTick().then(() => { this.keepAlive = ['comments-view']; });
+      }
+
       this.$root.$data.loadSubmissions(this.query, 'comments', this.options.NUM_POSTS, this.$root.$data.state.nextSubmission)
         .then(() => {
           this.updateCurrentTabIfNeeded();
