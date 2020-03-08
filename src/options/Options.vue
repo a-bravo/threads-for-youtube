@@ -8,15 +8,10 @@
           <td>
             <div>
               default tab
-              <select v-model="options.DEFAULT_TAB">
-                <option
-                  v-for="tab in tabs"
-                  :key="tab.value"
-                  :value="tab.value"
-                >
-                  {{ tab.text }}
-                </option>
-              </select>
+              <select-input
+                v-model="options.DEFAULT_TAB"
+                :options="tabs"
+              />
             </div>
             <div>
               <input
@@ -35,27 +30,17 @@
           <td>
             <div>
               sort posts by
-              <select v-model="options.DEFAULT_POSTS_SORT">
-                <option
-                  v-for="s in postSorts"
-                  :key="s"
-                  :value="s"
-                >
-                  {{ s }}
-                </option>
-              </select>
+              <select-input
+                v-model="options.DEFAULT_POSTS_SORT"
+                :options="postSorts"
+              />
             </div>
             <div>
               display
-              <select
-                v-model.number="options.NUM_POSTS"
-                type="number"
-              >
-                <option>10</option>
-                <option>25</option>
-                <option>50</option>
-                <option>100</option>
-              </select>
+              <select-input
+                v-model="options.NUM_POSTS"
+                :options="[10, 25, 50, 100]"
+              />
               links at once
             </div>
           </td>
@@ -66,15 +51,10 @@
           <td>
             <div>
               sort comments by
-              <select v-model="options.DEFAULT_COMMENTS_SORT">
-                <option
-                  v-for="s in commentSorts"
-                  :key="s.value"
-                  :value="s.value"
-                >
-                  {{ s.text }}
-                </option>
-              </select>
+              <select-input
+                v-model="options.DEFAULT_COMMENTS_SORT"
+                :options="commentSorts"
+              />
             </div>
             <div>
               <input
@@ -89,7 +69,6 @@
               don't show me posts with
               <input
                 v-model.number.lazy.trim="options.POST_COMMENT_THRESHOLD"
-                min="1"
                 size="3"
                 maxlength="3"
               >
@@ -196,6 +175,7 @@
 <script>
 import cloneDeep from 'lodash/cloneDeep';
 import pick from 'lodash/pick';
+import SelectInput from '../components/SelectInput.vue';
 import optionsMixin from '../mixins/optionsMixin';
 import {
   OPTIONS,
@@ -205,6 +185,9 @@ import {
 } from '../constants';
 
 export default {
+  components: {
+    SelectInput,
+  },
   mixins: [optionsMixin],
   data() {
     return {

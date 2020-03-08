@@ -102,8 +102,8 @@ describe('SubmissionList', () => {
       expect(wrapper.html()).toContain('No posts.');
 
       expect(wrapper.contains('.sort-by')).toBe(true);
-      expect(wrapper.findAll('select')).toHaveLength(1);
-      expect(wrapper.findAll('select').at(0).element.value).toBe('hour');
+      expect(wrapper.findAll('select-input-stub')).toHaveLength(1);
+      expect(wrapper.vm.selectTime).toBe('hour');
     });
 
     describe('posts have been filtered', () => {
@@ -114,6 +114,7 @@ describe('SubmissionList', () => {
 
         expect(wrapper.contains('ul')).toBe(true);
         expect(wrapper.contains('.sort-by')).toBe(true);
+        expect(wrapper.findAll('select-input-stub')).toHaveLength(2);
         expect(wrapper.contains('more-button-stub')).toBe(false);
         expect(wrapper.contains('submission-stub')).toBe(false);
       });
@@ -128,8 +129,9 @@ describe('SubmissionList', () => {
 
         expect(wrapper.contains('ul')).toBe(true);
         expect(wrapper.contains('.sort-by')).toBe(true);
-        expect(wrapper.findAll('select').at(0).element.value).toBe(OPTIONS.DEFAULT_POSTS_SORT);
-        expect(wrapper.findAll('select').at(1).element.value).toBe(DEFAULT_POSTS_TIME);
+        expect(wrapper.findAll('select-input-stub')).toHaveLength(2);
+        expect(wrapper.vm.selectSort).toBe(OPTIONS.DEFAULT_POSTS_SORT);
+        expect(wrapper.vm.selectTime).toBe(DEFAULT_POSTS_TIME);
         expect(wrapper.contains('more-button-stub')).toBe(false);
         expect(wrapper.findAll('submission-stub')).toHaveLength(1);
       });

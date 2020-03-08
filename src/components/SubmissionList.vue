@@ -20,15 +20,10 @@
         class="sort-by"
       >
         <span class="subtext">posts from:</span>
-        <select v-model="selectTime">
-          <option
-            v-for="t in times"
-            :key="t.value"
-            :value="t.value"
-          >
-            {{ t.text }}
-          </option>
-        </select>
+        <select-input
+          v-model="selectTime"
+          :options="times"
+        />
       </div>
 
       <h3>No posts.</h3>
@@ -39,26 +34,16 @@
     >
       <div class="sort-by">
         <span class="subtext">sorted by:</span>
-        <select v-model="selectSort">
-          <option
-            v-for="s in sorts"
-            :key="s"
-            :value="s"
-          >
-            {{ s }}
-          </option>
-        </select>
+        <select-input
+          v-model="selectSort"
+          :options="sorts"
+        />
 
         <span class="subtext">from:</span>
-        <select v-model="selectTime">
-          <option
-            v-for="t in times"
-            :key="t.value"
-            :value="t.value"
-          >
-            {{ t.text }}
-          </option>
-        </select>
+        <select-input
+          v-model="selectTime"
+          :options="times"
+        />
       </div>
 
       <submission
@@ -92,6 +77,7 @@
 <script>
 import Submission from './Submission.vue';
 import Spinner from './Spinner.vue';
+import SelectInput from './SelectInput.vue';
 import MoreButton from './MoreButton.vue';
 import { pluralize } from '../util';
 import {
@@ -105,6 +91,7 @@ export default {
   components: {
     Submission,
     Spinner,
+    SelectInput,
     MoreButton,
   },
   props: {

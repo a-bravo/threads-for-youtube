@@ -33,10 +33,7 @@ describe('Options', () => {
 
     test('renders the correct markup at init', () => {
       expect(wrapper.html()).toContain(titleMessage);
-      expect(wrapper.findAll('input, select')).toHaveLength(Object.keys(OPTIONS).length);
-
-      expect(wrapper.find('select').element.value).toBe(OPTIONS.DEFAULT_TAB);
-      expect(parseInt(wrapper.findAll('select').at(2).element.value, 10)).toBe(OPTIONS.NUM_POSTS);
+      expect(wrapper.findAll('input, select-input-stub')).toHaveLength(Object.keys(OPTIONS).length);
     });
 
     describe('getOptions', () => {
