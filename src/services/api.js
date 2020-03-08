@@ -12,12 +12,13 @@ import authRequest from './request';
  * @param {String} query The search query
  * @param {String} sort Determines how the results should be sorted (relevance,
  *    hot, top, new, comments)
+ * @param {String} t Time frame for results (hour, day, week, month, year, all)
  * @param {Number} limit The max number of submissions (maximum: 100)
  * @param {String} [after] The id of the previous submission
  *
  * @returns {Promise} A reddit Listing containing search results
  */
-export function search(query, sort, limit, after = null) {
+export function search(query, sort, t, limit, after = null) {
   const urlQuery = `url:youtube.com/${query} OR url:youtu.be/${query}`;
 
   return authRequest(
@@ -27,6 +28,7 @@ export function search(query, sort, limit, after = null) {
       params: {
         q: urlQuery,
         sort,
+        t,
         after,
         limit,
       },

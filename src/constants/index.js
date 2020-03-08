@@ -32,6 +32,14 @@ export const POST_SORTS = [
   'new',
   'relevance',
 ];
+export const POST_TIMES = [
+  { text: 'past hour', value: 'hour' },
+  { text: 'past 24 hours', value: 'day' },
+  { text: 'past week', value: 'week' },
+  { text: 'past month', value: 'month' },
+  { text: 'past year', value: 'year' },
+  { text: 'all time', value: 'all' },
+];
 export const COMMENT_SORTS = [
   { text: 'best', value: 'confidence' },
   { text: 'top', value: 'top' },
@@ -51,6 +59,7 @@ export const YT_CONTENT_RENDERER_CLASS = 'ytd-comment-renderer';
 
 // Reddit api
 
+export const DEFAULT_POSTS_TIME = 'all';
 export const RT_MORE_OBJECT = 'more';
 export const RT_SUBMISSION_PREFIX = 't3_';
 

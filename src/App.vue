@@ -30,6 +30,7 @@
             @moreSubmissions="getSubmissions"
             @reload="getSubmissions"
             @sortChanged="s => sort = s"
+            @timeChanged="t => time = t"
           />
         </keep-alive>
       </div>
@@ -50,6 +51,7 @@ import {
   YT_COMMENTS_ID,
   YT_CONTENT_RENDERER_CLASS,
   COMPONENT_TABS,
+  DEFAULT_POSTS_TIME,
 } from './constants';
 
 const VIDEO_ID_LENGTH = 11;
@@ -72,6 +74,7 @@ export default {
       scrolledDown: false,
       keepAlive: ['comments-view'],
       sort: '',
+      time: DEFAULT_POSTS_TIME,
     };
   },
   computed: {
@@ -90,6 +93,7 @@ export default {
         if (this.currentTabComponent === 'submission-list') {
           props.numFilteredSubmissions = this.submissions.length - this.filteredSubmissions.length;
           props.sort = this.sort;
+          props.time = this.time;
         }
 
         return props;
@@ -112,14 +116,10 @@ export default {
       this.sort = this.options.DEFAULT_POSTS_SORT;
     },
     sort() {
-      // dont getSubmissions when first loading or loading submissions
-      if (!this.$root.$data.state.init
-        && !this.$root.$data.state.submissions.loading
-      ) {
-        // reset nextsubmission
-        this.$root.$data.clearDataAction();
-        this.getSubmissions();
-      }
+      this.getSubmissionsIfAfterInit();
+    },
+    time() {
+      this.getSubmissionsIfAfterInit();
     },
   },
   created() {
@@ -175,6 +175,7 @@ export default {
       // reset state
       this.$root.$data.clearDataAction();
       this.$root.$data.setInitAction(true);
+      this.time = DEFAULT_POSTS_TIME;
       this.getOptions();
 
       // guard against non-video pages
@@ -204,11 +205,23 @@ export default {
       this.$root.$data.loadSubmissions(
         this.query,
         this.sort,
+        this.time,
         this.options.NUM_POSTS,
         this.$root.$data.state.nextSubmission,
       ).then(() => {
         this.updateCurrentTabIfNeeded();
       });
+    },
+    getSubmissionsIfAfterInit() {
+      // Dont getSubmissions when changing page (init) or loading submissions
+      // This avoids calling getSubmissions multiple times on pageChange
+      if (!this.$root.$data.state.init
+        && !this.$root.$data.state.submissions.loading
+      ) {
+        // reset nextsubmission
+        this.$root.$data.clearDataAction();
+        this.getSubmissions();
+      }
     },
     getTabTitle(tab) {
       // set youtube title
@@ -235,6 +248,7 @@ export default {
     updateCurrentTabIfNeeded() {
       if (!this.totalComments
         && !this.$root.$data.state.nextSubmission
+        && this.time === DEFAULT_POSTS_TIME
         && this.options.BACKUP_YT_TAB
       ) {
         this.currentTabComponent = 'youtube-comments-view';

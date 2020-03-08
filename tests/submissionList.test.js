@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import SubmissionList from '../src/components/SubmissionList.vue';
-import { OPTIONS } from '../src/constants';
+import { OPTIONS, DEFAULT_POSTS_TIME } from '../src/constants';
 
 const root = {
   data() {
@@ -24,6 +24,7 @@ describe('SubmissionList', () => {
       options: OPTIONS,
       numFilteredSubmissions: 0,
       sort: OPTIONS.DEFAULT_POSTS_SORT,
+      time: DEFAULT_POSTS_TIME,
     },
     parentComponent: root,
   });
@@ -52,7 +53,7 @@ describe('SubmissionList', () => {
       expect(wrapper.contains('ul')).toBe(false);
       expect(wrapper.contains('more-button-stub')).toBe(false);
       expect(wrapper.contains('submission-stub')).toBe(false);
-      expect(wrapper.contains('#sort-by')).toBe(false);
+      expect(wrapper.contains('.sort-by')).toBe(false);
     });
 
     test('correct markup on state.init', () => {
@@ -62,7 +63,7 @@ describe('SubmissionList', () => {
       expect(wrapper.contains('ul')).toBe(false);
       expect(wrapper.contains('more-button-stub')).toBe(false);
       expect(wrapper.contains('submission-stub')).toBe(false);
-      expect(wrapper.contains('#sort-by')).toBe(false);
+      expect(wrapper.contains('.sort-by')).toBe(false);
     });
   });
 
@@ -71,7 +72,7 @@ describe('SubmissionList', () => {
       wrapper.vm.$root.$data.state.submissions.loading = false;
       wrapper.vm.$root.$data.state.submissions.error = false;
       wrapper.vm.$root.$data.state.init = false;
-      wrapper.setProps({ submissions: [], numFilteredSubmissions: 0 });
+      wrapper.setProps({ submissions: [], numFilteredSubmissions: 0, time: DEFAULT_POSTS_TIME });
     });
 
     test('on api error', () => {
@@ -84,7 +85,7 @@ describe('SubmissionList', () => {
       expect(wrapper.contains('ul')).toBe(false);
       expect(wrapper.contains('more-button-stub')).toBe(false);
       expect(wrapper.contains('submission-stub')).toBe(false);
-      expect(wrapper.contains('#sort-by')).toBe(false);
+      expect(wrapper.contains('.sort-by')).toBe(false);
     });
 
     test('on load no results', () => {
@@ -93,7 +94,16 @@ describe('SubmissionList', () => {
       expect(wrapper.contains('ul')).toBe(false);
       expect(wrapper.contains('more-button-stub')).toBe(false);
       expect(wrapper.contains('submission-stub')).toBe(false);
-      expect(wrapper.contains('#sort-by')).toBe(false);
+      expect(wrapper.contains('.sort-by')).toBe(false);
+
+      // set time to value other than DEFAULT_POSTS_TIME (all)
+      wrapper.setProps({ time: 'hour' });
+
+      expect(wrapper.html()).toContain('No posts.');
+
+      expect(wrapper.contains('.sort-by')).toBe(true);
+      expect(wrapper.findAll('select')).toHaveLength(1);
+      expect(wrapper.findAll('select').at(0).element.value).toBe('hour');
     });
 
     describe('posts have been filtered', () => {
@@ -103,7 +113,7 @@ describe('SubmissionList', () => {
         expect(wrapper.html()).toContain('1 post filtered');
 
         expect(wrapper.contains('ul')).toBe(true);
-        expect(wrapper.contains('#sort-by')).toBe(true);
+        expect(wrapper.contains('.sort-by')).toBe(true);
         expect(wrapper.contains('more-button-stub')).toBe(false);
         expect(wrapper.contains('submission-stub')).toBe(false);
       });
@@ -117,8 +127,9 @@ describe('SubmissionList', () => {
         expect(wrapper.html()).toContain('1 post filtered');
 
         expect(wrapper.contains('ul')).toBe(true);
-        expect(wrapper.contains('#sort-by')).toBe(true);
-        expect(wrapper.find('select').element.value).toBe(OPTIONS.DEFAULT_POSTS_SORT);
+        expect(wrapper.contains('.sort-by')).toBe(true);
+        expect(wrapper.findAll('select').at(0).element.value).toBe(OPTIONS.DEFAULT_POSTS_SORT);
+        expect(wrapper.findAll('select').at(1).element.value).toBe(DEFAULT_POSTS_TIME);
         expect(wrapper.contains('more-button-stub')).toBe(false);
         expect(wrapper.findAll('submission-stub')).toHaveLength(1);
       });

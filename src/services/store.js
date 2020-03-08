@@ -124,7 +124,7 @@ export default {
     // remove comment from store
     Vue.delete(this.state.comments, commentId);
   },
-  loadSubmissions(query, sort, limit, after = null) {
+  loadSubmissions(query, sort, time, limit, after = null) {
     if (after) {
       this.state.submissions.moreLoading = true;
       this.state.submissions.moreError = false;
@@ -132,7 +132,7 @@ export default {
       this.clearDataAction();
       this.state.submissions.loading = true;
     }
-    return search(query, sort, limit, after)
+    return search(query, sort, time, limit, after)
       .then((data) => {
         this.state.nextSubmission = data.nextSubmission;
         data.submissions.forEach((submission) => this.addSubmissionAction(submission));
