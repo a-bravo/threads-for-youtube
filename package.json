@@ -8,15 +8,14 @@
     "start:chrome": "web-ext run -s dist -t chromium --start-url https://youtu.be/adzYW5DZoWs",
     "start": "web-ext run -s dist -t firefox-desktop -t chromium --start-url https://youtu.be/adzYW5DZoWs",
     "clean": "rimraf dist",
-    "prebuild": "npm run test",
-    "build": "npm run clean && webpack --mode production --progress",
+    "prebuild": "npm run clean",
+    "build": "webpack --mode production --progress",
     "dev": "webpack --mode development --progress",
     "watch": "webpack --progress --watch",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "lint:fix": "npm run lint -- --fix",
     "test": "jest",
-    "test:integration": "nightwatch --env",
-    "posttest": "npm run lint"
+    "test:integration": "nightwatch --env"
   },
   "repository": {
     "type": "git",
