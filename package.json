@@ -17,6 +17,11 @@
     "test": "jest",
     "test:integration": "nightwatch --env"
   },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run test && npm run lint"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/a-bravo/threads-for-youtube.git"
@@ -62,6 +67,7 @@
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-vue": "^6.2.1",
     "geckodriver": "^1.19.1",
+    "husky": "^4.2.3",
     "imagemin": "^7.0.1",
     "imagemin-pngquant": "^8.0.0",
     "jest": "^24.9.0",
