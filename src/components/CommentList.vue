@@ -13,7 +13,13 @@
       class="at-title"
       :submission="submission"
       :show-flair="options.SHOW_POST_FLAIR"
-    />
+    >
+      <a
+        @click="hideAllChildComments = !hideAllChildComments"
+      >
+        {{ hideAllChildComments ? "show" : "hide" }} all child comments
+      </a>
+    </submission>
     <spinner v-if="$root.$data.state.submissions[submission.name].loading" />
     <div v-else-if="$root.$data.state.submissions[submission.name].error">
       Could not reach reddit.
@@ -56,6 +62,7 @@
         :key="comment.data.id"
         :item="comment"
         :options="options"
+        :hide-children="hideAllChildComments"
         @moreComments="moreComments"
       />
     </ul>
@@ -91,6 +98,7 @@ export default {
       sort: this.getSort(),
       sorts: COMMENT_SORTS,
       moreLoading: false,
+      hideAllChildComments: this.options.HIDE_CHILD_COMMENTS,
     };
   },
   computed: {

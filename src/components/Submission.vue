@@ -9,7 +9,10 @@
     </span>
     <br>
     <span class="details">
-      <span class="comments-link">
+      <span
+        v-if="!slotPassed"
+        class="comments-link"
+      >
         <a
           :class="YT_LINK_CLASS"
           :href="`${RT_BASE_URL}${submission.permalink}`"
@@ -52,6 +55,22 @@
         :gildings="submission.gildings"
       />
     </span>
+    <div
+      v-if="slotPassed"
+      class="details links"
+    >
+      <span class="comments-link bold">
+        <a
+          :class="YT_LINK_CLASS"
+          :href="`${RT_BASE_URL}${submission.permalink}`"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {{ pluralize(submission.num_comments, 'comment') }}
+        </a>
+      </span>
+      <span><slot /></span>
+    </div>
   </li>
 </template>
 
@@ -82,6 +101,11 @@ export default {
       RT_BASE_URL,
     };
   },
+  computed: {
+    slotPassed() {
+      return !!this.$slots.default;
+    },
+  },
   methods: {
     timeAgo,
     pluralize,
@@ -103,6 +127,12 @@ export default {
   a:visited {
     color: $rt-visited-purple;
   }
+}
+.links {
+  span {
+    padding-right: $at-comment-spacing;
+  }
+  font-weight: bold;
 }
 @include author-status;
 

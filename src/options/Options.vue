@@ -66,6 +66,15 @@
               </label>
             </div>
             <div>
+              <input
+                v-model="options.HIDE_CHILD_COMMENTS"
+                type="checkbox"
+              >
+              <label>
+                automatically hide all child comments
+              </label>
+            </div>
+            <div>
               don't show me posts with
               <input
                 v-model.number.lazy.trim="options.POST_COMMENT_THRESHOLD"
