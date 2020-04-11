@@ -1,65 +1,34 @@
 # Threads for Youtube (TFY)
+
 Extension that adds reddit comments to YouTube
 
-## Build Setup
+## Installation
 
-TFY requires:
-* `node`
-* `npm`
-* `web-ext` (optional)
+### Chromium
 
-Set up your reddit API credentials in a `.env` file:
+[Chrome Web Store](https://chrome.google.com/webstore/detail/threads-for-youtube/npbmhogimiolmklafhlpbifkjinoadkh).
 
-```
-REDDIT_CLIENT_ID='your-client-id'
-```
+### Firefox
 
-```bash
-# install dependencies
-npm install
+[Firefox Add-ons site](https://addons.mozilla.org/en-US/firefox/addon/threads-for-youtube/).
 
-# run unit tests
-npm run test
+## Features
 
-# run integration tests (chrome)
-npm run test:integration <browsers>
+- List all reddit posts related to the current video
+  - Sort posts
+  - Blacklist subreddits
+- View each posts' comments
+  - Sort comments
+  - Easily collapse comments
+- Compatible with YouTube's dark mode
+- Switches to Youtube comments if no reddit comments are found
+- Change any default settings in the options
+- Available on [Chrome](https://chrome.google.com/webstore/detail/threads-for-youtube/npbmhogimiolmklafhlpbifkjinoadkh) & [Firefox](https://addons.mozilla.org/en-US/firefox/addon/threads-for-youtube/)
 
-# build for production with minification
-npm run build
+## Contributing
 
-# build for development
-npm run dev
+Contributions are welcome! See [CONTRIBUTING.md](/CONTRIBUTING.md).
 
-# build with file watch
-npm run watch
-```
+## License
 
-#### Loading TFY into your browser
-
-##### Firefox
-
-###### With `web-ext`
-
-1. `npm run start:firefox`
-1. This reloads the extension on any change.
-
-###### Without `web-ext`
-
-1. Open firefox.
-1. Go to `about:debugging` and tick the `Enable add-on debugging` checkbox.
-1. Click `Load Temporary Add-on` and select `/manifest.json`.
-1. Any time you make changes, you must go back to the `about:debugging` page and `Reload` the extension.
-
-##### Chrome
-
-###### With `web-ext`
-
-1. `npm run start:chrome`
-1. This reloads the extension on any change.
-
-###### Without `web-ext`
-
-1. Open Chrome.
-1. Go to `chrome://extensions/`.
-1. Click `Load unpacked` and select the project's root directory.
-1. Any time you make changes, you must go back to the `chrome://extensions/` page and reload the extension by clicking the 'refresh' icon.
+See [LICENSE](/LICENSE).
