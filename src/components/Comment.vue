@@ -85,7 +85,7 @@
             parent
           </a>
           <a
-            v-if="item.data.depth == 0 && item.comments.length"
+            v-if="!item.data.depth && item.comments.length"
             @click="childrenHidden = !childrenHidden"
           >
             {{ childrenHidden ? "show" : "hide" }} child comments
