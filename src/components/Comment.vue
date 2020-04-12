@@ -84,10 +84,16 @@
           >
             parent
           </a>
+          <a
+            v-if="!item.data.depth && item.comments.length"
+            @click="childrenHidden = !childrenHidden"
+          >
+            {{ childrenHidden ? "show" : "hide" }} child comments
+          </a>
         </div>
 
         <ul
-          v-if="item.comments.length"
+          v-if="!childrenHidden && item.comments.length"
           class="replies"
         >
           <comment
@@ -162,6 +168,10 @@ export default {
       type: Object,
       required: true,
     },
+    hideChildren: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -169,11 +179,17 @@ export default {
       YT_LINK_CLASS,
       RT_MORE_OBJECT,
       RT_BASE_URL,
+      childrenHidden: this.hideChildren,
     };
   },
   computed: {
     replies() {
       return this.item.comments.map((id) => this.$root.$data.state.comments[id]);
+    },
+  },
+  watch: {
+    hideChildren() {
+      this.childrenHidden = this.hideChildren;
     },
   },
   methods: {
@@ -237,6 +253,7 @@ export default {
 .links {
   a {
     color: $rt-grey;
+    padding-right: $at-comment-spacing;
   }
 }
 .author, .points {

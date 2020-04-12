@@ -13,6 +13,8 @@ import {
 const ABOVE_SCORE_THRESHOLD = OPTIONS.COMMENT_SCORE_THRESHOLD + 1;
 const BELOW_SCORE_THRESHOLD = OPTIONS.COMMENT_SCORE_THRESHOLD - 1;
 const COMMENT_HIDDEN_MESSAGE = 'comment score below threshold';
+const CHILDREN_SHOWN_MESSAGE = 'hide child comments';
+const CHILDREN_HIDDEN_MESSAGE = 'show child comments';
 
 const root = {
   data() {
@@ -71,6 +73,8 @@ describe('Comment', () => {
 
       // no replies
       expect(wrapper.contains('comment-stub')).toBe(false);
+      expect(wrapper.html()).not.toContain(CHILDREN_HIDDEN_MESSAGE);
+      expect(wrapper.html()).not.toContain(CHILDREN_SHOWN_MESSAGE);
 
       // comment not hidden
       expect(wrapper.html()).not.toContain(COMMENT_HIDDEN_MESSAGE);
@@ -101,6 +105,7 @@ describe('Comment', () => {
 
     expect(wrapper.contains('li')).toBe(true);
     expect(wrapper.contains('ul.replies')).toBe(true);
+    expect(wrapper.html()).toContain(CHILDREN_SHOWN_MESSAGE);
 
     expect(wrapper.findAll('comment-stub')).toHaveLength(2);
   });
@@ -177,6 +182,50 @@ describe('Comment', () => {
       expect(wrapper.find('.body').isVisible()).toBe(false);
       expect(wrapper.find('.links').isVisible()).toBe(false);
       expect(wrapper.find('comment-stub').isVisible()).toBe(false);
+    });
+
+    test('user hides then shows children', () => {
+      wrapper.setProps({
+        item: {
+          data: {
+            id: 1,
+            author: 'test',
+            score: 9,
+            created_utc: 23142131,
+            body_html: 'test',
+            permalink: 'link',
+          },
+          comments: ['2', '3'],
+        },
+      });
+
+      // children present
+      expect(wrapper.contains('ul.replies')).toBe(true);
+      expect(wrapper.findAll('comment-stub')).toHaveLength(2);
+      expect(wrapper.html()).toContain(CHILDREN_SHOWN_MESSAGE);
+      expect(wrapper.contains('.body')).toBe(true);
+
+      // hide children ('prop change')
+      wrapper.setProps({
+        hideChildren: true,
+      });
+
+      // children not present
+      expect(wrapper.contains('ul.replies')).toBe(false);
+      expect(wrapper.findAll('comment-stub')).toHaveLength(0);
+      expect(wrapper.html()).toContain(CHILDREN_HIDDEN_MESSAGE);
+      expect(wrapper.contains('.body')).toBe(true);
+
+      // show children ('prop change')
+      wrapper.setProps({
+        hideChildren: false,
+      });
+
+      // children present
+      expect(wrapper.contains('ul.replies')).toBe(true);
+      expect(wrapper.findAll('comment-stub')).toHaveLength(2);
+      expect(wrapper.html()).toContain(CHILDREN_SHOWN_MESSAGE);
+      expect(wrapper.contains('.body')).toBe(true);
     });
   });
 
