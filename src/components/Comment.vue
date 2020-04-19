@@ -177,7 +177,7 @@ export default {
   },
   data() {
     return {
-      isOpen: !this.isLowScore(),
+      isOpen: !this.isLowScore() && !this.collapseModerator(),
       YT_LINK_CLASS,
       RT_MORE_OBJECT,
       RT_BASE_URL,
@@ -205,6 +205,9 @@ export default {
       }
 
       return this.item.data.score < this.options.COMMENT_SCORE_THRESHOLD;
+    },
+    collapseModerator() {
+      return this.item.data.stickied && this.options.COLLAPSE_MODERATOR && this.item.data.author === 'AutoModerator';
     },
     fixCommentLinks(comment) {
       // make relative urls absolute (with reddit base url)

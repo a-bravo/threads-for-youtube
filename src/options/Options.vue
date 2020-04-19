@@ -75,6 +75,15 @@
               </label>
             </div>
             <div>
+              <input
+                v-model="options.COLLAPSE_MODERATOR"
+                type="checkbox"
+              >
+              <label>
+                automatically collapse AutoModerator's stickied comments
+              </label>
+            </div>
+            <div>
               don't show me posts with
               <input
                 v-model.number.lazy.trim="options.POST_COMMENT_THRESHOLD"
