@@ -1,4 +1,4 @@
-import { timeAgo, pluralize } from '../src/util';
+import { timeAgo, pluralize, abbreviateNumber } from '../src/util';
 
 
 // Constants
@@ -41,5 +41,21 @@ describe('pluralize', () => {
     expect(pluralize(3, 'child', 'children')).toBe('children');
     expect(pluralize(1, 'child', 'children')).toBe('child');
     expect(pluralize(2, 'deer', 'deer')).toBe('deer');
+  });
+});
+
+describe('abbreviateNumber', () => {
+  test('generic tests', () => {
+    expect(abbreviateNumber(0)).toBe('0');
+    expect(abbreviateNumber(999)).toBe('999');
+    expect(abbreviateNumber(1000)).toBe('1.0k');
+    expect(abbreviateNumber(999000)).toBe('999.0k');
+    expect(abbreviateNumber(1000000)).toBe('1.0m');
+  });
+
+  test('handles rounding at thresholds', () => {
+    expect(abbreviateNumber(9999)).toBe('10.0k');
+    expect(abbreviateNumber(99999)).toBe('100.0k');
+    expect(abbreviateNumber(999990)).toBe('1000.0k');
   });
 });

@@ -42,7 +42,7 @@
         >
           <div>
             <span id="subreddit">{{ submission.data.subreddit }}</span>
-            <span class="num-comments">({{ submission.data.num_comments }})</span>
+            <span class="num-comments">({{ abbreviateNumber(submission.data.num_comments) }})</span>
           </div>
         </li>
 
@@ -78,6 +78,7 @@ import CommentList from './CommentList.vue';
 import Spinner from './Spinner.vue';
 import MoreButton from './MoreButton.vue';
 import { YT_LINK_CLASS } from '../constants';
+import { abbreviateNumber } from '../util';
 
 export default {
   components: {
@@ -123,6 +124,7 @@ export default {
     },
   },
   methods: {
+    abbreviateNumber,
     getCurrentSubmission() {
       this.currentSubmission = this.currentSubmission || this.visibleSubmissions[0];
       return this.currentSubmission;

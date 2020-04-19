@@ -45,7 +45,7 @@ import CommentsView from './components/CommentsView.vue';
 import YoutubeCommentsView from './components/YoutubeCommentsView.vue';
 import BackToTopButton from './components/BackToTopButton.vue';
 import optionsMixin from './mixins/optionsMixin';
-import { pluralize } from './util';
+import { pluralize, abbreviateNumber } from './util';
 import {
   APP_ID,
   YT_COMMENTS_ID,
@@ -241,7 +241,7 @@ export default {
       const more = this.$root.$data.state.nextSubmission ? '+' : '';
       const num = tab.value === 'submission-list' ? this.filteredSubmissions.length : this.totalComments;
 
-      return `${num}${more} ${pluralize(num, tab.text.slice(0, -1))}`;
+      return `${abbreviateNumber(num)}${more} ${pluralize(num, tab.text.slice(0, -1))}`;
     },
     updateCurrentTabIfNeeded() {
       if (!this.totalComments

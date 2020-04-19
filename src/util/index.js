@@ -63,3 +63,17 @@ export function timeAgo(time) {
 
   return `${readableTime} ${unit}`;
 }
+
+/**
+ * Abbreviates a number with k, m, b suffixes
+ *
+ * @param {Number} n The value to abbreviate
+ *
+ * @returns {String} The abbreviated string
+ */
+export function abbreviateNumber(n) {
+  if (n < 1e3) return `${n}`;
+  if (n >= 1e3 && n < 1e6) return `${(n / 1e3).toFixed(1)}k`;
+  if (n >= 1e6 && n < 1e9) return `${(n / 1e6).toFixed(1)}m`;
+  return `${(n / 1e9).toFixed(1)}b`;
+}

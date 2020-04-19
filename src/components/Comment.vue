@@ -47,7 +47,7 @@
               - {{ item.data.author_flair_text }}
             </span>
             <span class="points">
-              {{ item.data.score }} {{ pluralize(item.data.score, 'point') }}
+              {{ abbreviateNumber(item.data.score) }} {{ pluralize(item.data.score, 'point') }}
             </span>
             <span class="details">{{ timeAgo(item.data.created_utc) }} ago</span>
             <span
@@ -147,7 +147,7 @@ import MoreButton from './MoreButton.vue';
 import AwardsShelf from './AwardsShelf.vue';
 import authorStatusMixin from '../mixins/authorStatusMixin';
 import scrollToMixin from '../mixins/scrollToMixin';
-import { timeAgo, pluralize } from '../util';
+import { timeAgo, pluralize, abbreviateNumber } from '../util';
 import {
   YT_LINK_CLASS,
   RT_MORE_OBJECT,
@@ -197,6 +197,7 @@ export default {
   methods: {
     timeAgo,
     pluralize,
+    abbreviateNumber,
     isLowScore() {
       // no threshold?
       if (this.options.COMMENT_SCORE_THRESHOLD === '') {
