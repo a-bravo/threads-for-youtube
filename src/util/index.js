@@ -17,16 +17,15 @@ const YEAR = 31556952;
  * @param {Number} amount The amount of units
  * @param {String} unit The unit of measurement
  * @param {String} [pluralUnit] The plural version of the unit (use for non-regular nouns)
- * @param {String} [message] A message to add to the output
  *
- * @returns {String} Pluralized string
+ * @returns {String} Pluralized unit
  */
-export function pluralize(amount, unit, pluralUnit = `${unit}s`, message = '') {
+export function pluralize(amount, unit, pluralUnit = `${unit}s`) {
   if (amount === 1) {
-    return `${amount}${message} ${unit}`;
+    return unit;
   }
 
-  return `${amount}${message} ${pluralUnit}`;
+  return pluralUnit;
 }
 
 /**
@@ -39,20 +38,28 @@ export function pluralize(amount, unit, pluralUnit = `${unit}s`, message = '') {
 export function timeAgo(time) {
   const timeElapsed = Date.now() / 1000 - Number(time);
   let readableTime;
+  let unit;
 
   if (timeElapsed < MINUTE) {
-    readableTime = 'just now';
-  } else if (timeElapsed < HOUR) {
-    readableTime = pluralize(Math.floor(timeElapsed / MINUTE), 'minute');
-  } else if (timeElapsed < DAY) {
-    readableTime = pluralize(Math.floor(timeElapsed / HOUR), 'hour');
-  } else if (timeElapsed < MONTH) {
-    readableTime = pluralize(Math.floor(timeElapsed / DAY), 'day');
-  } else if (timeElapsed < YEAR) {
-    readableTime = pluralize(Math.floor(timeElapsed / MONTH), 'month');
-  } else {
-    readableTime = pluralize(Math.floor(timeElapsed / YEAR), 'year');
+    return 'just now';
   }
 
-  return readableTime;
+  if (timeElapsed < HOUR) {
+    readableTime = Math.floor(timeElapsed / MINUTE);
+    unit = pluralize(readableTime, 'minute');
+  } else if (timeElapsed < DAY) {
+    readableTime = Math.floor(timeElapsed / HOUR);
+    unit = pluralize(readableTime, 'hour');
+  } else if (timeElapsed < MONTH) {
+    readableTime = Math.floor(timeElapsed / DAY);
+    unit = pluralize(readableTime, 'day');
+  } else if (timeElapsed < YEAR) {
+    readableTime = Math.floor(timeElapsed / MONTH);
+    unit = pluralize(readableTime, 'month');
+  } else {
+    readableTime = Math.floor(timeElapsed / YEAR);
+    unit = pluralize(readableTime, 'year');
+  }
+
+  return `${readableTime} ${unit}`;
 }

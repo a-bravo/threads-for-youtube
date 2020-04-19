@@ -19,7 +19,7 @@
           target="_blank"
           rel="noopener noreferrer"
         >
-          {{ pluralize(submission.num_comments, 'comment') }}
+          {{ submission.num_comments }} {{ pluralize(submission.num_comments, 'comment') }}
         </a>
       </span>
       <span class="time">submitted {{ timeAgo(submission.created_utc) }} ago</span>
@@ -66,7 +66,7 @@
           target="_blank"
           rel="noopener noreferrer"
         >
-          {{ pluralize(submission.num_comments, 'comment') }}
+          {{ submission.num_comments }} {{ pluralize(submission.num_comments, 'comment') }}
         </a>
       </span>
       <span><slot /></span>

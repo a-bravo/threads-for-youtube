@@ -57,7 +57,7 @@
         v-if="numFilteredSubmissions"
         class="details pad-bottom"
       >
-        {{ pluralize(numFilteredSubmissions, 'post') }} filtered
+        {{ numFilteredSubmissions }} {{ pluralize(numFilteredSubmissions, 'post') }} filtered
       </div>
 
       <more-button

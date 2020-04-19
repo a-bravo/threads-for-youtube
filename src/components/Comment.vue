@@ -46,7 +46,9 @@
             >
               - {{ item.data.author_flair_text }}
             </span>
-            <span class="points">{{ pluralize(item.data.score, 'point') }}</span>
+            <span class="points">
+              {{ item.data.score }} {{ pluralize(item.data.score, 'point') }}
+            </span>
             <span class="details">{{ timeAgo(item.data.created_utc) }} ago</span>
             <span
               v-if="item.data.stickied"
@@ -121,7 +123,7 @@
     >
       <span class="bold">load more comments</span>
       <span class="details">
-        ({{ pluralize(item.data.count, 'reply', 'replies') }})
+        ({{ item.data.count }} {{ pluralize(item.data.count, 'reply', 'replies') }})
         <span v-if="item.moreError">
           [Could not reach reddit. Try again later.]
         </span>

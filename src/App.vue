@@ -239,11 +239,9 @@ export default {
 
       // set post/comment title
       const more = this.$root.$data.state.nextSubmission ? '+' : '';
-      if (tab.value === 'submission-list') {
-        return pluralize(this.filteredSubmissions.length, tab.text.slice(0, -1), undefined, more);
-      }
+      const num = tab.value === 'submission-list' ? this.filteredSubmissions.length : this.totalComments;
 
-      return pluralize(this.totalComments, tab.text.slice(0, -1), undefined, more);
+      return `${num}${more} ${pluralize(num, tab.text.slice(0, -1))}`;
     },
     updateCurrentTabIfNeeded() {
       if (!this.totalComments

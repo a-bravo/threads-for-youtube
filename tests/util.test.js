@@ -28,18 +28,18 @@ describe('timeAgo', () => {
 
 describe('pluralize', () => {
   test('singular', () => {
-    expect(pluralize(1, 'second')).toBe('1 second');
-    expect(pluralize(1, 'comment')).toBe('1 comment');
+    expect(pluralize(1, 'second')).toBe('second');
+    expect(pluralize(1, 'comment')).toBe('comment');
   });
 
   test('plural', () => {
-    expect(pluralize(3, 'hour')).toBe('3 hours');
-    expect(pluralize(0, 'post')).toBe('0 posts');
+    expect(pluralize(3, 'hour')).toBe('hours');
+    expect(pluralize(0, 'post')).toBe('posts');
   });
 
   test('passed in plurals', () => {
-    expect(pluralize(3, 'child', 'children')).toBe('3 children');
-    expect(pluralize(1, 'child', 'children')).toBe('1 child');
-    expect(pluralize(2, 'deer', 'deer')).toBe('2 deer');
+    expect(pluralize(3, 'child', 'children')).toBe('children');
+    expect(pluralize(1, 'child', 'children')).toBe('child');
+    expect(pluralize(2, 'deer', 'deer')).toBe('deer');
   });
 });
