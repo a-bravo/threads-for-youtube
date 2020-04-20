@@ -184,6 +184,115 @@ describe('Comment', () => {
       expect(wrapper.find('comment-stub').isVisible()).toBe(false);
     });
 
+    describe('collapse automoderator comment option', () => {
+      const optionsWithCollapseMod = { ...OPTIONS };
+      optionsWithCollapseMod.COLLAPSE_MODERATOR = true;
+
+      beforeEach(() => {
+        wrapper.setProps({
+          options: { ...optionsWithCollapseMod },
+          item: {
+            data: {
+              id: 1,
+              author: 'AutoModerator',
+              score: ABOVE_SCORE_THRESHOLD,
+              created_utc: 23142131,
+              body_html: 'test',
+              permalink: 'link',
+              stickied: true,
+            },
+            comments: ['2', '3'],
+          },
+        });
+      });
+
+      test('valid comment is collapsed due to collapse moderator option', () => {
+        // reset isOpen value
+        wrapper.vm.isOpen = !wrapper.vm.isLowScore() && !wrapper.vm.collapseModerator();
+
+        // elements still present
+        expect(wrapper.contains('li')).toBe(true);
+        expect(wrapper.contains('ul.replies')).toBe(true);
+        expect(wrapper.contains('.body')).toBe(true);
+        expect(wrapper.contains('.links')).toBe(true);
+        expect(wrapper.findAll('comment-stub')).toHaveLength(2);
+
+        // elements not visible
+        expect(wrapper.contains('.collapsed')).toBe(true);
+        expect(wrapper.find('ul.replies').isVisible()).toBe(false);
+        expect(wrapper.find('.body').isVisible()).toBe(false);
+        expect(wrapper.find('.links').isVisible()).toBe(false);
+        expect(wrapper.find('comment-stub').isVisible()).toBe(false);
+      });
+
+      test('valid comment should not be collapsed when option not set', () => {
+        wrapper.setProps({
+          options: { ...OPTIONS },
+        });
+        // reset isOpen value
+        wrapper.vm.isOpen = !wrapper.vm.isLowScore() && !wrapper.vm.collapseModerator();
+
+        // elements visible
+        expect(wrapper.contains('.collapsed')).toBe(false);
+        expect(wrapper.find('ul.replies').isVisible()).toBe(true);
+        expect(wrapper.find('.body').isVisible()).toBe(true);
+        expect(wrapper.find('.links').isVisible()).toBe(true);
+        expect(wrapper.find('comment-stub').isVisible()).toBe(true);
+      });
+
+      test('non-stickied comment should not be collapsed', () => {
+        wrapper.setProps({
+          item: {
+            data: {
+              id: 1,
+              author: 'AutoModerator',
+              score: ABOVE_SCORE_THRESHOLD,
+              created_utc: 23142131,
+              body_html: 'test',
+              permalink: 'link',
+              stickied: false,
+            },
+            comments: ['2', '3'],
+          },
+        });
+        // reset isOpen value
+        wrapper.vm.isOpen = !wrapper.vm.isLowScore() && !wrapper.vm.collapseModerator();
+
+        // elements visible
+        expect(wrapper.contains('.collapsed')).toBe(false);
+        expect(wrapper.find('ul.replies').isVisible()).toBe(true);
+        expect(wrapper.find('.body').isVisible()).toBe(true);
+        expect(wrapper.find('.links').isVisible()).toBe(true);
+        expect(wrapper.find('comment-stub').isVisible()).toBe(true);
+      });
+
+      test('non-automod comment should not be collapsed', () => {
+        wrapper.setProps({
+          item: {
+            data: {
+              id: 1,
+              author: 'NotAutoModerator',
+              score: ABOVE_SCORE_THRESHOLD,
+              created_utc: 23142131,
+              body_html: 'test',
+              permalink: 'link',
+              stickied: true,
+            },
+            comments: ['2', '3'],
+          },
+        });
+        // reset isOpen value
+        wrapper.vm.isOpen = !wrapper.vm.isLowScore() && !wrapper.vm.collapseModerator();
+
+        // elements visible
+        expect(wrapper.contains('.collapsed')).toBe(false);
+        expect(wrapper.find('ul.replies').isVisible()).toBe(true);
+        expect(wrapper.find('.body').isVisible()).toBe(true);
+        expect(wrapper.find('.links').isVisible()).toBe(true);
+        expect(wrapper.find('comment-stub').isVisible()).toBe(true);
+      });
+    });
+
     test('user hides then shows children', () => {
       wrapper.setProps({
         item: {
