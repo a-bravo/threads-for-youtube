@@ -17,7 +17,7 @@ Extension that adds reddit comments to YouTube
 - List all reddit posts related to the current video
   - Sort posts
   - Blacklist subreddits
-- View each posts' comments
+- View each post's comments
   - Sort comments
   - Easily collapse comments
   - Hide/show child comments

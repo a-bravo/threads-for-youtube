@@ -111,7 +111,7 @@
               >
               comments by default
               <span class="details">
-                (1 - 500); the smaller the number, the faster your comments pages will load
+                (1 - 500); the smaller the number, the faster the comments will load
               </span>
             </div>
           </td>
