@@ -27,6 +27,10 @@ Extension that adds reddit comments to YouTube
 - Change any default settings in the options
 - Available on [Chrome](https://chrome.google.com/webstore/detail/threads-for-youtube/npbmhogimiolmklafhlpbifkjinoadkh) & [Firefox](https://addons.mozilla.org/en-US/firefox/addon/threads-for-youtube/)
 
+### Upcoming Features
+
+- [Easily go to each post's linked timestamp (if present)](https://github.com/a-bravo/threads-for-youtube/pull/9)
+
 ## Contributing
 
 Contributions are welcome! See [CONTRIBUTING.md](/CONTRIBUTING.md).
