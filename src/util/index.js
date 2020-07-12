@@ -1,5 +1,5 @@
 /**
- * @file Makes utc timestamps human readable
+ * @file Various util functions
  */
 
 // Constants
@@ -29,6 +29,7 @@ export function pluralize(amount, unit, pluralUnit = `${unit}s`) {
 
 /**
  * Formats the relative time
+ * Makes utc timestamps human readable
  *
  * @param {Number} time The utc value
  *
@@ -61,6 +62,41 @@ export function timeAgo(time) {
   }
 
   return `${readableTime} ${unit}`;
+}
+
+/**
+ * Convert timestamp to HH:MM:SS format
+ *
+ * @param {Number} timestamp The value, in seconds, to format
+ *
+ * @returns {String} The formatted string
+ */
+export function toHHMMSS(timestamp) {
+  const hours = Math.floor(timestamp / HOUR);
+  const minutes = Math.floor((timestamp % HOUR) / MINUTE);
+  const seconds = Math.round(timestamp % MINUTE);
+
+  let result = hours === 0 ? '' : `${hours}:`;
+  result += minutes > 9 ? `${minutes}:` : `0${minutes}:`;
+  result += seconds > 9 ? `${seconds}` : `0${seconds}`;
+
+  return result;
+}
+
+/**
+ * Convert formatted time string to time in seconds
+ * Format: XhXmXs or X (seconds)
+ *
+ * @param {String} timeStr The value, in seconds, to format
+ *
+ * @returns {Number} The time in seconds
+ */
+export function parseFormattedTime(timeStr) {
+  const hours = parseInt(timeStr.match(/(\d*)h/g), 10) || 0;
+  const minutes = parseInt(timeStr.match(/(\d*)m/g), 10) || 0;
+  const seconds = parseInt(timeStr.match(/(\d*)s|^\d+$/g), 10) || 0;
+
+  return hours * HOUR + minutes * MINUTE + seconds;
 }
 
 /**

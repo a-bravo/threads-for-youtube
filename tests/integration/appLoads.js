@@ -10,6 +10,8 @@ import {
   YT_NAVBAR_ID,
   YT_LINK_CLASS,
   YT_CONTENT_RENDERER_CLASS,
+  YT_VIDEO_ID,
+  YT_VIDEO_TAG,
 } from '../../src/constants';
 import { VIDEO_URL } from './constants';
 
@@ -27,6 +29,8 @@ module.exports = {
     browser
       .assert.elementPresent(`#${YT_COMMENTS_ID}`)
       .assert.elementPresent(`#${YT_NAVBAR_ID}`)
+      .assert.elementPresent(`#${YT_VIDEO_ID}`)
+      .assert.elementPresent(`${YT_VIDEO_TAG}`)
       .assert.elementPresent(`.${YT_LINK_CLASS}`)
       .assert.elementPresent(`.${YT_CONTENT_RENDERER_CLASS}`)
   },

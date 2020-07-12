@@ -7,6 +7,15 @@
     >
       - {{ submission.link_flair_text }}
     </span>
+    <span>
+      <a
+        v-if="timestamp"
+        :class="YT_LINK_CLASS"
+        @click="goToTimeStamp()"
+      >
+        (@{{ toHHMMSS(timestamp) }})
+      </a>
+    </span>
     <br>
     <span class="details">
       <span
@@ -77,14 +86,25 @@
 <script>
 import AwardsShelf from './AwardsShelf.vue';
 import authorStatusMixin from '../mixins/authorStatusMixin';
-import { timeAgo, pluralize } from '../util';
-import { YT_LINK_CLASS, RT_BASE_URL } from '../constants';
+import scrollToMixin from '../mixins/scrollToMixin';
+import {
+  timeAgo,
+  pluralize,
+  toHHMMSS,
+  parseFormattedTime,
+} from '../util';
+import {
+  YT_LINK_CLASS,
+  RT_BASE_URL,
+  YT_VIDEO_TAG,
+  YT_VIDEO_ID,
+} from '../constants';
 
 export default {
   components: {
     AwardsShelf,
   },
-  mixins: [authorStatusMixin],
+  mixins: [authorStatusMixin, scrollToMixin],
   props: {
     submission: {
       type: Object,
@@ -99,6 +119,7 @@ export default {
     return {
       YT_LINK_CLASS,
       RT_BASE_URL,
+      timestamp: this.setTimeStamp(),
     };
   },
   computed: {
@@ -109,6 +130,25 @@ export default {
   methods: {
     timeAgo,
     pluralize,
+    toHHMMSS,
+    setTimeStamp() {
+      // if the video does not exist, ignore the timestamp
+      if (!document.querySelector(YT_VIDEO_TAG)) {
+        return null;
+      }
+
+      // get timestamp from url
+      const url = new URL(this.submission.url);
+      const time = url.searchParams.get('t');
+
+      return time ? parseFormattedTime(time) : null;
+    },
+    goToTimeStamp() {
+      const player = document.querySelector(YT_VIDEO_TAG);
+      player.currentTime = this.timestamp;
+      player.play();
+      this.scrollTo(YT_VIDEO_ID);
+    },
   },
 };
 </script>
