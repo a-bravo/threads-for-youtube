@@ -15,14 +15,6 @@ import { APP_ID, YT_COMMENTS_ID } from './constants';
  * @private
  */
 function mount(app) {
-  // guard against non-video pages
-  // occurs when: youtube pushes 2 history states (last page(video) & new page)
-  const url = new URL(window.location.href);
-  if (url.pathname !== '/watch' || !url.searchParams.get('v')) {
-    // not a video
-    return;
-  }
-
   // mount app if needed
   if (!document.getElementById(APP_ID)) {
     // Insert app mounting point before comments div
@@ -79,13 +71,6 @@ const observerConfig = {
 // start observing changes
 const targetNode = document.body;
 observer.observe(targetNode, observerConfig);
-
-// listen for page change message from background script
-browser.runtime.onMessage.addListener((message) => {
-  if (message.videoChanged) {
-    mount(app);
-  }
-});
 
 // if mounting elements already present, mount and stop observing
 if (document.getElementById(YT_COMMENTS_ID) && !commentsAdded) {
