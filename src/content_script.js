@@ -15,17 +15,17 @@ import { APP_ID, YT_COMMENTS_ID } from './constants';
  * @private
  */
 function mount(app) {
-  // mount app if needed
+  // create div if needed
   if (!document.getElementById(APP_ID)) {
     // Insert app mounting point before comments div
     const vue = document.createElement('div');
     vue.id = APP_ID;
     const comments = document.getElementById(YT_COMMENTS_ID);
     comments.before(vue);
-
-    // Mount vue instance
-    app.$mount(`#${APP_ID}`);
   }
+
+  // Mount vue instance to div
+  app.$mount(`#${APP_ID}`);
 }
 
 // On content_script load...
