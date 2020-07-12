@@ -7,9 +7,8 @@
     >
       - {{ submission.link_flair_text }}
     </span>
-    <span>
+    <span v-if="timestamp">
       <a
-        v-if="timestamp"
         :class="YT_LINK_CLASS"
         @click="goToTimeStamp()"
       >
