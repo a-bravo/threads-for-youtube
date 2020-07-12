@@ -2,9 +2,7 @@
  * @file Make requests to reddit api
  */
 
-
 import authRequest from './request';
-
 
 /**
  * Conducts a search of reddit submissions

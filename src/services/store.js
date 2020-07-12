@@ -2,11 +2,9 @@
  * @file Global store: simple state management
  */
 
-
 import Vue from 'vue';
 import { search, getComments, getMoreComments } from './api';
 import { RT_SUBMISSION_PREFIX, RT_MORE_OBJECT } from '../constants';
-
 
 const emptyDataObject = {
   loading: false,

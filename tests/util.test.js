@@ -1,11 +1,9 @@
 import { timeAgo, pluralize, abbreviateNumber } from '../src/util';
 
-
 // Constants
 
 const MINUTE = 60;
 const YEAR = 31556952;
-
 
 describe('timeAgo', () => {
   test('just now', () => {

@@ -1,7 +1,6 @@
 import authorStatusMixin from '../src/mixins/authorStatusMixin';
 import { YT_LINK_CLASS } from '../src/constants';
 
-
 describe('authorStatusMixin', () => {
   describe('authorClass', () => {
     test.each([

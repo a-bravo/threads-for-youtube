@@ -75,7 +75,6 @@ import Comment from './Comment.vue';
 import Spinner from './Spinner.vue';
 import { YT_LINK_CLASS, COMMENT_SORTS } from '../constants';
 
-
 export default {
   components: {
     Submission,

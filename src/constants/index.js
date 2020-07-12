@@ -2,7 +2,6 @@
  * @file App constants
  */
 
-
 // Constants
 
 export const APP_ID = 'at-app';

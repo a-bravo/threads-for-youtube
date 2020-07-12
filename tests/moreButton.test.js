@@ -1,7 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import MoreButton from '../src/components/MoreButton.vue';
 
-
 describe('MoreButton', () => {
   // mount component
   const wrapper = shallowMount(MoreButton, {

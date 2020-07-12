@@ -10,7 +10,6 @@ const APP_ONLY_GRANT_TYPE = `${ENDPOINT_DOMAIN}/grants/installed_client`;
 const DEVICE_ID = 'DO_NOT_TRACK_THIS_DEVICE';
 const REQUEST_DELAY = 1000;
 
-
 // Globals
 
 const token = {
@@ -18,7 +17,6 @@ const token = {
   expirationDate: -Infinity,
 };
 let nextRequestTimestamp = -Infinity;
-
 
 // Functions
 

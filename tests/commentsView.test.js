@@ -2,7 +2,6 @@ import { shallowMount } from '@vue/test-utils';
 import CommentsView from '../src/components/CommentsView.vue';
 import { OPTIONS } from '../src/constants';
 
-
 // Constants
 
 const ABOVE_COMMENT_THRESHOLD = OPTIONS.POST_COMMENT_THRESHOLD + 1;

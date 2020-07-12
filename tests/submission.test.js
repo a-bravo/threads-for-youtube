@@ -2,7 +2,6 @@ import { shallowMount } from '@vue/test-utils';
 import Submission from '../src/components/Submission.vue';
 import { OPTIONS } from '../src/constants';
 
-
 describe('Submission', () => {
   // mount component
   const submission = {

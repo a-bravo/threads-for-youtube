@@ -7,7 +7,6 @@ import {
   RT_BASE_URL,
 } from '../src/constants';
 
-
 // Constants
 
 const ABOVE_SCORE_THRESHOLD = OPTIONS.COMMENT_SCORE_THRESHOLD + 1;
@@ -174,7 +173,6 @@ describe('Comment', () => {
       expect(wrapper.contains('.links')).toBe(true);
       expect(wrapper.findAll('comment-stub')).toHaveLength(2);
       expect(wrapper.html()).toContain(COMMENT_HIDDEN_MESSAGE);
-
 
       // elements not visible
       expect(wrapper.contains('.collapsed')).toBe(true);

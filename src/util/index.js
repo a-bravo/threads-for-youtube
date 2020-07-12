@@ -2,7 +2,6 @@
  * @file Makes utc timestamps human readable
  */
 
-
 // Constants
 
 const MINUTE = 60;

@@ -2,7 +2,6 @@ import { shallowMount } from '@vue/test-utils';
 import CommentList from '../src/components/CommentList.vue';
 import { OPTIONS } from '../src/constants';
 
-
 const root = {
   data() {
     return {

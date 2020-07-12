@@ -1,7 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import SelectInput from '../src/components/SelectInput.vue';
 
-
 describe('SelectInput', () => {
   // mount component
   const wrapper = shallowMount(SelectInput, {

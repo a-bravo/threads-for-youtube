@@ -2,7 +2,6 @@ import { shallowMount } from '@vue/test-utils';
 import Options from '../src/options/Options.vue';
 import { OPTIONS } from '../src/constants';
 
-
 // Constants
 
 const browser = {
@@ -16,7 +15,6 @@ const browser = {
 const mocks = { $browser: browser };
 
 const titleMessage = 'Threads for YouTube Settings';
-
 
 describe('Options', () => {
   // mount component

@@ -8,7 +8,6 @@ import App from './App.vue';
 import store from './services/store';
 import { APP_ID, YT_COMMENTS_ID } from './constants';
 
-
 // Functions
 
 /**
@@ -36,7 +35,6 @@ function mount(app) {
     app.$mount(`#${APP_ID}`);
   }
 }
-
 
 // On content_script load...
 
