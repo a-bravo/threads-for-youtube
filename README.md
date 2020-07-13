@@ -16,6 +16,7 @@ Extension that adds reddit comments to YouTube
 
 - List all reddit posts related to the current video
   - Sort posts
+  - Easily go to each post's linked timestamp (if present)
   - Blacklist subreddits
 - View each post's comments
   - Sort comments
@@ -26,10 +27,6 @@ Extension that adds reddit comments to YouTube
 - Switches to Youtube comments if no reddit comments are found
 - Change any default settings in the options
 - Available on [Chrome](https://chrome.google.com/webstore/detail/threads-for-youtube/npbmhogimiolmklafhlpbifkjinoadkh) & [Firefox](https://addons.mozilla.org/en-US/firefox/addon/threads-for-youtube/)
-
-### Upcoming Features
-
-- [Easily go to each post's linked timestamp (if present)](https://github.com/a-bravo/threads-for-youtube/pull/9)
 
 ## Contributing
 
