@@ -51,6 +51,15 @@ module.exports = {
     browser.assert.cssClassPresent(`#${APP_ID} #${OPTIONS.DEFAULT_TAB}`, 'selected')
   },
 
+  'comments not loaded': function (browser) {
+    browser.assert.containsText(`#${APP_ID}`, 'Scroll to load...');
+    // Trigger scroll events to load reddit comments/posts
+    browser.execute('window.dispatchEvent(new CustomEvent("scroll"))')
+    browser.execute('window.dispatchEvent(new CustomEvent("scroll"))')
+    browser.execute('window.dispatchEvent(new CustomEvent("scroll"))')
+    browser.execute('window.dispatchEvent(new CustomEvent("scroll"))')
+  },
+
   'comments': function (browser) {
     browser
       .click(`#${APP_ID} #comments-view`)

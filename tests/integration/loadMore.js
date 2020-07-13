@@ -14,6 +14,12 @@ module.exports = {
     browser
       .url(VIDEO_URL)
       .waitForElementVisible(`#${APP_ID}`)
+
+    // Trigger scroll events to load reddit comments/posts
+    browser.execute('window.dispatchEvent(new CustomEvent("scroll"))')
+    browser.execute('window.dispatchEvent(new CustomEvent("scroll"))')
+    browser.execute('window.dispatchEvent(new CustomEvent("scroll"))')
+    browser.execute('window.dispatchEvent(new CustomEvent("scroll"))')
   },
 
   'Load more nested comments': function (browser) {

@@ -39,7 +39,6 @@
 </template>
 
 <script>
-import debounce from 'lodash/debounce';
 import SubmissionList from './components/SubmissionList.vue';
 import CommentsView from './components/CommentsView.vue';
 import YoutubeCommentsView from './components/YoutubeCommentsView.vue';
@@ -55,6 +54,7 @@ import {
 } from './constants';
 
 const VIDEO_ID_LENGTH = 11;
+const SCROLL_THRESHOLD = 3;
 
 export default {
   components: {
@@ -75,6 +75,7 @@ export default {
       keepAlive: ['comments-view'],
       sort: '',
       time: DEFAULT_POSTS_TIME,
+      scrollCount: 0,
     };
   },
   computed: {
@@ -123,9 +124,6 @@ export default {
     },
   },
   created() {
-    // debounce api for user navigation/multiple navigation messages
-    this.debouncedGetSubmissions = debounce(this.getSubmissions, 3000);
-
     // listen for page change message from background script
     this.$browser.runtime.onMessage.addListener((message) => {
       if (message.videoChanged) {
@@ -149,13 +147,13 @@ export default {
       });
     }
 
-    window.addEventListener('scroll', this.onScroll);
+    window.addEventListener('scroll', this.onScrollPosition);
   },
   beforeDestroy() {
-    window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('scroll', this.onScrollPosition);
   },
   methods: {
-    onScroll() {
+    onScrollPosition() {
       if (window.pageYOffset > document.getElementById(APP_ID).offsetTop) {
         this.scrolledDown = true;
       } else {
@@ -173,6 +171,8 @@ export default {
       this.query = newQuery;
 
       // reset state
+      window.removeEventListener('wheel', this.onScrollLoad);
+      window.removeEventListener('scroll', this.onScrollLoad);
       this.$root.$data.clearDataAction();
       this.$root.$data.setInitAction(true);
       this.time = DEFAULT_POSTS_TIME;
@@ -181,9 +181,6 @@ export default {
       // guard against non-video pages
       // occurs when: youtube pushes 2 history states (last page(video) & new page)
       if (url.pathname !== '/watch' || !newQuery || newQuery.length !== VIDEO_ID_LENGTH) {
-        // not a video, cancel any pending calls
-        this.debouncedGetSubmissions.cancel();
-
         // invalid video id, reset state
         if (newQuery) {
           this.$root.$data.setInitAction(false);
@@ -193,7 +190,21 @@ export default {
         return;
       }
 
-      this.debouncedGetSubmissions();
+      // load new submissions on scroll or wheel event
+      window.addEventListener('wheel', this.onScrollLoad);
+      window.addEventListener('scroll', this.onScrollLoad);
+    },
+    onScrollLoad() {
+      // only load new submissions when past scroll threshold
+      // this ensures that any programmatic scroll event is ignored
+      this.scrollCount += 1;
+
+      if (this.scrollCount > SCROLL_THRESHOLD) {
+        window.removeEventListener('wheel', this.onScrollLoad);
+        window.removeEventListener('scroll', this.onScrollLoad);
+        this.scrollCount = 0;
+        this.getSubmissions();
+      }
     },
     getSubmissions() {
       if (!this.$root.$data.state.nextSubmission) {
