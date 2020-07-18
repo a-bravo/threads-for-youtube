@@ -171,8 +171,7 @@ export default {
       this.query = newQuery;
 
       // reset state
-      window.removeEventListener('wheel', this.onScrollLoad);
-      window.removeEventListener('scroll', this.onScrollLoad);
+      this.resetScrollLoad();
       this.$root.$data.clearDataAction();
       this.$root.$data.setInitAction(true);
       this.time = DEFAULT_POSTS_TIME;
@@ -200,11 +199,14 @@ export default {
       this.scrollCount += 1;
 
       if (this.scrollCount > SCROLL_THRESHOLD) {
-        window.removeEventListener('wheel', this.onScrollLoad);
-        window.removeEventListener('scroll', this.onScrollLoad);
-        this.scrollCount = 0;
+        this.resetScrollLoad();
         this.getSubmissions();
       }
+    },
+    resetScrollLoad() {
+      window.removeEventListener('wheel', this.onScrollLoad);
+      window.removeEventListener('scroll', this.onScrollLoad);
+      this.scrollCount = 0;
     },
     getSubmissions() {
       if (!this.$root.$data.state.nextSubmission) {
