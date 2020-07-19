@@ -45,8 +45,6 @@
   },
 
   "permissions": [
-    "webNavigation",
-    "tabs",
     "storage",
     "https://*.reddit.com/*"
   ],

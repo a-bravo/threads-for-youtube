@@ -1,17 +1,11 @@
 /**
-* @file background entrypoint, listens for history updates
+* @file background entrypoint, listens for tab updates
 */
 
 import browser from 'webextension-polyfill';
 
-browser.webNavigation.onHistoryStateUpdated.addListener(
-  (details) => {
-    // only when history url === new tab url: send message to content_script
-    browser.tabs.get(details.tabId).then((tabInfo) => {
-      if (tabInfo.url === details.url) {
-        browser.tabs.sendMessage(details.tabId, { videoChanged: true });
-      }
-    });
-  },
-  { url: [{ urlContains: 'https://www.youtube.com/watch?v=' }] },
-);
+browser.tabs.onUpdated.addListener((tabId, changeInfo) => {
+  if (changeInfo.status === 'complete') {
+    browser.tabs.sendMessage(tabId, { videoChanged: { videoChanged: true } });
+  }
+});
