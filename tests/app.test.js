@@ -47,6 +47,9 @@ describe('App', () => {
     beforeEach(() => {
       wrapper.vm.$root.$data.state.submissionList = [];
       wrapper.vm.$root.$data.state.nextSubmission = null;
+
+      // simulate the initial getSubmissions call (happens on scroll)
+      wrapper.vm.getSubmissions();
     });
 
     test('is a Vue instance', () => {

@@ -177,15 +177,8 @@ export default {
       this.time = DEFAULT_POSTS_TIME;
       this.getOptions();
 
-      // guard against non-video pages
-      // occurs when: youtube pushes 2 history states (last page(video) & new page)
-      if (url.pathname !== '/watch' || !newQuery || newQuery.length !== VIDEO_ID_LENGTH) {
-        // invalid video id, reset state
-        if (newQuery) {
-          this.$root.$data.setInitAction(false);
-          // updateCurrentTabIfNeeded not needed on invalid ids
-        }
-
+      // if loading non-video pages, exit
+      if (url.pathname !== '/watch' || !newQuery) {
         return;
       }
 
@@ -209,6 +202,13 @@ export default {
       this.scrollCount = 0;
     },
     getSubmissions() {
+      // if invalid video id, dont try to get subs
+      if (!this.query || this.query.length !== VIDEO_ID_LENGTH) {
+        this.$root.$data.setInitAction(false);
+        this.updateCurrentTabIfNeeded();
+        return;
+      }
+
       if (!this.$root.$data.state.nextSubmission) {
         // loading new data: reset cached component (comments view)
         this.keepAlive = [];
