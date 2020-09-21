@@ -48,8 +48,8 @@ npm run watch
 ###### Without `web-ext`
 
 1. Open firefox.
-1. Go to `about:debugging` and tick the `Enable add-on debugging` checkbox.
-1. Click `Load Temporary Add-on` and select `/manifest.json`.
+1. Go to `about:debugging` and select the `This Firefox` tab.
+1. Click `Load Temporary Add-on...` and select `dist/manifest.json`.
 1. Any time you make changes, you must go back to the `about:debugging` page and `Reload` the extension.
 
 ##### Chrome
@@ -63,5 +63,6 @@ npm run watch
 
 1. Open Chrome.
 1. Go to `chrome://extensions/`.
-1. Click `Load unpacked` and select the project's root directory.
+1. Ensure `Developer mode` is toggled on.
+1. Click `Load unpacked` and select the `dist/` directory.
 1. Any time you make changes, you must go back to the `chrome://extensions/` page and reload the extension by clicking the 'refresh' icon.
