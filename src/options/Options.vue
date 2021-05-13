@@ -274,12 +274,12 @@ export default {
       }
     },
     addFilter() {
-      const filter = this.newFilter.trim();
+      const filter = this.newFilter.toLowerCase().replace(/\W+/g, '');
       if (filter === '') {
         return;
       }
 
-      this.options.FILTERS.push(filter.toLowerCase());
+      if (this.options.FILTERS.indexOf(filter) === -1) this.options.FILTERS.push(filter);
       this.newFilter = '';
     },
     removeFilter(index) {

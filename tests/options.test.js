@@ -198,6 +198,26 @@ describe('Options', () => {
           expect(input.element.value).toBe('');
           expect(wrapper.html()).toContain('test2');
         });
+
+        test('will remove invalid chars', () => {
+          wrapper.vm.newFilter = 't e s t _ 2-';
+          wrapper.vm.addFilter();
+
+          expect(input.element.value).toBe('');
+          expect(wrapper.html()).toContain('test_2');
+        });
+
+        test('will ignore dupes', () => {
+          wrapper.vm.newFilter = 'dupe';
+          wrapper.vm.addFilter();
+          expect(input.element.value).toBe('');
+          expect(wrapper.html()).toContain('dupe');
+
+          wrapper.vm.newFilter = 'dupe';
+          wrapper.vm.addFilter();
+          expect(input.element.value).toBe('');
+          expect(wrapper.html().match(/dupe/g) || []).toHaveLength(1);
+        });
       });
     });
   });
