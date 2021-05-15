@@ -154,6 +154,7 @@
                   <li
                     v-for="(filter, index) in options.FILTERS"
                     :key="`filter-${index}`"
+                    :class="{ highlighted: index === highlightedFilterIndex}"
                   >
                     {{ filter }}
                     <a
@@ -215,6 +216,8 @@ export default {
       newFilter: '',
       saved: false,
       initialLoad: true,
+      highlightedFilterIndex: null,
+      highlightTimeout: null,
     };
   },
   computed: {
@@ -279,8 +282,16 @@ export default {
         return;
       }
 
-      if (this.options.FILTERS.indexOf(filter) === -1) this.options.FILTERS.push(filter);
+      clearTimeout(this.highlightTimeout);
+      const index = this.options.FILTERS.indexOf(filter);
+      if (index === -1) {
+        this.options.FILTERS.unshift(filter);
+        this.highlightedFilterIndex = 0;
+      } else {
+        this.highlightedFilterIndex = index;
+      }
       this.newFilter = '';
+      this.highlightTimeout = setTimeout(() => { this.highlightedFilterIndex = null; }, 1000);
     },
     removeFilter(index) {
       this.options.FILTERS.splice(index, 1);
@@ -329,6 +340,9 @@ export default {
   }
   .pull-right {
     float: right;
+  }
+  .highlighted {
+    background-color: $rt-light-blue;
   }
 }
 </style>
