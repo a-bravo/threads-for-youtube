@@ -17,7 +17,7 @@ import authRequest from './request';
  * @returns {Promise} A reddit Listing containing search results
  */
 export function search(query, sort, t, limit, after = null) {
-  const urlQuery = `url:youtube.com/${query} OR url:youtu.be/${query}`;
+  const urlQuery = `url:${query}`;
 
   return authRequest(
     'get',
@@ -29,6 +29,7 @@ export function search(query, sort, t, limit, after = null) {
         t,
         after,
         limit,
+        include_over_18: 'on',
       },
     },
   ).then((listing) => ({ submissions: listing.data.children, nextSubmission: listing.data.after }));
