@@ -23,6 +23,7 @@ Extension that adds reddit comments to YouTube
   - Easily collapse comments
   - Hide/show child comments
   - Collapse AutoModerator's stickied comments
+  - Compatible with reddit's inline gifs
 - Compatible with YouTube's dark mode
 - Switches to Youtube comments if no reddit comments are found
 - Change any default settings in the options

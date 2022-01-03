@@ -8,7 +8,7 @@ TFY requires:
 
 - `node`
 - `npm`
-- `web-ext` (optional)
+- [`web-ext`](https://github.com/mozilla/web-ext) (optional)
 
 Set up your reddit API credentials in a `.env` file:
 
@@ -40,7 +40,7 @@ npm run watch
 
 ##### Firefox
 
-###### With `web-ext`
+###### With [`web-ext`](https://github.com/mozilla/web-ext)
 
 1. `npm run start:firefox`
 1. This reloads the extension on any change.
@@ -54,7 +54,7 @@ npm run watch
 
 ##### Chrome
 
-###### With `web-ext`
+###### With [`web-ext`](https://github.com/mozilla/web-ext)
 
 1. `npm run start:chrome`
 1. This reloads the extension on any change.
