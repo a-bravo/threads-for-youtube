@@ -8,7 +8,7 @@
     </transition>
     <div
       id="content-text"
-      :class="YT_CONTENT_RENDERER_CLASS"
+      :class="[YT_CONTENT_RENDERER_CLASS, APP_ID]"
     >
       <div class="tabs">
         <button
@@ -279,6 +279,9 @@ export default {
   margin-top: $at-spacing;
   word-wrap: break-word;
   @include at-button-link-style;
+  .at-app {
+    font-family: $at-font-family;
+  }
   .stickied {
     color: $rt-mod-green;
   }
