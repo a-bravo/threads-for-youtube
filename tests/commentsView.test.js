@@ -47,6 +47,7 @@ describe('CommentsView', () => {
       expect(typeof CommentsView.data).toBe('function');
       expect(wrapper.vm.submissions).toHaveLength(0);
       expect(wrapper.vm.visibleSubmissions).toHaveLength(0);
+      expect(wrapper.vm.isSidebarOpen).toBe(true);
       expect(wrapper.vm.options).toStrictEqual(OPTIONS);
     });
 
@@ -241,6 +242,8 @@ describe('CommentsView', () => {
 
       // the second submission should still be selected
       expect(wrapper.findAll('li').at(1).classes('selected')).toBe(true);
+
+      expect(wrapper.vm.isSidebarOpen).toBe(true);
     });
 
     test('when loading different submissions', () => {
@@ -259,6 +262,7 @@ describe('CommentsView', () => {
       expect(wrapper.vm.currentSubmission).toStrictEqual(wrapper.vm.submissions[2]);
       expect(wrapper.findAll('li').at(0).classes('selected')).toBe(false);
       expect(wrapper.findAll('li').at(2).classes('selected')).toBe(true);
+      wrapper.vm.isSidebarOpen = false;
 
       // mock load different submissions (same data but new/different object)
       wrapper.setProps({
@@ -269,9 +273,45 @@ describe('CommentsView', () => {
         ],
       });
 
-      // currentSubmission & selected submission should reset
+      // state (currentSubmission, selected submission, etc) should reset
       expect(wrapper.vm.currentSubmission).toStrictEqual(wrapper.vm.submissions[0]);
+      expect(wrapper.vm.isSidebarOpen).toBe(true);
       expect(wrapper.findAll('li').at(0).classes('selected')).toBe(true);
+    });
+
+    test('user collapses sidebar', () => {
+      // mock submissions change behavior
+      wrapper.setProps({ submissions: [] });
+      wrapper.setProps({
+        submissions: [
+          { data: { id: 1, num_comments: ABOVE_COMMENT_THRESHOLD, subreddit: 'test' } },
+          { data: { id: 2, num_comments: ABOVE_COMMENT_THRESHOLD, subreddit: 'test2' } },
+        ],
+      });
+
+      wrapper.findAll('li').at(1).trigger('click');
+      expect(wrapper.vm.currentSubmission).toStrictEqual(wrapper.vm.submissions[1]);
+
+      // collapse sidebar
+      wrapper.find('span.collapse-sidebar').trigger('click');
+
+      // currentSubmission should remain the same
+      expect(wrapper.vm.currentSubmission).toStrictEqual(wrapper.vm.submissions[1]);
+
+      expect(wrapper.vm.isSidebarOpen).toBe(false);
+      expect(wrapper.findAll('li')).toHaveLength(0);
+      expect(wrapper.findAll('selected')).toHaveLength(0);
+
+      // uncollapse sidebar
+      wrapper.find('span.collapse-sidebar').trigger('click');
+
+      // currentSubmission should remain the same
+      expect(wrapper.vm.currentSubmission).toStrictEqual(wrapper.vm.submissions[1]);
+
+      // the second submission should still be selected
+      expect(wrapper.findAll('li').at(1).classes('selected')).toBe(true);
+
+      expect(wrapper.vm.isSidebarOpen).toBe(true);
     });
   });
 });

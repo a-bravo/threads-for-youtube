@@ -32,7 +32,10 @@
       v-else
       class="comments-view"
     >
-      <ul class="submissions-sidebar">
+      <ul
+        v-if="isSidebarOpen"
+        class="submissions-sidebar"
+      >
         <li
           v-for="submission in visibleSubmissions"
           :key="submission.data.id"
@@ -63,6 +66,13 @@
           load more
         </more-button>
       </ul>
+
+      <span
+        :class="['collapse-sidebar', YT_LINK_CLASS]"
+        @click="isSidebarOpen = !isSidebarOpen"
+      >
+        {{ isSidebarOpen ? '&lt;' : '&gt;' }}
+      </span>
 
       <div class="comments-container">
         <comment-list
@@ -101,6 +111,7 @@ export default {
   data() {
     return {
       currentSubmission: null,
+      isSidebarOpen: true,
       YT_LINK_CLASS,
     };
   },
@@ -116,13 +127,14 @@ export default {
   },
   watch: {
     submissions(newVal, oldVal) {
-      /* Only reset currentSubmission when submission's first object differs (loading
+      /* Only reset state when submission's first object differs (loading
       new submissons), not when they are the same (loading more submissions) */
       if (newVal.length > 0 && oldVal.length > 0 && oldVal[0] === newVal[0]) {
         return;
       }
 
       this.currentSubmission = null;
+      this.isSidebarOpen = true;
     },
   },
   methods: {
@@ -148,7 +160,6 @@ export default {
   max-width: 12ch;
   @include reset-list;
   padding-right: 10px;
-  border-right: 1px solid $yt-light-grey;
   li {
     white-space: nowrap;
     overflow: hidden;
@@ -171,6 +182,21 @@ export default {
       background: $yt-red;
       color: white !important;
     }
+  }
+}
+.collapse-sidebar {
+  font-weight: 100;
+  top: 0;
+  left: 0;
+  width: 8px;
+  font-size: 8px;
+  text-align: center;
+  line-height: 16px;
+  cursor: pointer;
+  border-right: 1px dotted $yt-light-grey;
+  &:hover {
+    color: white !important;
+    background-color: $at-transparent-grey;
   }
 }
 .num-comments {
