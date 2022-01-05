@@ -30,7 +30,9 @@
           {{ submission.num_comments }} {{ pluralize(submission.num_comments, 'comment') }}
         </a>
       </span>
-      <span class="time">submitted {{ timeAgo(submission.created_utc) }} ago</span>
+      <span class="time">
+        submitted {{ timeAgo($root.$data.state.now, submission.created_utc) }}
+      </span>
       <span>
         by
         <a

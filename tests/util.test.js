@@ -13,20 +13,20 @@ const YEAR = 31556952;
 
 describe('timeAgo', () => {
   test('just now', () => {
-    expect(timeAgo(Date.now() / 1000)).toBe('just now');
-    expect(timeAgo(Date.now() / 1000 - MINUTE + 10)).toBe('just now');
+    expect(timeAgo(Date.now(), Date.now() / 1000)).toBe('just now');
+    expect(timeAgo(Date.now(), Date.now() / 1000 - MINUTE + 10)).toBe('just now');
   });
 
   test('singular time units ', () => {
-    expect(timeAgo(Date.now() / 1000 - MINUTE - 10)).toBe('1 minute');
+    expect(timeAgo(Date.now(), Date.now() / 1000 - MINUTE - 10)).toBe('1 minute ago');
   });
 
   test('plural time units ', () => {
-    expect(timeAgo(Date.now() / 1000 - (MINUTE * 4))).toBe('4 minutes');
+    expect(timeAgo(Date.now(), Date.now() / 1000 - (MINUTE * 4))).toBe('4 minutes ago');
   });
 
   test('a long long time ago', () => {
-    expect(timeAgo(Date.now() / 1000 - (YEAR * 40))).toBe('40 years');
+    expect(timeAgo(Date.now(), Date.now() / 1000 - (YEAR * 40))).toBe('40 years ago');
   });
 });
 

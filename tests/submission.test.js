@@ -2,6 +2,16 @@ import { shallowMount } from '@vue/test-utils';
 import Submission from '../src/components/Submission.vue';
 import { OPTIONS } from '../src/constants';
 
+const root = {
+  data() {
+    return {
+      state: {
+        now: Date.now(),
+      },
+    };
+  },
+};
+
 describe('Submission', () => {
   // mount component
   const submission = {
@@ -17,6 +27,7 @@ describe('Submission', () => {
       submission,
       showFlair: OPTIONS.SHOW_POST_FLAIR,
     },
+    parentComponent: root,
   });
 
   describe('initial state', () => {

@@ -16,12 +16,15 @@ const emptyMoreDataObject = {
   moreError: false,
 };
 
+let timer = null;
+
 export default {
   state: {
     submissionList: [],
     submissions: { ...emptyDataObject, ...emptyMoreDataObject },
     comments: {},
     nextSubmission: null,
+    now: null,
     init: false,
   },
   setInitAction(value) {
@@ -49,6 +52,10 @@ export default {
     this.state.comments = {};
     this.state.nextSubmission = null;
     this.state.init = false;
+
+    clearInterval(timer);
+    timer = null;
+    this.state.now = null;
   },
   /**
    * Clear comments and their children from store
@@ -129,6 +136,10 @@ export default {
     } else {
       this.clearDataAction();
       this.state.submissions.loading = true;
+      this.state.now = Date.now();
+      timer = setInterval(() => {
+        this.state.now = Date.now();
+      }, 60000);
     }
     return search(query, sort, time, limit, after)
       .then((data) => {

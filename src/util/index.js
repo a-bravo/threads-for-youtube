@@ -31,12 +31,13 @@ export function pluralize(amount, unit, pluralUnit = `${unit}s`) {
  * Formats the relative time
  * Makes utc timestamps human readable
  *
+ * @param {Number} now  The current time in ms
  * @param {Number} time The utc value
  *
  * @returns {String} The formatted relative time
  */
-export function timeAgo(time) {
-  const timeElapsed = Date.now() / 1000 - Number(time);
+export function timeAgo(now, time) {
+  const timeElapsed = now / 1000 - Number(time);
   let readableTime;
   let unit;
 
@@ -61,7 +62,7 @@ export function timeAgo(time) {
     unit = pluralize(readableTime, 'year');
   }
 
-  return `${readableTime} ${unit}`;
+  return `${readableTime} ${unit} ago`;
 }
 
 /**

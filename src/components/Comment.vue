@@ -49,7 +49,7 @@
             <span class="points">
               {{ abbreviateNumber(item.data.score) }} {{ pluralize(item.data.score, 'point') }}
             </span>
-            <span class="details">{{ timeAgo(item.data.created_utc) }} ago</span>
+            <span class="details">{{ timeAgo($root.$data.state.now, item.data.created_utc) }}</span>
             <span
               v-if="item.data.stickied"
               class="details stickied"
