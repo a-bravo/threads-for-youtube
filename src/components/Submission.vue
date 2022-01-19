@@ -170,7 +170,7 @@ export default {
   }
 }
 .links {
-  span {
+  a {
     padding-right: $at-comment-spacing;
   }
   font-weight: bold;

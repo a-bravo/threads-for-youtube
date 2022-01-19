@@ -84,6 +84,16 @@ export default {
     // remove top-level commentNames from submissions object
     this.state.submissions[submissionName].comments = [];
   },
+  /**
+   * Reload a sumbission's comments
+   *
+   * @param {String} submissionName Fullname (type prefix + ID36)
+   */
+  reloadComments(submissionId, submissionName, limit, sort) {
+    if (this.state.submissions[submissionName].loading) return;
+    this.clearComments(submissionName);
+    this.loadComments(submissionId, submissionName, limit, sort);
+  },
   addCommentAction(comment) {
     const parentId = comment.data.parent_id;
     const commentName = comment.data.name;

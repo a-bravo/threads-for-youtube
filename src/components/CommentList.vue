@@ -19,6 +19,16 @@
       >
         {{ hideAllChildComments ? "show" : "hide" }} all child comments
       </a>
+      <a
+        @click="!moreLoading && $root.$data.reloadComments(
+          submission.id,
+          submission.name,
+          options.NUM_COMMENTS,
+          sort
+        )"
+      >
+        reload comments
+      </a>
     </submission>
     <spinner v-if="$root.$data.state.submissions[submission.name].loading" />
     <div v-else-if="$root.$data.state.submissions[submission.name].error">
@@ -110,10 +120,12 @@ export default {
   watch: {
     sort() {
       this.$root.$data.setSortAction(this.submission.name, this.sort);
-
-      // reset and reload comments (with new sort)
-      this.$root.$data.clearComments(this.submission.name);
-      this.loadComments();
+      this.$root.$data.reloadComments(
+        this.submission.id,
+        this.submission.name,
+        this.options.NUM_COMMENTS,
+        this.sort,
+      );
     },
   },
   mounted() {
