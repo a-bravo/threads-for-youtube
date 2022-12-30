@@ -71,7 +71,7 @@
     "imagemin": "^7.0.1",
     "imagemin-pngquant": "^9.0.2",
     "jest": "^24.9.0",
-    "nightwatch": "^1.6.3",
+    "nightwatch": "^2.6.3",
     "sass": "^1.43.4",
     "sass-loader": "^7.3.1",
     "vue-jest": "^3.0.7",
