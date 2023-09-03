@@ -90,15 +90,15 @@ module.exports = {
 
       // ensure comment select resets state & post sort maintains state
       .click(`#${APP_ID} #submission-list`)
-      .click(`#${APP_ID} select option[value=new]`)
-      .assert.value(`#${APP_ID} select`, 'new')
+      .click(`#${APP_ID} select option[value=relevance]`)
+      .assert.value(`#${APP_ID} select`, 'relevance')
       // check comment select state resets to 'confidence'
       .click(`#${APP_ID} #comments-view`)
       .waitForElementVisible(`#${APP_ID} .comment-list`)
       .assert.value(`#${APP_ID} select`, 'confidence')
       // check post sort value maintained state
       .click(`#${APP_ID} #submission-list`)
-      .assert.value(`#${APP_ID} select`, 'new')
+      .assert.value(`#${APP_ID} select`, 'relevance')
   },
 
   'App location within DOM (next to YT comments)': function (browser) {
