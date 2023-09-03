@@ -58,7 +58,7 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^24.9.0",
     "babel-loader": "^8.2.2",
-    "chromedriver": "^96.0.0",
+    "chromedriver": "^116.0.0",
     "copy-webpack-plugin": "^5.1.2",
     "css-loader": "^3.6.0",
     "dotenv-webpack": "^1.8.0",
