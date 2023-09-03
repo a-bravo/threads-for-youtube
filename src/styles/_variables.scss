@@ -6,7 +6,8 @@
 $yt-red: #FF0000;
 $yt-light-grey: #777;
 $yt-dark-grey: #606060;
-$yt-endpoint-blue: var(--yt-endpoint-color, var(--yt-spec-text-primary));
+$yt-endpoint-blue: var(--yt-spec-call-to-action, var(--yt-spec-text-primary));
+$yt-text-primary-color: var(--yt-spec-text-primary);
 
 $rt-mod-green: #228822;
 $rt-mod-red: red;
@@ -21,14 +22,14 @@ $at-transparent-grey: rgba(189, 189, 189, 0.15);
 
 /* Fonts */
 
-/* Default size is inherited from page */
 $at-tiny-font: .95rem;
 $at-small-font: 1.1rem;
-/* default-size: 1.4rem; */
+$at-default-size: 1.4rem;
 $at-large-font: 1.6rem;
 
-$at-font-family: verdana, arial, helvetica, sans-serif;
+$at-default-line-height: 2rem;
 
+$at-font-family: verdana, arial, helvetica, sans-serif;
 
 /* Spacing, Sizes */
 

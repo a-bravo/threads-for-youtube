@@ -34,7 +34,7 @@
     <div v-else-if="$root.$data.state.submissions[submission.name].error">
       Could not reach reddit.
       <a
-        :class="YT_LINK_CLASS"
+        :class="AT_LINK_CLASS"
         @click="loadComments"
       >
         Try again
@@ -83,7 +83,7 @@
 import Submission from './Submission.vue';
 import Comment from './Comment.vue';
 import Spinner from './Spinner.vue';
-import { YT_LINK_CLASS, COMMENT_SORTS } from '../constants';
+import { AT_LINK_CLASS, COMMENT_SORTS } from '../constants';
 
 export default {
   components: {
@@ -103,7 +103,7 @@ export default {
   },
   data() {
     return {
-      YT_LINK_CLASS,
+      AT_LINK_CLASS,
       sort: this.getSort(),
       sorts: COMMENT_SORTS,
       moreLoading: false,

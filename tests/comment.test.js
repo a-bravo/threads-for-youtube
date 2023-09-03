@@ -1,7 +1,7 @@
 import { shallowMount } from '@vue/test-utils';
 import Comment from '../src/components/Comment.vue';
 import {
-  YT_LINK_CLASS,
+  AT_LINK_CLASS,
   RT_MORE_OBJECT,
   OPTIONS,
   RT_BASE_URL,
@@ -133,7 +133,7 @@ describe('Comment', () => {
       });
 
       // collapse comment
-      wrapper.find(`span.${YT_LINK_CLASS}`).trigger('click');
+      wrapper.find(`span.${AT_LINK_CLASS}`).trigger('click');
 
       // elements still present
       expect(wrapper.contains('li')).toBe(true);

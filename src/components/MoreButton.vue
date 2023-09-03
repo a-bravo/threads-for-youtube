@@ -9,7 +9,7 @@
     <a
       v-else
       class="more-button"
-      :class="YT_LINK_CLASS"
+      :class="AT_LINK_CLASS"
       @click="$emit('more')"
     >
       <slot />
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { YT_LINK_CLASS } from '../constants';
+import { AT_LINK_CLASS } from '../constants';
 
 export default {
   props: {
@@ -29,7 +29,7 @@ export default {
   },
   data() {
     return {
-      YT_LINK_CLASS,
+      AT_LINK_CLASS,
     };
   },
 };

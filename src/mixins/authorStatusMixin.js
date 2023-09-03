@@ -1,10 +1,10 @@
-import { YT_LINK_CLASS } from '../constants';
+import { AT_LINK_CLASS } from '../constants';
 
 export default {
   methods: {
     authorClass(distinguished, isSubmitter) {
       return {
-        [YT_LINK_CLASS]: !isSubmitter && !distinguished,
+        [AT_LINK_CLASS]: !isSubmitter && !distinguished,
         moderator: distinguished === 'moderator',
         admin: distinguished === 'admin',
         special: distinguished === 'special',

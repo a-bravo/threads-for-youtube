@@ -5,7 +5,7 @@
     class="comment-container"
   >
     <span
-      :class="['collapse-button', isOpen ? YT_LINK_CLASS : 'details' ]"
+      :class="['collapse-button', isOpen ? AT_LINK_CLASS : 'details' ]"
       @click="toggleComment()"
     >
       {{ isOpen ? '-' : '+' }}
@@ -132,7 +132,7 @@
 
     <a
       v-else
-      :class="YT_LINK_CLASS"
+      :class="AT_LINK_CLASS"
       :href="`${RT_BASE_URL}${$parent.item.data.permalink}`"
       target="_blank"
       rel="noopener noreferrer"
@@ -149,7 +149,7 @@ import authorStatusMixin from '../mixins/authorStatusMixin';
 import scrollToMixin from '../mixins/scrollToMixin';
 import { timeAgo, pluralize, abbreviateNumber } from '../util';
 import {
-  YT_LINK_CLASS,
+  AT_LINK_CLASS,
   RT_MORE_OBJECT,
   RT_BASE_URL,
 } from '../constants';
@@ -178,7 +178,7 @@ export default {
   data() {
     return {
       isOpen: !this.isLowScore() && !this.collapseModerator(),
-      YT_LINK_CLASS,
+      AT_LINK_CLASS,
       RT_MORE_OBJECT,
       RT_BASE_URL,
       childrenHidden: this.hideChildren,
@@ -215,7 +215,7 @@ export default {
       const updatedComment = comment.replace(/<a\shref="\//g, baseUrl);
 
       // assign attributes to link tags
-      const linkAttributes = `<a class="${YT_LINK_CLASS}" rel="noopener noreferrer" target="_blank"`;
+      const linkAttributes = `<a class="${AT_LINK_CLASS}" rel="noopener noreferrer" target="_blank"`;
       return updatedComment.replace(/<a/g, linkAttributes);
     },
     toggleComment() {

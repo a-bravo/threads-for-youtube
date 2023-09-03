@@ -9,7 +9,7 @@
     <h3 v-else-if="$root.$data.state.submissions.error">
       Could not reach reddit.
       <a
-        :class="YT_LINK_CLASS"
+        :class="AT_LINK_CLASS"
         @click="$emit('reload')"
       >
         Try again
@@ -68,7 +68,7 @@
       </ul>
 
       <span
-        :class="['collapse-sidebar', YT_LINK_CLASS]"
+        :class="['collapse-sidebar', AT_LINK_CLASS]"
         @click="isSidebarOpen = !isSidebarOpen"
       >
         {{ isSidebarOpen ? '&lt;' : '&gt;' }}
@@ -89,7 +89,7 @@
 import CommentList from './CommentList.vue';
 import Spinner from './Spinner.vue';
 import MoreButton from './MoreButton.vue';
-import { YT_LINK_CLASS } from '../constants';
+import { AT_LINK_CLASS } from '../constants';
 import { abbreviateNumber } from '../util';
 
 export default {
@@ -112,7 +112,7 @@ export default {
     return {
       currentSubmission: null,
       isSidebarOpen: true,
-      YT_LINK_CLASS,
+      AT_LINK_CLASS,
     };
   },
   computed: {

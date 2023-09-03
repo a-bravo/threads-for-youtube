@@ -1,10 +1,10 @@
 import authorStatusMixin from '../src/mixins/authorStatusMixin';
-import { YT_LINK_CLASS } from '../src/constants';
+import { AT_LINK_CLASS } from '../src/constants';
 
 describe('authorStatusMixin', () => {
   describe('authorClass', () => {
     test.each([
-      [undefined, undefined, YT_LINK_CLASS],
+      [undefined, undefined, AT_LINK_CLASS],
       [undefined, true, 'op'],
       [null, true, 'op'],
       ['moderator', undefined, 'moderator'],

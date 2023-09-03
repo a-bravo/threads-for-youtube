@@ -8,7 +8,7 @@
     </transition>
     <div
       id="content-text"
-      :class="[YT_CONTENT_RENDERER_CLASS, APP_ID]"
+      :class="[APP_ID]"
     >
       <div class="tabs">
         <button
@@ -48,7 +48,6 @@ import { pluralize, abbreviateNumber } from './util';
 import {
   APP_ID,
   YT_COMMENTS_ID,
-  YT_CONTENT_RENDERER_CLASS,
   COMPONENT_TABS,
   DEFAULT_POSTS_TIME,
 } from './constants';
@@ -70,7 +69,6 @@ export default {
       tabs: COMPONENT_TABS,
       query: '',
       APP_ID,
-      YT_CONTENT_RENDERER_CLASS,
       scrolledDown: false,
       keepAlive: ['comments-view'],
       sort: '',
@@ -276,6 +274,9 @@ export default {
 /* Global app styles */
 #at-app {
   font-family: $at-font-family;
+  color: $yt-text-primary-color;
+  font-size: $at-default-size;
+  line-height: $at-default-line-height;
   margin-top: $at-spacing;
   word-wrap: break-word;
   @include at-button-link-style;
@@ -288,6 +289,9 @@ export default {
   .at-component {
     margin-top: $at-spacing;
     margin-bottom: $at-floating-btn-diameter;
+  }
+  .at-simple-endpoint {
+    color: $yt-endpoint-blue;
   }
   .details {
     color: $rt-grey;

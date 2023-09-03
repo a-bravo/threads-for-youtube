@@ -9,7 +9,7 @@
     <h3 v-else-if="$root.$data.state.submissions.error">
       Could not reach reddit.
       <a
-        :class="YT_LINK_CLASS"
+        :class="AT_LINK_CLASS"
         @click="$emit('reload')"
       >
         Try again
@@ -83,7 +83,7 @@ import SelectInput from './SelectInput.vue';
 import MoreButton from './MoreButton.vue';
 import { pluralize } from '../util';
 import {
-  YT_LINK_CLASS,
+  AT_LINK_CLASS,
   POST_SORTS,
   POST_TIMES,
   DEFAULT_POSTS_TIME,
@@ -120,7 +120,7 @@ export default {
   },
   data() {
     return {
-      YT_LINK_CLASS,
+      AT_LINK_CLASS,
       sorts: POST_SORTS,
       selectSort: this.sort,
       times: POST_TIMES,

@@ -9,7 +9,7 @@
     </span>
     <span v-if="timestamp">
       <a
-        :class="YT_LINK_CLASS"
+        :class="AT_LINK_CLASS"
         @click="goToTimeStamp()"
       >
         (@{{ toHHMMSS(timestamp) }})
@@ -22,7 +22,7 @@
         class="comments-link"
       >
         <a
-          :class="YT_LINK_CLASS"
+          :class="AT_LINK_CLASS"
           :href="`${RT_BASE_URL}${submission.permalink}`"
           target="_blank"
           rel="noopener noreferrer"
@@ -52,7 +52,7 @@
       <span class="subreddit">
         to
         <a
-          :class="YT_LINK_CLASS"
+          :class="AT_LINK_CLASS"
           :href="`${RT_BASE_URL}/${submission.subreddit_name_prefixed}`"
           target="_blank"
           rel="noopener noreferrer"
@@ -71,7 +71,7 @@
     >
       <span class="comments-link bold">
         <a
-          :class="YT_LINK_CLASS"
+          :class="AT_LINK_CLASS"
           :href="`${RT_BASE_URL}${submission.permalink}`"
           target="_blank"
           rel="noopener noreferrer"
@@ -95,7 +95,7 @@ import {
   parseFormattedTime,
 } from '../util';
 import {
-  YT_LINK_CLASS,
+  AT_LINK_CLASS,
   RT_BASE_URL,
   YT_VIDEO_TAG,
   YT_VIDEO_ID,
@@ -118,7 +118,7 @@ export default {
   },
   data() {
     return {
-      YT_LINK_CLASS,
+      AT_LINK_CLASS,
       RT_BASE_URL,
       timestamp: this.setTimeStamp(),
     };
