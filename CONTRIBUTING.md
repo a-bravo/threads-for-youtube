@@ -8,7 +8,7 @@ TFY requires:
 
 - `node`
 - `npm`
-- [`web-ext`](https://github.com/mozilla/web-ext) (optional)
+- [`web-ext`](https://github.com/mozilla/web-ext)
 
 Set up your reddit API credentials in a `.env` file:
 
