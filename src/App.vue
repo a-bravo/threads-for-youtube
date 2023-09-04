@@ -152,7 +152,7 @@ export default {
   },
   methods: {
     onScrollPosition() {
-      if (window.pageYOffset > document.getElementById(APP_ID).offsetTop) {
+      if (document.getElementById(APP_ID).getBoundingClientRect().top < 0) {
         this.scrolledDown = true;
       } else {
         this.scrolledDown = false;
