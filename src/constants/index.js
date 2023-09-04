@@ -53,7 +53,7 @@ export const COMMENT_SORTS = [
 // Youtube ids, classes
 
 export const YT_COMMENTS_ID = 'comments';
-export const YT_NAVBAR_ID = 'masthead';
+export const YT_NAVBAR_ID = 'masthead-container';
 
 export const YT_VIDEO_TAG = 'video';
 export const YT_VIDEO_ID = 'movie_player';

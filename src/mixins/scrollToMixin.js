@@ -17,7 +17,7 @@ export default {
         return;
       }
 
-      window.scroll(0, target.offsetTop - navHeight);
+      window.scroll(0, target.getBoundingClientRect().top + window.pageYOffset - navHeight);
     },
   },
 };
