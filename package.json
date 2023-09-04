@@ -1,6 +1,6 @@
 {
   "name": "threads-for-youtube",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "description": "Reddit comments on YouTube",
   "main": "content_script.js",
   "scripts": {
