@@ -68,3 +68,6 @@ tests_output/
 
 # vscode settings
 .vscode/
+
+# mac stuff
+.DS_STORE
