@@ -1,5 +1,8 @@
 <template>
-  <div :id="APP_ID">
+  <div
+    :id="APP_ID"
+    :style="cssVars"
+  >
     <transition name="fade">
       <back-to-top-button
         v-if="scrolledDown"
@@ -110,6 +113,12 @@ export default {
       return this.submissions.filter(
         (s) => this.options.FILTERS.indexOf(s.data.subreddit.toLowerCase()) === -1,
       );
+    },
+    cssVars() {
+      return {
+        '--at-accent-color': this.options.ACCENT_COLOR,
+        '--at-text-accent-color': this.options.TEXT_ACCENT_COLOR,
+      };
     },
   },
   watch: {
@@ -585,8 +594,8 @@ export default {
     background-color: $yt-light-grey;
   }
   &.selected {
-    background-color: $yt-red;
-    color: white;
+    background-color: $at-accent-color;
+    color: $at-text-accent-color
   }
 }
 .fade-enter-active, .fade-leave-active {

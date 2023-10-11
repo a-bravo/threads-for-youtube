@@ -136,6 +136,22 @@
             </div>
             <br>
 
+            <div>
+              <label>Accent color</label>
+              <input
+                v-model="options.ACCENT_COLOR"
+                type="color"
+              >
+            </div>
+            <div>
+              <label>Text accent color</label>
+              <input
+                v-model="options.TEXT_ACCENT_COLOR"
+                type="color"
+              >
+            </div>
+            <br>
+
             <form @submit.prevent="addFilter">
               don't show me posts from certain subreddits
               <input

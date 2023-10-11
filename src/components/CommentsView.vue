@@ -167,16 +167,16 @@ export default {
       overflow: visible;
       position: relative;
       z-index: $at-med-z;
-      background-color: $yt-red;
-      color: white !important;
+      background-color: $at-accent-color;
+      color: $at-text-accent-color !important;
       display: inline-block;
       .num-comments {
         display: inline-block;
       }
     }
     &.selected {
-      background-color: $yt-red;
-      color: white !important;
+      background-color: $at-accent-color;
+      color: $at-text-accent-color !important;
     }
   }
 }

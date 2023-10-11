@@ -20,6 +20,8 @@ export const OPTIONS = {
   SHOW_USER_FLAIR: true,
   SHOW_POST_FLAIR: true,
   FILTERS: [],
+  ACCENT_COLOR: '#FF0000',
+  TEXT_ACCENT_COLOR: '#FFFFFF',
 };
 export const COMPONENT_TABS = [
   { text: 'reddit posts', value: 'submission-list' },
