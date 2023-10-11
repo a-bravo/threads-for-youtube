@@ -45,10 +45,8 @@
           ]"
           @click="currentSubmission = submission"
         >
-          <div>
-            <span id="subreddit">{{ submission.data.subreddit }}</span>
-            <span class="num-comments">({{ abbreviateNumber(submission.data.num_comments) }})</span>
-          </div>
+          <span id="subreddit">{{ submission.data.subreddit }}</span>
+          <span class="num-comments">({{ abbreviateNumber(submission.data.num_comments) }})</span>
         </li>
 
         <div
@@ -164,22 +162,20 @@ export default {
     white-space: nowrap;
     overflow: hidden;
     cursor: pointer;
+    border-radius: 4px;
     &:hover {
       overflow: visible;
       position: relative;
       z-index: $at-med-z;
-      background: $yt-red;
-      div {
-        display: inline-block;
-        background: $yt-red;
-        color: white !important;
-      }
+      background-color: $yt-red;
+      color: white !important;
+      display: inline-block;
       .num-comments {
         display: inline-block;
       }
     }
     &.selected {
-      background: $yt-red;
+      background-color: $yt-red;
       color: white !important;
     }
   }
@@ -196,7 +192,7 @@ export default {
   border-right: 1px dotted $yt-light-grey;
   &:hover {
     color: white !important;
-    background-color: $at-transparent-grey;
+    background-color: $yt-light-grey;
   }
 }
 .num-comments {

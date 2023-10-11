@@ -4,8 +4,8 @@
 /* Colors */
 
 $yt-red: #FF0000;
-$yt-light-grey: #777;
-$yt-dark-grey: #606060;
+$yt-light-grey: var(--yt-spec-button-chip-background-hover);
+$yt-dark-grey: var(--yt-spec-badge-chip-background);
 $yt-endpoint-blue: var(--yt-spec-call-to-action, var(--yt-spec-text-primary));
 $yt-text-primary-color: var(--yt-spec-text-primary);
 
@@ -17,8 +17,6 @@ $rt-border-color: #DDF;
 $rt-light-blue: #cee3f8;
 
 $rt-visited-purple: #336699;
-
-$at-transparent-grey: rgba(189, 189, 189, 0.15);
 
 /* Fonts */
 
@@ -38,6 +36,8 @@ $at-floating-btn-diameter: 50px;
 $at-collapse-width: 15px;
 $at-comment-spacing: 5px;
 
+$at-light-grey: #777;
+$at-dark-grey: #606060;
 
 /* z-index priorities */
 

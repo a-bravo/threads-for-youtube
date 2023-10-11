@@ -31,12 +31,12 @@ export default {
   bottom: 10px;
   width: $at-floating-btn-diameter;
   height: $at-floating-btn-diameter;
-  background-color: $yt-dark-grey;
+  background-color: $at-dark-grey;
   text-indent: -9999px;
   border-radius: 60px;
   border: none;
   &:hover {
-    background-color: $yt-light-grey;
+    background-color: $at-light-grey;
   }
   div {
     position: absolute;

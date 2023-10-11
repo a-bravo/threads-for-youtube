@@ -12,10 +12,13 @@
     >
       <div class="tabs">
         <button
-          v-for="tab in tabs"
+          v-for="(tab, index) in tabs"
           :id="tab.value"
           :key="tab.value"
-          :class="['tab-button', { selected: currentTabComponent === tab.value }]"
+          :class="['tab-button',
+                   { selected: currentTabComponent === tab.value },
+                   { 'left-neighbor': index != 0 },
+                   { 'right-neighbor': index != tabs.length - 1 }]"
           @click="currentTabComponent = tab.value"
         >
           {{ getTabTitle(tab) }}
@@ -558,20 +561,32 @@ export default {
 
 /* component styles */
 .tabs {
-  height: 30px;
+  height: 36px;
 }
 .tab-button {
   background-color: $yt-dark-grey;
-  color: white;
+  color: $yt-text-primary-color;
   border: none;
+  border-radius: 12px;
+  font-weight: 500;
   outline: none;
-  height: 24px;
+  height: 36px;
   width: 33%;
+  &.right-neighbor {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-right: 1px solid $yt-light-grey;
+  }
+  &.left-neighbor {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+  }
   &:hover {
     background-color: $yt-light-grey;
   }
   &.selected {
     background-color: $yt-red;
+    color: white;
   }
 }
 .fade-enter-active, .fade-leave-active {

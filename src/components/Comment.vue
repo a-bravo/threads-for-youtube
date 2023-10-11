@@ -249,7 +249,7 @@ export default {
   font-size: 16px;
   text-align: center;
   line-height: 16px;
-  background-color: $at-transparent-grey;
+  background-color: $yt-dark-grey;
   cursor: pointer;
   &:hover {
     color: white !important;
