@@ -32,7 +32,7 @@
     </submission>
     <spinner v-if="$root.$data.state.submissions[submission.name].loading" />
     <div v-else-if="$root.$data.state.submissions[submission.name].error">
-      Could not reach reddit.
+      Could not reach Reddit.
       <a
         :class="AT_LINK_CLASS"
         @click="loadComments"

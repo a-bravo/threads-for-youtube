@@ -19,7 +19,7 @@
                 type="checkbox"
               >
               <label>
-                display YouTube comments if no reddit comments are found
+                display YouTube comments if no Reddit comments are found
               </label>
             </div>
           </td>

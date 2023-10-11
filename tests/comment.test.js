@@ -336,7 +336,7 @@ describe('Comment', () => {
     });
   });
 
-  describe('renders correctly when comment is a reddit "more" object', () => {
+  describe('renders correctly when comment is a Reddit "more" object', () => {
     test('normal "more" object', () => {
       wrapper.setProps({
         item: {
@@ -349,7 +349,7 @@ describe('Comment', () => {
       expect(wrapper.contains('more-button-stub')).toBe(true);
       expect(wrapper.contains('.body')).toBe(false);
       expect(wrapper.html()).toContain('load more comments');
-      expect(wrapper.html()).not.toContain('[Could not reach reddit. Try again later.]');
+      expect(wrapper.html()).not.toContain('[Could not reach Reddit. Try again later.]');
     });
 
     test('"more" object with error on load', () => {
@@ -365,7 +365,7 @@ describe('Comment', () => {
       expect(wrapper.contains('more-button-stub')).toBe(true);
       expect(wrapper.contains('.body')).toBe(false);
       expect(wrapper.html()).toContain('load more comments');
-      expect(wrapper.html()).toContain('[Could not reach reddit. Try again later.]');
+      expect(wrapper.html()).toContain('[Could not reach Reddit. Try again later.]');
     });
 
     test('continue thread object', () => {

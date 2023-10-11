@@ -24,8 +24,8 @@ export const OPTIONS = {
   TEXT_ACCENT_COLOR: '#FFFFFF',
 };
 export const COMPONENT_TABS = [
-  { text: 'reddit posts', value: 'submission-list' },
-  { text: 'reddit comments', value: 'comments-view' },
+  { text: 'Reddit posts', value: 'submission-list' },
+  { text: 'Reddit comments', value: 'comments-view' },
   { text: 'YouTube comments', value: 'youtube-comments-view' },
 ];
 export const POST_SORTS = [

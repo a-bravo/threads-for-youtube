@@ -7,7 +7,7 @@
       <spinner />
     </h3>
     <h3 v-else-if="$root.$data.state.submissions.error">
-      Could not reach reddit.
+      Could not reach Reddit.
       <a
         :class="AT_LINK_CLASS"
         @click="$emit('reload')"

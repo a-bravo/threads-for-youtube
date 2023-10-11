@@ -78,7 +78,7 @@ describe('SubmissionList', () => {
     test('on api error', () => {
       wrapper.vm.$root.$data.state.submissions.error = true;
 
-      expect(wrapper.html()).toContain('Could not reach reddit.');
+      expect(wrapper.html()).toContain('Could not reach Reddit.');
       wrapper.find('a').trigger('click');
       expect(wrapper.emitted().reload.length).toBe(1);
 
@@ -166,7 +166,7 @@ describe('SubmissionList', () => {
         expect(wrapper.findAll('submission-stub')).toHaveLength(2);
         expect(wrapper.contains('more-button-stub')).toBe(true);
         expect(wrapper.html()).toContain('load more posts');
-        expect(wrapper.html()).not.toContain('(Could not reach reddit. Try again later.)');
+        expect(wrapper.html()).not.toContain('(Could not reach Reddit. Try again later.)');
       });
 
       test('error on load', () => {
@@ -176,7 +176,7 @@ describe('SubmissionList', () => {
         expect(wrapper.findAll('submission-stub')).toHaveLength(2);
         expect(wrapper.contains('more-button-stub')).toBe(true);
         expect(wrapper.html()).toContain('load more posts');
-        expect(wrapper.html()).toContain('(Could not reach reddit. Try again later.)');
+        expect(wrapper.html()).toContain('(Could not reach Reddit. Try again later.)');
       });
     });
   });

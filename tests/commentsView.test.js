@@ -84,7 +84,7 @@ describe('CommentsView', () => {
     test('on api error', () => {
       wrapper.vm.$root.$data.state.submissions.error = true;
 
-      expect(wrapper.html()).toContain('Could not reach reddit.');
+      expect(wrapper.html()).toContain('Could not reach Reddit.');
       wrapper.find('a').trigger('click');
       expect(wrapper.emitted().reload.length).toBe(1);
 

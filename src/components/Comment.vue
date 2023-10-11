@@ -125,7 +125,7 @@
       <span class="details">
         ({{ item.data.count }} {{ pluralize(item.data.count, 'reply', 'replies') }})
         <span v-if="item.moreError">
-          [Could not reach reddit. Try again later.]
+          [Could not reach Reddit. Try again later.]
         </span>
       </span>
     </more-button>
@@ -137,7 +137,7 @@
       target="_blank"
       rel="noopener noreferrer"
     >
-      continue this thread on reddit -->
+      continue this thread on Reddit -->
     </a>
   </li>
 </template>

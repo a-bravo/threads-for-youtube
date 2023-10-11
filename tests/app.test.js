@@ -34,8 +34,8 @@ const root = {
 };
 const mocks = { $browser: browser };
 
-const numPostsMessage = 'reddit post';
-const numCommentsMessage = 'reddit comment';
+const numPostsMessage = 'Reddit post';
+const numCommentsMessage = 'Reddit comment';
 
 const youtubeTab = 'youtube-comments-view';
 

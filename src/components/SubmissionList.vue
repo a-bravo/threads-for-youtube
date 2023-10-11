@@ -7,7 +7,7 @@
       <spinner />
     </h3>
     <h3 v-else-if="$root.$data.state.submissions.error">
-      Could not reach reddit.
+      Could not reach Reddit.
       <a
         :class="AT_LINK_CLASS"
         @click="$emit('reload')"
@@ -69,7 +69,7 @@
       >
         load more posts
         <span v-if="$root.$data.state.submissions.moreError">
-          (Could not reach reddit. Try again later.)
+          (Could not reach Reddit. Try again later.)
         </span>
       </more-button>
     </ul>
